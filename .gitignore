@@ -1,0 +1,7 @@
+*.class
+
+hs_err_pid*
+
+bin/
+.settings/
+*.DS_Store
