@@ -4,6 +4,7 @@ import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 
+import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -34,6 +35,16 @@ public class Window {
 		init();
 		loop();
 		
+		// libération de la mémoire
+		glfwFreeCallbacks(glfwWindow);
+		glfwDestroyWindow(glfwWindow);
+		
+		// ferme GLFW et supprime le callback 
+		glfwTerminate();
+		glfwSetErrorCallback(null).free();
+		
+		
+		
 	}
 	
 	public void init() {
@@ -56,6 +67,9 @@ public class Window {
 			throw new IllegalStateException("la création de la fenetre a échoué");
 		}
 		
+		
+		glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+		
 		// Contexte OpenGL
 		glfwMakeContextCurrent(glfwWindow);
 		
@@ -77,6 +91,10 @@ public class Window {
 			
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+			
+			if (KeyListener.isKeyPressed(GLFW_KEY_U)) {
+				System.out.println("ca marche !");
+			}
 			
 			glfwSwapBuffers(glfwWindow);
 			
