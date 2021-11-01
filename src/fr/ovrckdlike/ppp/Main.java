@@ -1,9 +1,13 @@
 package fr.ovrckdlike.ppp;
 
+import fr.ovrckdlike.ppp.graphics.*;
+
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		Window window = Window.get();
+		window.run();
+		
 	}
 	
 }
