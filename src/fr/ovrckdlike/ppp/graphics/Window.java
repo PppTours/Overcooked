@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.graphics;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+import fr.ovrckdlike.ppp.physics.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -32,6 +33,7 @@ public class Window {
 	
 	public void run() {
 		System.out.println("hello LWJGL" + Version.getVersion() + " !");
+		
 		init();
 		loop();
 		
@@ -82,9 +84,13 @@ public class Window {
 		// très important ! (mais je saisis pas trop pourquoi...)
 		GL.createCapabilities();
 		
+		
 	}
 	
 	public void loop() {
+		
+		Time time = Time.get();
+		
 		while (!glfwWindowShouldClose(glfwWindow)) {
 			// récupération des events
 			glfwPollEvents();
@@ -92,16 +98,12 @@ public class Window {
 			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 			
-			if (KeyListener.isKeyPressed(GLFW_KEY_U)) {
-				System.out.println("ca marche !");
-			}
-			
 			glfwSwapBuffers(glfwWindow);
+			
+			time.updateTime();
 			
 		}
 	}
-	
-	
 }
 
 

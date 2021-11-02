@@ -8,7 +8,6 @@ public class KeyListener {
 	
 	private KeyListener() {
 		
-		
 	}
 	
 	public static KeyListener get() {
