@@ -3,14 +3,25 @@ package fr.ovrckdlike.ppp.graphics;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
+
+import fr.ovrckdlike.ppp.internal.Shader;
+import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.*;
+import fr.ovrckdlike.ppp.scene.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.*;
+
+import java.io.IOException;
+
 import static org.lwjgl.opengl.GL11.*;
 
 public class Window {
+	
+    private static final int DISPLAY_RATIO_W = 16, DISPLAY_RATIO_H = 9;
+    public static final float DISPLAY_RATIO = (float) DISPLAY_RATIO_W/DISPLAY_RATIO_H;
+	
 	private int width;				// largeur
 	private int height;				// hauteur
 	private String name;			// titre de la fenetre
@@ -18,13 +29,25 @@ public class Window {
 	
 	private static Window window = null;
 	
+	GameScene gameScene;
+	
+	
 	private Window() {
 		this.width = 1920;
 		this.height = 1080;
 		this.name = "overcooked like";
 	}
+
 	
-	public static Window get() {
+	public int getWidth() {
+		return this.width;
+	}
+	
+	public int getHeight() {
+		return this.height;
+	}
+	
+	public static Window getWindow() {
 		if (Window.window == null) {
 			Window.window = new Window();
 		}
@@ -50,6 +73,9 @@ public class Window {
 	}
 	
 	public void init() {
+		
+		
+		gameScene = new GameScene();
 		// création du retour d'erreur
 		GLFWErrorCallback.createPrint(System.err).set();
 		
@@ -63,6 +89,10 @@ public class Window {
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 		
 		glfwWindow = glfwCreateWindow(this.width, this.height, this.name, NULL, NULL);
 		if (glfwWindow == NULL) {
@@ -85,6 +115,23 @@ public class Window {
 		GL.createCapabilities();
 		
 		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		
+		try {
+			Renderer.simpleQuadShader = Shader.compileAndCreateShader("/shaders/simple_quad.vert", "/shaders/simple_quad.frag");
+			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
+			
+			Texture.smiley = Texture.loadTexture("/textures/smile.png");	//affecter la texture a la variable ici
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 	
 	public void loop() {
@@ -95,8 +142,10 @@ public class Window {
 			// récupération des events
 			glfwPollEvents();
 			
-			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+			
+			
+			gameScene.render();
 			
 			glfwSwapBuffers(glfwWindow);
 			
