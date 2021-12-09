@@ -13,6 +13,7 @@ public class Texture {
 	private static Texture boundTexture;
 	
 	public static Texture smiley; 		//déclarer les textures ici
+	public static Texture matexture;
 	
 	
 	
@@ -52,7 +53,7 @@ public class Texture {
 					int r = (data[pos] & 0x00ff0000) >> 16;
 					int g = (data[pos] & 0x0000ff00) >> 8;
 					int b = (data[pos] & 0x000000ff);
-					px[(height-1-i) * width + j] =
+					px[(i) * width + j] =
 							a << 24 |
 							b << 16 |
 							g << 8 |

@@ -123,7 +123,11 @@ public class Window {
 			Renderer.simpleQuadShader = Shader.compileAndCreateShader("/shaders/simple_quad.vert", "/shaders/simple_quad.frag");
 			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
 			
-			Texture.smiley = Texture.loadTexture("/textures/smile.png");	//affecter la texture a la variable ici
+			
+			Texture.smiley = Texture.loadTexture("/textures/smile.png");//affecter la texture a la variable ici
+			
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

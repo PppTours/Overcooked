@@ -33,12 +33,14 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
     }
     public static void drawTexture(float x, float y, float width, float height, Texture texture) {
-    	 VertexArray.simpleQuad.bind();
-         defaultTextured.bind();
-         defaultTextured.setUniform4f("u_position", x, y, width, height);
-         defaultTextured.setUniform4f("u_tex", 0, 0, 1, 1);
-         setCameraUniform(defaultTextured);
-         texture.bind();
-         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+    	y = 1080 - y;
+    	height = -height;
+    	VertexArray.simpleQuad.bind();
+        defaultTextured.bind();
+        defaultTextured.setUniform4f("u_position", x, y, width, height);
+        defaultTextured.setUniform4f("u_tex", 0, 0, 1, 1);
+        setCameraUniform(defaultTextured);
+        texture.bind();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
     }
 }
