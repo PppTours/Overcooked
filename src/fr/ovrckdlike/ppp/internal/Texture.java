@@ -13,7 +13,7 @@ public class Texture {
 	private static Texture boundTexture;
 	
 	public static Texture smiley; 		//déclarer les textures ici
-	public static Texture matexture;
+	public static Texture table;
 	
 	
 	

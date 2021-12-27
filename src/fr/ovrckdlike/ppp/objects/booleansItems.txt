@@ -1,0 +1,7 @@
+0: rien
+1: assiette
+2: poelle
+3: casserole
+4: friteuse
+
+

@@ -124,8 +124,8 @@ public class Window {
 			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
 			
 			
-			Texture.smiley = Texture.loadTexture("/textures/smile.png");//affecter la texture a la variable ici
-			
+			Texture.smiley = Texture.loadTexture("/textures/smile.png");	//affecter la texture a la variable ici
+			Texture.table = Texture.loadTexture("/Textures/table.png");
 			
 			
 		} catch (IOException e) {
@@ -148,8 +148,9 @@ public class Window {
 			
 			glClear(GL_COLOR_BUFFER_BIT);
 			
-			
+			gameScene.run();
 			gameScene.render();
+			
 			
 			glfwSwapBuffers(glfwWindow);
 			

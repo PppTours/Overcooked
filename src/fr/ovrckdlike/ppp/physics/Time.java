@@ -9,9 +9,10 @@ public class Time {
 	private static Time time = null;
 	
 	
-	public Time() {
-		
-	}
+	/*public Time Time() {
+		time = new Time();
+		return time;
+	}*/
 	
 	public static Time get() {
 		if (time == null) {time = new Time();}
