@@ -4,7 +4,7 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 
 public class Table extends Tile {
-	private boolean content[] = new boolean[5]; // on ajustera la taille en fonction, voir txt pour + info
+	private Item content;
 	
 	
 	public Table(float[] pos) {
@@ -14,12 +14,16 @@ public class Table extends Tile {
 	}
 	
 	public void render() {
-		Renderer.drawTexture(pos[0], pos[1], size[0], size[1], Texture.table);
+		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.table);
 	}
 	
-	public boolean[] use(boolean newContent[]) {
-		boolean oldContent[] = this.content;
+	public Item use(Item newContent) {	// a changer 
+		Item oldContent = this.content;
 		this.content = newContent;
+		if (this.content != null) {
+			this.content.setMode(1);
+			this.content.setPos(this.pos[0]+20, this.pos[1]+20);
+		}
 		return oldContent;
 	}
 	

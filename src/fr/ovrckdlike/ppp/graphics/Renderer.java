@@ -32,13 +32,14 @@ public class Renderer {
         setCameraUniform(simpleQuadShader);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
     }
-    public static void drawTexture(float x, float y, float width, float height, Texture texture) {
+    public static void drawTexture(float x, float y, float width, float height, float angle, Texture texture) {
     	y = 1080 - y;
     	height = -height;
     	VertexArray.simpleQuad.bind();
         defaultTextured.bind();
         defaultTextured.setUniform4f("u_position", x, y, width, height);
         defaultTextured.setUniform4f("u_tex", 0, 0, 1, 1);
+        defaultTextured.setUniform1f("u_theta", angle);
         setCameraUniform(defaultTextured);
         texture.bind();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);

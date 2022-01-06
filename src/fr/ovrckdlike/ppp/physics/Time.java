@@ -19,6 +19,14 @@ public class Time {
 		return Time.time;
 	}
 	
+	public long getCurrentTime() {
+		return System.nanoTime();
+	}
+	public float timeSince(long time) {
+		long currentTime = System.nanoTime();
+		float timePast = (float)((currentTime - time)/1E9);
+		return timePast;
+	}
 	
 	public void updateTime() {
 		lastFrame = currentFrame;

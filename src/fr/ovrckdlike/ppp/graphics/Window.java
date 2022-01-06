@@ -125,7 +125,14 @@ public class Window {
 			
 			
 			Texture.smiley = Texture.loadTexture("/textures/smile.png");	//affecter la texture a la variable ici
-			Texture.table = Texture.loadTexture("/Textures/table.png");
+			Texture.table = Texture.loadTexture("/textures/table.png");
+			Texture.cuttingTable = Texture.loadTexture("/textures/cutting_table.png");
+			Texture.salade = Texture.loadTexture("/textures/salade.png");
+			Texture.gasCooker = Texture.loadTexture("/textures/gas_cooker.png");
+			Texture.sink = Texture.loadTexture("/textures/sink.png");
+			Texture.dryer = Texture.loadTexture("/textures/dryer.png");
+			Texture.bin = Texture.loadTexture("/textures/bin.png");
+			Texture.ingredientRefiller = Texture.loadTexture("/textures/ingredient_refiller.png");
 			
 			
 		} catch (IOException e) {
