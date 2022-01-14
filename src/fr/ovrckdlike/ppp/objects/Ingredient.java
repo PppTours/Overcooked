@@ -13,11 +13,10 @@ public class Ingredient extends Item {
 		return this.type;
 	}
 	
-	public Ingredient(int type, float[] pos) {
+	public Ingredient(int type) {
 		this.type = type;
 		this.prepared = false;
-		this.pos = pos;
-		this.mode = 1;
+		this.mode = 0;
 		
 	}
 	
@@ -30,7 +29,8 @@ public class Ingredient extends Item {
 		float renderPos[] = {this.pos[0] - (this.size*zoom)/2, this.pos[1] - (this.size*zoom)/2};
 		switch (type) {
 		case 1 :
-			Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, 0, Texture.salade);
+			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, 0, Texture.salade); //changer la texture
+			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, 0, Texture.salade);
 
 		}
 	}

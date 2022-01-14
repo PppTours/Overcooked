@@ -24,12 +24,21 @@ public class IngredientRefiller extends Tile {
 		return oldContent;
 	}
 	
+	public Item getContent() {
+		return this.content;
+	}
 	
 	public Ingredient use() {
-		return new Ingredient(ingredientType, pos);
+		return new Ingredient(ingredientType);
 	}
 	
 	public void render() {
 		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, 0, Texture.ingredientRefiller);
+		switch (this.ingredientType) {
+		case 0:
+			break;
+		case 1:
+			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.salade);
+		}
 	}
 }
