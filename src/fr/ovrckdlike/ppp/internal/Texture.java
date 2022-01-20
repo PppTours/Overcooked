@@ -24,6 +24,10 @@ public class Texture {
 	public static Texture serviceTable;
 	public static Texture plateReturn;
 	public static Texture pot;
+	public static Texture potEmpty;
+	public static Texture potTomato;
+	public static Texture potOnion;
+	public static Texture potMushroom;
 
 	
 	
