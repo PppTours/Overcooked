@@ -39,6 +39,21 @@ public class Renderer {
         defaultTextured.bind();
         defaultTextured.setUniform4f("u_position", x, y, width, height);
         defaultTextured.setUniform4f("u_tex", 0, 0, 1, 1);
+        defaultTextured.setUniform4f("u_alphaColor", 1, 1, 1, 1);
+        defaultTextured.setUniform1f("u_theta", angle);
+        setCameraUniform(defaultTextured);
+        texture.bind();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+    }
+    public static void drawTextureTransparent(float x, float y, float width, float height, float angle, float alpha, Texture texture) {
+    	y = 1080 - y;
+    	height = -height;
+    	alpha *= 1/255f;
+    	VertexArray.simpleQuad.bind();
+        defaultTextured.bind();
+        defaultTextured.setUniform4f("u_position", x, y, width, height);
+        defaultTextured.setUniform4f("u_tex", 0, 0, 1, 1);
+        defaultTextured.setUniform4f("u_alphaColor", 1, 1, 1, alpha);
         defaultTextured.setUniform1f("u_theta", angle);
         setCameraUniform(defaultTextured);
         texture.bind();

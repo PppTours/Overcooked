@@ -136,7 +136,7 @@ public class Window {
 			Texture.serviceTable = Texture.loadTexture("/textures/service_table.png");
 			Texture.plateReturn = Texture.loadTexture("/textures/plate_return.png");
 			Texture.pot = Texture.loadTexture("/textures/pot.png");
-			Texture.potMushroom = Texture.loadTexture("/textures/pot_mushroom");
+			Texture.potMushroom = Texture.loadTexture("/textures/pot_mushroom.png");
 			Texture.potTomato = Texture.loadTexture("/textures/pot_tomato.png");
 			Texture.potOnion = Texture.loadTexture("/textures/pot_onion.png");
 			
