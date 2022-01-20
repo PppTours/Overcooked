@@ -12,7 +12,7 @@ public class Texture {
 
 	private static Texture boundTexture;
 	
-	public static Texture smiley; 		//déclarer les textures ici
+	public static Texture CatSkin; 		//déclarer les textures ici
 	public static Texture table;
 	public static Texture cuttingTable;
 	public static Texture salade;
@@ -21,6 +21,9 @@ public class Texture {
 	public static Texture dryer;
 	public static Texture bin;
 	public static Texture ingredientRefiller;
+	public static Texture serviceTable;
+	public static Texture plateReturn;
+	public static Texture pot;
 
 	
 	

@@ -75,7 +75,7 @@ public class Window {
 	public void init() {
 		
 		
-		gameScene = new GameScene();
+		gameScene = new GameScene(0);
 		// création du retour d'erreur
 		GLFWErrorCallback.createPrint(System.err).set();
 		
@@ -124,7 +124,7 @@ public class Window {
 			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
 			
 			
-			Texture.smiley = Texture.loadTexture("/textures/smile.png");	//affecter la texture a la variable ici
+			Texture.CatSkin = Texture.loadTexture("/textures/player_cat_skin.png");	//affecter la texture a la variable ici
 			Texture.table = Texture.loadTexture("/textures/table.png");
 			Texture.cuttingTable = Texture.loadTexture("/textures/cutting_table.png");
 			Texture.salade = Texture.loadTexture("/textures/salade.png");
@@ -133,6 +133,9 @@ public class Window {
 			Texture.dryer = Texture.loadTexture("/textures/dryer.png");
 			Texture.bin = Texture.loadTexture("/textures/bin.png");
 			Texture.ingredientRefiller = Texture.loadTexture("/textures/ingredient_refiller.png");
+			Texture.serviceTable = Texture.loadTexture("/textures/service_table.png");
+			Texture.plateReturn = Texture.loadTexture("/textures/plate_return.png");
+			Texture.pot = Texture.loadTexture("/textures/pot.png");
 			
 			
 		} catch (IOException e) {

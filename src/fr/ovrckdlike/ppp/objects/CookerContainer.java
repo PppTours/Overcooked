@@ -6,8 +6,11 @@ public abstract class CookerContainer extends Item {
 	protected boolean cooked;
 	protected boolean burnt;
 	
-	public void prepare() {};
+	public void prepare() {}
 	public abstract void render();
+	
+	public abstract void flush();
+	
 	
 	public void cook(long dt) {
 		float s_dt = dt/1E9f;

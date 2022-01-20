@@ -15,6 +15,8 @@ import java.util.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class GameScene extends Scene {
+	private int map;
+	
 	private Player player1;
 	private Player player2;
 	
@@ -28,9 +30,11 @@ public class GameScene extends Scene {
 	private Table temp;
 	private Table temp2;
 	
-	public static GameScene game = new GameScene();
+	public static GameScene game = new GameScene(0);
 	
-	public GameScene() {
+	public GameScene(int map) {
+		this.map = map;
+		
 		float posp1[] = {300, 1080/2};
 		float posp2[] = {300, 1080/2};
 		float posIR[] = {1000, 500};
