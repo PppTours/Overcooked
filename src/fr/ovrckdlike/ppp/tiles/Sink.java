@@ -1,9 +1,10 @@
-package fr.ovrckdlike.ppp.objects;
+package fr.ovrckdlike.ppp.tiles;
 
 import java.util.ArrayList;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.Plate;
 
 public class Sink extends Tile {
 	private int nbPlate;

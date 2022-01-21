@@ -48,7 +48,6 @@ public class Renderer {
     public static void drawTextureTransparent(float x, float y, float width, float height, float angle, float alpha, Texture texture) {
     	y = 1080 - y;
     	height = -height;
-    	alpha *= 1/255f;
     	VertexArray.simpleQuad.bind();
         defaultTextured.bind();
         defaultTextured.setUniform4f("u_position", x, y, width, height);

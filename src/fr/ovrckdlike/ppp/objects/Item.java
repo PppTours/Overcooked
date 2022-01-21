@@ -5,6 +5,7 @@ public abstract class Item {
 	protected int size = 40;
 	protected boolean inPlayerHand = false;
 	protected int mode;
+	protected int direction;
 	
 	public abstract void render();
 	public abstract void prepare();

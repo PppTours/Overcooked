@@ -1,4 +1,4 @@
-package fr.ovrckdlike.ppp.objects;
+package fr.ovrckdlike.ppp.tiles;
 
 public abstract class Tile {
 	protected int size = 120;

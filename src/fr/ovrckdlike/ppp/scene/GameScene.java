@@ -4,6 +4,8 @@ package fr.ovrckdlike.ppp.scene;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.objects.*;
 import fr.ovrckdlike.ppp.physics.Time;
+import fr.ovrckdlike.ppp.tiles.Table;
+import fr.ovrckdlike.ppp.tiles.Tile;
 import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.graphics.Renderer;

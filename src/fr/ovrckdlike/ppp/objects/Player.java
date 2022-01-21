@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.tiles.Tile;
 
 
 public class Player {

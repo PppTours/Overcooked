@@ -1,7 +1,9 @@
-package fr.ovrckdlike.ppp.objects;
+package fr.ovrckdlike.ppp.tiles;
 
 import java.util.List;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.Item;
+import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 
 

@@ -1,7 +1,9 @@
-package fr.ovrckdlike.ppp.objects;
+package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.Ingredient;
+import fr.ovrckdlike.ppp.objects.Item;
 
 public class IngredientRefiller extends Tile {
 	private int ingredientType;
