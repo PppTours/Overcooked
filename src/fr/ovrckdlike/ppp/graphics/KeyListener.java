@@ -27,17 +27,11 @@ public class KeyListener {
 	}
 	
 	
-<<<<<<< HEAD
-	public boolean isKeyPressed(int keyCode) {
-		return keyPressed[keyCode];
-=======
+
 	static public boolean isKeyPressed(int keyCode) {
 		return get().keyPressed[keyCode];
->>>>>>> 7d5b4ca7d7a6f5c1975452bf82dd89ce66627db7
+
 	}
-	
-	
-	
 }
 
 	
