@@ -2,7 +2,7 @@ package fr.ovrckdlike.ppp.objects;
 
 public abstract class Item {
 	protected float pos[] = new float[2];
-	protected int size = 40;
+	protected int size = 50;
 	protected boolean inPlayerHand = false;
 	protected int mode;
 	protected int direction;
@@ -28,5 +28,15 @@ public abstract class Item {
 	}
 	public float[] getPos() {
 		return this.pos;
+	}
+	
+	public void collide(Player player) {
+		if (player.distanceTo(this.pos) < (player.getSize()+this.size)/2) {
+			double angle = player.angleTo(this.pos);
+			this.pos[0] += (player.getLastMove()) * Math.cos(angle);
+			this.pos[1] += (-player.getLastMove()) * Math.sin(angle);
+		
+		}
+		
 	}
 }

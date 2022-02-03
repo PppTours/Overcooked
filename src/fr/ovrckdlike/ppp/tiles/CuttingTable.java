@@ -31,6 +31,9 @@ public class CuttingTable extends Tile{
 			this.content.setMode(1);
 			this.content.setPos(this.pos[0]+20, this.pos[1]+20);
 		}
+		if (oldContent != null) {
+			oldContent.setMode(0);
+		}
 		return oldContent;
 	}
 	

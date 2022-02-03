@@ -23,6 +23,9 @@ public class IngredientRefiller extends Tile {
 			this.content.setMode(1);
 			this.content.setPos(this.pos[0]+20, this.pos[0]+20);
 		}
+		if (oldContent != null) {
+			oldContent.setMode(0);
+		}
 		return oldContent;
 	}
 	
@@ -31,7 +34,10 @@ public class IngredientRefiller extends Tile {
 	}
 	
 	public Ingredient use() {
-		return new Ingredient(ingredientType);
+		if (content == null) {
+			return new Ingredient(ingredientType);
+		}
+		else return null;
 	}
 	
 	public void render() {

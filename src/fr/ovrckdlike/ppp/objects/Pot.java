@@ -5,7 +5,7 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.tiles.CookerContainer;
 
 public class Pot extends CookerContainer{
-	private int[] content;
+	private int[] content = new int[3];
 	
 	
 	public Pot(float[] pos) {
@@ -35,11 +35,11 @@ public class Pot extends CookerContainer{
 		float renderPos[] = {this.pos[0] - (this.size*zoom)/2, this.pos[1] - (this.size*zoom)/2};
 		
 		Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.pot);
-		if (this.checkForContent(-1) == 3) {
+		if (this.checkForContent(-1) == 0) {
 			Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.potEmpty);
 		}
 		else {
-			int totalContent = 3 - this.checkForContent(-1);
+			int totalContent = this.checkForContent(-1);
 			float alphaTomato = this.checkForContent(0) / totalContent;
 			Renderer.drawTextureTransparent(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), alphaTomato, Texture.potTomato);
 			float alphaOnion = this.checkForContent(2) / totalContent;

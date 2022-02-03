@@ -28,6 +28,11 @@ public class Texture {
 	public static Texture potTomato;
 	public static Texture potOnion;
 	public static Texture potMushroom;
+	public static Texture mushroom;
+	public static Texture tomato;
+	public static Texture cheese;
+	public static Texture onion;
+	public static Texture meat;
 
 	
 	

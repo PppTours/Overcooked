@@ -14,13 +14,23 @@ public class Player {
 	private int direction;
 	private int moveSpeed;
 	private Item inHand;
+	private float lastMove;
 	
 	public Player(float[] pos) {
 		this.pos = pos;
-		this.size = 70;
+		this.size = 100;
 		this.direction = 0;
 		this.moveSpeed = 300;
+		this.lastMove = 0;
 		this.inHand = null;
+	}
+	
+	public int getSize() {
+		return size;
+	}
+	
+	public float getLastMove() {
+		return lastMove;
 	}
 	
 	public Item getInHand() {
@@ -96,13 +106,12 @@ public class Player {
 		int itemId = this.nearestItem(itemList);
 		if (itemId == -1) return false;
 		Item item = itemList.get(itemId);
-		if (distanceTo(item.getPos()) > 50) return false;
+		if (distanceTo(item.getPos()) > size*1.15) return false;
 		else {
 			if (this.inHand != null) return false;
 			else {
 				this.inHand = item;
 				item.setInPlayerHand(true);
-				item.setMode(0);
 				return true;
 			}
 		}
@@ -110,7 +119,6 @@ public class Player {
 	
 	public void drop() {
 		if (inHand != null) {
-			inHand.setMode(1);
 			inHand.setInPlayerHand(false);
 			inHand = null;
 		}
@@ -214,6 +222,8 @@ public class Player {
 		
 		pos[0] += distX;
 		pos[1] += distY;
+		lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
+		
 	}
 	public void changeAngle(boolean up, boolean down, boolean left, boolean right) {
 
