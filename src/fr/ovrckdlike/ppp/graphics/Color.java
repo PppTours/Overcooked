@@ -10,6 +10,7 @@ public class Color {
 	public static Color pink = new Color(255, 86, 226);
 	public static Color purple = new Color(174, 35, 255);
 	public static Color darkGreen = new Color(0, 128, 0);
+	public static Color darkGreenSelec = new Color(0, 128, 0, 100);
 	
 
 	public float r, g, b, a;
@@ -24,5 +25,4 @@ public class Color {
 	public Color(int r, int g, int b) {
 		this(r, g, b, 256);
 	}
-	
 }

@@ -27,8 +27,10 @@ public class KeyListener {
 	}
 	
 	
+
 	public boolean isKeyPressed(int keyCode) {
 		return keyPressed[keyCode];
+
 	}
 	
 	
