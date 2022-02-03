@@ -1,7 +1,8 @@
-package fr.ovrckdlike.ppp.objects;
+package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.Item;
 
 
 
@@ -29,6 +30,9 @@ public class CuttingTable extends Tile{
 		if (this.content != null) {
 			this.content.setMode(1);
 			this.content.setPos(this.pos[0]+20, this.pos[1]+20);
+		}
+		if (oldContent != null) {
+			oldContent.setMode(0);
 		}
 		return oldContent;
 	}

@@ -4,6 +4,7 @@ package fr.ovrckdlike.ppp.scene;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.objects.*;
 import fr.ovrckdlike.ppp.physics.Time;
+import fr.ovrckdlike.ppp.tiles.*;
 import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.graphics.Renderer;
@@ -29,6 +30,7 @@ public class GameScene extends Scene {
 	
 	private Table temp;
 	private Table temp2;
+	private Pot tempPot;
 	
 	public static GameScene game = new GameScene(0);
 	
@@ -39,12 +41,16 @@ public class GameScene extends Scene {
 		float posp2[] = {300, 1080/2};
 		float posIR[] = {1000, 500};
 		float posIR2[] = {1120, 620};
+		float posPot[] = {500, 700};
 		
 		temp = new Table(posIR);
 		temp2 = new Table(posIR2);
+		tempPot = new Pot(posPot);
 		
 		tileList.add(temp);
 		tileList.add(temp2);
+		itemList.add(tempPot);
+		
 		this.lastP1Action1 = 0;
 		this.lastP2Action1 = 0;
 		
@@ -60,9 +66,15 @@ public class GameScene extends Scene {
 	public void render() {
 		this.player1.render();
 		this.player2.render();
+		
 		temp.render();
 		temp2.render();
-		
+		for (Item item : itemList) {
+			item.render();
+		}
+		for (Tile tile : tileList) {
+			tile.render();
+		}
 	}
 	
 	public void run() {
@@ -87,6 +99,11 @@ public class GameScene extends Scene {
 		if ( p2up || p2down || p2left || p2right ) {
 			player2.changeAngle(p2up, p2down, p2left, p2right);
 			player2.movePlayer(Time.get().getDt(), tileList);
+		}
+		
+		for (Item item : itemList) {
+			item.collide(player1);
+			item.collide(player2);
 		}
 		
 		

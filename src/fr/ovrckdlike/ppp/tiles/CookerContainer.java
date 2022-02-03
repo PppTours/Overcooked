@@ -1,4 +1,6 @@
-package fr.ovrckdlike.ppp.objects;
+package fr.ovrckdlike.ppp.tiles;
+
+import fr.ovrckdlike.ppp.objects.Item;
 
 public abstract class CookerContainer extends Item {
 	protected int cookingTime;

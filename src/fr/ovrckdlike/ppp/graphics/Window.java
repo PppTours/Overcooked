@@ -136,6 +136,16 @@ public class Window {
 			Texture.serviceTable = Texture.loadTexture("/textures/service_table.png");
 			Texture.plateReturn = Texture.loadTexture("/textures/plate_return.png");
 			Texture.pot = Texture.loadTexture("/textures/pot.png");
+			Texture.potEmpty = Texture.loadTexture("/textures/pot_empty.png");
+			Texture.potMushroom = Texture.loadTexture("/textures/pot_mushroom.png");
+			Texture.potTomato = Texture.loadTexture("/textures/pot_tomato.png");
+			Texture.potOnion = Texture.loadTexture("/textures/pot_onion.png");
+			Texture.onion = Texture.loadTexture("/textures/onion.png");
+			Texture.tomato = Texture.loadTexture("/textures/tomato.png");
+			Texture.cheese = Texture.loadTexture("/textures/cheese.png");
+			Texture.meat = Texture.loadTexture("/textures/meat.png");
+			Texture.mushroom = Texture.loadTexture("/textures/mushroom.png");
+			
 			
 			
 		} catch (IOException e) {

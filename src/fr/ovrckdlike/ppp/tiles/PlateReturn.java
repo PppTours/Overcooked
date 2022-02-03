@@ -1,7 +1,8 @@
-package fr.ovrckdlike.ppp.objects;
+package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.Plate;
 
 public class PlateReturn extends Tile{
 	int plateNb;
