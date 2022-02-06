@@ -33,6 +33,13 @@ public class Texture {
 	public static Texture cheese;
 	public static Texture onion;
 	public static Texture meat;
+	public static Texture pasta;
+	public static Texture sausage;
+	public static Texture pizzaDough;
+	public static Texture burgerBread;
+	public static Texture rice;
+	public static Texture chicken;
+	public static Texture potato;
 
 	
 	

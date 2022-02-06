@@ -145,6 +145,13 @@ public class Window {
 			Texture.cheese = Texture.loadTexture("/textures/cheese.png");
 			Texture.meat = Texture.loadTexture("/textures/meat.png");
 			Texture.mushroom = Texture.loadTexture("/textures/mushroom.png");
+			Texture.pasta = Texture.loadTexture("/textures/noodles.png");
+			Texture.sausage = Texture.loadTexture("/textures/sausage.png");
+			Texture.pizzaDough = Texture.loadTexture("/textures/pizza_dough.png");
+			Texture.burgerBread = Texture.loadTexture("/textures/bread.png");
+			Texture.rice = Texture.loadTexture("/textures/rice.png");
+			Texture.chicken = Texture.loadTexture("/textures/chicken.png");
+			Texture.potato = Texture.loadTexture("/textures/potato.png");
 			
 			
 			
