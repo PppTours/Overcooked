@@ -27,10 +27,12 @@ public class GameScene extends Scene {
 	
 	private ArrayList<Item> itemList = new ArrayList<Item>();
 	private ArrayList<Tile> tileList = new ArrayList<Tile>();
+	private ArrayList<Player> playerList = new ArrayList<Player>();
 	
 	private Table temp;
 	private Table temp2;
 	private Pot tempPot;
+	private Pot tempIng;
 	
 	public static GameScene game = new GameScene(0);
 	
@@ -42,14 +44,21 @@ public class GameScene extends Scene {
 		float posIR[] = {1000, 500};
 		float posIR2[] = {1120, 620};
 		float posPot[] = {500, 700};
+		float posIng[] = {550, 700};
+		
 		
 		temp = new Table(posIR);
 		temp2 = new Table(posIR2);
 		tempPot = new Pot(posPot);
+		tempIng = new Pot(posIng);
 		
 		tileList.add(temp);
 		tileList.add(temp2);
+		
 		itemList.add(tempPot);
+		itemList.add(tempIng);
+		
+
 		
 		this.lastP1Action1 = 0;
 		this.lastP2Action1 = 0;
@@ -59,7 +68,8 @@ public class GameScene extends Scene {
 		this.player1 = new Player( posp1 );
 		this.player2 = new Player( posp2 );
 		
-		
+		playerList.add(player1);
+		playerList.add(player2);
 		
 	}
 	
@@ -78,17 +88,17 @@ public class GameScene extends Scene {
 	}
 	
 	public void run() {
-		boolean p1up = KeyListener.get().isKeyPressed(GLFW_KEY_W);
-		boolean p1down = KeyListener.get().isKeyPressed(GLFW_KEY_S);
-		boolean p1left = KeyListener.get().isKeyPressed(GLFW_KEY_A);
-		boolean p1right = KeyListener.get().isKeyPressed(GLFW_KEY_D);
-		boolean p1action1 = KeyListener.get().isKeyPressed(GLFW_KEY_TAB);
+		boolean p1up = KeyListener.isKeyPressed(GLFW_KEY_W);
+		boolean p1down = KeyListener.isKeyPressed(GLFW_KEY_S);
+		boolean p1left = KeyListener.isKeyPressed(GLFW_KEY_A);
+		boolean p1right = KeyListener.isKeyPressed(GLFW_KEY_D);
+		boolean p1action1 = KeyListener.isKeyPressed(GLFW_KEY_TAB);
 		
-		boolean p2up = KeyListener.get().isKeyPressed(GLFW_KEY_UP);
-		boolean p2down = KeyListener.get().isKeyPressed(GLFW_KEY_DOWN);
-		boolean p2left = KeyListener.get().isKeyPressed(GLFW_KEY_LEFT);
-		boolean p2right = KeyListener.get().isKeyPressed(GLFW_KEY_RIGHT);
-		boolean p2action1 = KeyListener.get().isKeyPressed(GLFW_KEY_RIGHT_CONTROL);
+		boolean p2up = KeyListener.isKeyPressed(GLFW_KEY_UP);
+		boolean p2down = KeyListener.isKeyPressed(GLFW_KEY_DOWN);
+		boolean p2left = KeyListener.isKeyPressed(GLFW_KEY_LEFT);
+		boolean p2right = KeyListener.isKeyPressed(GLFW_KEY_RIGHT);
+		boolean p2action1 = KeyListener.isKeyPressed(GLFW_KEY_RIGHT_CONTROL);
 		
 		
 		if ( p1up || p1down || p1left || p1right ) {
@@ -102,8 +112,8 @@ public class GameScene extends Scene {
 		}
 		
 		for (Item item : itemList) {
-			item.collide(player1);
-			item.collide(player2);
+			item.collide(playerList, itemList);
+
 		}
 		
 		
