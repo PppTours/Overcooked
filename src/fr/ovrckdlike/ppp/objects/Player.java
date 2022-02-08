@@ -117,6 +117,16 @@ public class Player {
 		}
 	}
 	
+	public float[] whereToDrop() {
+		double angle = getDirectionAngle();
+		int distance = 100;
+		float[] dropPos = new float[2];
+		dropPos[0] = pos[0] + (float) (distance * Math.cos(angle));
+		dropPos[1] = pos[1] - (float) (distance * Math.sin(angle));
+		
+		return dropPos;
+	}
+	
 	public void drop() {
 		if (inHand != null) {
 			inHand.setInPlayerHand(false);
@@ -171,41 +181,46 @@ public class Player {
 		return this.direction;
 	}
 	
+	public double getDirectionAngle() {
+		double angle;
+		switch (direction){
+			case 0:
+				angle = Math.PI/2;
+				break;
+			case 1:
+				angle = Math.PI/4;
+				break;
+			case 2:
+				angle = 0;
+				break;
+			case 3:
+				angle = 7*Math.PI/4;
+				break;
+			case 4:
+				angle = 3*Math.PI/2;
+				break;
+			case 5:
+				angle = 5*Math.PI/4;
+				break;
+			case 6:
+				angle = Math.PI;
+				break;
+			case 7:
+				angle = 3*Math.PI/4;
+				break;
+			default :
+				angle = 0;
+				break;
+		}
+		return angle;
+	}
 	
-	public void movePlayer( long dt, List<Tile> tileList) {
+	public void movePlayer( long dt, List<Tile> tileList, List<Player> playerList) {
 		float s_dt = (float) (dt / 1E9);
 		float dist = moveSpeed * s_dt;
 		float distX, distY;
 		float forceX, forceY;
-		double angle;
-		switch (direction){
-		case 0:
-			angle = Math.PI/2;
-			break;
-		case 1:
-			angle = Math.PI/4;
-			break;
-		case 2:
-			angle = 0;
-			break;
-		case 3:
-			angle = 7*Math.PI/4;
-			break;
-		case 4:
-			angle = 3*Math.PI/2;
-			break;
-		case 5:
-			angle = 5*Math.PI/4;
-			break;
-		case 6:
-			angle = Math.PI;
-			break;
-		case 7:
-			angle = 3*Math.PI/4;
-			break;
-		default :
-			angle = 0;
-		}
+		double angle = getDirectionAngle();
 		
 		distX = (float)(dist * Math.cos(angle));
 		distY = (float)(-dist * Math.sin(angle));
@@ -220,11 +235,25 @@ public class Player {
 			}
 		}		
 		
+		for (Player player:playerList) {
+			if (player != this) {
+				float movement = size - distanceTo(player.pos);
+				if (movement > 0) {
+					angle = angleTo(player.pos);
+					this.pos[0] += (-(movement) * Math.cos(angle))/2;
+					this.pos[1] += ((movement) * Math.sin(angle))/2;
+					player.pos[0] += ((movement) * Math.cos(angle))/2;
+					player.pos[1] += (-(movement) * Math.sin(angle))/2;
+				}
+			}
+		}
+		
 		pos[0] += distX;
 		pos[1] += distY;
 		lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
 		
 	}
+	
 	public void changeAngle(boolean up, boolean down, boolean left, boolean right) {
 
 		if ( up && right ) direction = 1;

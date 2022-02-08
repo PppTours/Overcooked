@@ -29,7 +29,8 @@ public class Window {
 	
 	private static Window window = null;
 	
-	GameScene gameScene;
+	public static GameScene gameScene;
+	public static MainMenu mainMenu;
 	
 	
 	private Window() {
@@ -74,8 +75,9 @@ public class Window {
 	
 	public void init() {
 		
+		mainMenu = new MainMenu();
+		gameScene = new GameScene();
 		
-		gameScene = new GameScene(0);
 		// création du retour d'erreur
 		GLFWErrorCallback.createPrint(System.err).set();
 		

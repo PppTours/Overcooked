@@ -1,6 +1,7 @@
 package fr.ovrckdlike.ppp.objects;
 
 import java.util.List;
+import fr.ovrckdlike.ppp.tiles.Tile;
 
 public abstract class Item {
 	protected float pos[] = new float[2];
@@ -53,7 +54,7 @@ public abstract class Item {
 		return angle;
 	}
 	
-	public void collide(List<Player> playerList, List<Item>itemList) {
+	public void collide(List<Player> playerList, List<Item>itemList, List<Tile>tileList) {
 		float[] itemPos = new float[2];
 		itemPos[0] = pos[0];
 		itemPos[1] = pos[1];
@@ -68,14 +69,23 @@ public abstract class Item {
 		
 		for (Item item:itemList) {
 			if (this != item && !inPlayerHand && !item.inPlayerHand) {
-				if (distanceTo(item.pos) < size) {
-					float toMove = size - distanceTo(item.pos);
+				float toMove = size - distanceTo(item.pos);
+				if (toMove > 0) {
 					double angle = angleTo(item.pos);
 					this.pos[0] += (-(toMove) * Math.cos(angle))/2;
 					this.pos[1] += ((toMove) * Math.sin(angle))/2;
 					item.pos[0] += ((toMove) * Math.cos(angle))/2;
 					item.pos[1] += (-(toMove) * Math.sin(angle))/2;
 				}
+			}
+		}
+		for (Tile tile:tileList) {
+			float toMove = size/2 - distanceTo(tile.nearestFromPos(pos));
+			if (toMove > 0) {
+				double angle = angleTo(tile.nearestFromPos(pos));
+				pos[0] += (-(toMove) * Math.cos(angle))/2;
+				pos[1] += ((toMove) * Math.sin(angle))/2;
+				
 			}
 		}
 	}

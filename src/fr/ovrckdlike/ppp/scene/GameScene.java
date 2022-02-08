@@ -5,9 +5,8 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.objects.*;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.*;
-import fr.ovrckdlike.ppp.graphics.Color;
-import fr.ovrckdlike.ppp.graphics.KeyListener;
-import fr.ovrckdlike.ppp.graphics.Renderer;
+import fr.ovrckdlike.ppp.graphics.*;
+
 
 import java.util.*;
 
@@ -34,12 +33,12 @@ public class GameScene extends Scene {
 	private Pot tempPot;
 	private Pot tempIng;
 	
-	public static GameScene game = new GameScene(0);
+	//public static GameScene game = new GameScene();
 	
-	public GameScene(int map) {
-		this.map = map;
+	public GameScene() {
+		this.map = 0;
 		
-		float posp1[] = {300, 1080/2};
+		float posp1[] = {200, 1080/2};
 		float posp2[] = {300, 1080/2};
 		float posIR[] = {1000, 500};
 		float posIR2[] = {1120, 620};
@@ -103,16 +102,16 @@ public class GameScene extends Scene {
 		
 		if ( p1up || p1down || p1left || p1right ) {
 			player1.changeAngle(p1up, p1down, p1left, p1right);
-			player1.movePlayer(Time.get().getDt(), tileList);
+			player1.movePlayer(Time.get().getDt(), tileList, playerList);
 		}
 		
 		if ( p2up || p2down || p2left || p2right ) {
 			player2.changeAngle(p2up, p2down, p2left, p2right);
-			player2.movePlayer(Time.get().getDt(), tileList);
+			player2.movePlayer(Time.get().getDt(), tileList, playerList);
 		}
 		
 		for (Item item : itemList) {
-			item.collide(playerList, itemList);
+			item.collide(playerList, itemList, tileList);
 
 		}
 		
