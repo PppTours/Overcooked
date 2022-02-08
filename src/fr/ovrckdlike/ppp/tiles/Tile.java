@@ -5,6 +5,14 @@ public abstract class Tile {
 	protected float pos[] = new float[2];	// position en px
 	protected int type;
 	
+	public float[] getPos() {
+		return pos;
+	}
+	
+	public int getSize() {
+		return size;
+	}
+	
 	public abstract void render();
 	//public abstract void use();
 	

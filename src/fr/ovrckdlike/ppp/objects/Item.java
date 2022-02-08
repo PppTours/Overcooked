@@ -45,9 +45,12 @@ public abstract class Item {
 		float deltaX = this.pos[0] - pos[0];
 		float deltaY = this.pos[1] - pos[1];
 		
+		if (deltaX == 0 && deltaY == 0) return 0;
+		
 		double angle;
 		if (deltaY < 0) angle = 0;
 		else angle = Math.PI;
+		
 		
 		angle +=  (Math.atan(deltaX/deltaY) - Math.PI/2);
 		if (angle < 0) angle += 2 * Math.PI;
@@ -60,10 +63,11 @@ public abstract class Item {
 		itemPos[1] = pos[1];
 		
 		for(Player player:playerList) {
-			if (player.distanceTo(this.pos) < (player.getSize()+this.size)/2) {
-				double angle = player.angleTo(this.pos);
-				this.pos[0] += (player.getLastMove()) * Math.cos(angle);
-				this.pos[1] += (-player.getLastMove()) * Math.sin(angle);
+			float toMove = (player.getSize() + size)/2 - player.distanceTo(pos);
+			if (toMove > 0) {
+				double angle = angleTo(player.getPos());
+				this.pos[0] += (-player.getLastMove()) * Math.cos(angle);
+				this.pos[1] += (player.getLastMove()) * Math.sin(angle);
 			}
 		}
 		
@@ -86,6 +90,17 @@ public abstract class Item {
 				pos[0] += (-(toMove) * Math.cos(angle))/2;
 				pos[1] += ((toMove) * Math.sin(angle))/2;
 				
+			}
+			if (pos[0] > tile.getPos()[0] && pos[0] < tile.getPos()[0]+tile.getSize() &&
+				pos[1] > tile.getPos()[1] && pos[1] < tile.getPos()[1]+tile.getSize()) {
+
+				float[] tileCenter = new float[2];
+				tileCenter[0] = tile.getPos()[0] + tile.getSize() / 2;
+				tileCenter[1] = tile.getPos()[1] + tile.getSize() / 2;
+
+				double angle = angleTo(tileCenter);
+				pos[0] += (-(15) * Math.cos(angle));
+				pos[1] += ((15) * Math.sin(angle));
 			}
 		}
 	}

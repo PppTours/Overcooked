@@ -38,7 +38,7 @@ public class GameScene extends Scene {
 	public GameScene() {
 		this.map = 0;
 		
-		float posp1[] = {200, 1080/2};
+		float posp1[] = {300, 1080/2};
 		float posp2[] = {300, 1080/2};
 		float posIR[] = {1000, 500};
 		float posIR2[] = {1120, 620};

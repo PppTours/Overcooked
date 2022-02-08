@@ -79,13 +79,16 @@ public class Player {
 		float deltaX = this.pos[0] - pos[0];
 		float deltaY = this.pos[1] - pos[1];
 		
+		if (deltaX == 0 && deltaY == 0) {
+			return 0;
+		}
 		double angle;
 		if (deltaY < 0) angle = 0;
 		else angle = Math.PI;
-		
 		angle +=  (Math.atan(deltaX/deltaY) - Math.PI/2);
 		if (angle < 0) angle += 2 * Math.PI;
 		return angle;
+		
 	}
 	
 	public int directionTo(float[] pos) {
