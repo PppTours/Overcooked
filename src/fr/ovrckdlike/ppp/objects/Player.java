@@ -109,7 +109,7 @@ public class Player {
 		int itemId = this.nearestItem(itemList);
 		if (itemId == -1) return false;
 		Item item = itemList.get(itemId);
-		if (distanceTo(item.getPos()) > size*1.15) return false;
+		if (distanceTo(item.getPos()) > size*1.05) return false;
 		else {
 			if (this.inHand != null) return false;
 			else {
@@ -128,6 +128,12 @@ public class Player {
 		dropPos[1] = pos[1] - (float) (distance * Math.sin(angle));
 		
 		return dropPos;
+	}
+	public void take(Item item) {
+		if (inHand == null && item != null) {
+			inHand = item;
+			inHand.setInPlayerHand(true);
+		}
 	}
 	
 	public void drop() {
@@ -218,7 +224,7 @@ public class Player {
 		return angle;
 	}
 	
-	public void movePlayer( long dt, List<Tile> tileList, List<Player> playerList) {
+	public void movePlayer( long dt) {
 		float s_dt = (float) (dt / 1E9);
 		float dist = moveSpeed * s_dt;
 		float distX, distY;
@@ -228,16 +234,14 @@ public class Player {
 		distX = (float)(dist * Math.cos(angle));
 		distY = (float)(-dist * Math.sin(angle));
 		
+		pos[0] += distX;
+		pos[1] += distY;
+		lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
 		
-		for (Tile tile:tileList) {
-			if (this.distanceTo(tile.nearestFromPos(pos)) <= this.size/2) { // le +dist est peut etre pas nécéssaire
-				forceX = (float)(-Math.abs(dist) * Math.cos(this.angleTo(tile.nearestFromPos(pos))));
-				forceY = (float)(Math.abs(dist) * Math.sin(this.angleTo(tile.nearestFromPos(pos))));
-				distX += forceX;
-				distY += forceY;
-			}
-		}		
-		
+	}
+	
+	public void collide(List<Tile> tileList, List<Player> playerList) {
+		double angle;
 		for (Player player:playerList) {
 			if (player != this) {
 				float movement = size - distanceTo(player.pos);
@@ -250,11 +254,14 @@ public class Player {
 				}
 			}
 		}
-		
-		pos[0] += distX;
-		pos[1] += distY;
-		lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
-		
+		for (Tile tile:tileList) {
+			float toMoveBack = size/2 - distanceTo(tile.nearestFromPos(pos));
+			if (toMoveBack > 0) {
+				angle = angleTo(tile.nearestFromPos(pos));
+				pos[0] += (-(toMoveBack) * Math.cos(angle))/2;
+				pos[1] += ((toMoveBack) * Math.sin(angle))/2;
+			}
+		}
 	}
 	
 	public void changeAngle(boolean up, boolean down, boolean left, boolean right) {

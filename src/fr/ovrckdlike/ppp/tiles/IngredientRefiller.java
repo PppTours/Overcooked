@@ -5,28 +5,14 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.Item;
 
-public class IngredientRefiller extends Tile {
+public class IngredientRefiller extends ContainerTile {
 	private int ingredientType;
-	private Item content;
 	
 	public IngredientRefiller(float[] pos, int ingredientType) {
 		this.pos = pos;
 		this.type = 7;
 		this.content = null;
 		this.ingredientType = ingredientType;
-	}
-	
-	public Item takeOrDrop(Item newContent) {
-		Item oldContent = this.content;
-		this.content = newContent;
-		if (this.content != null) {
-			this.content.setMode(1);
-			this.content.setPos(this.pos[0]+20, this.pos[0]+20);
-		}
-		if (oldContent != null) {
-			oldContent.setMode(0);
-		}
-		return oldContent;
 	}
 	
 	public Item getContent() {

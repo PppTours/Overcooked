@@ -21,6 +21,11 @@ public abstract class Item {
 		this.inPlayerHand = set;
 	}
 	
+	public boolean isOnTable() {
+		if (mode == 0) return false;
+		else return true;
+	}
+	
 	public boolean getInPlayerHand() {
 		return this.inPlayerHand;
 	}
@@ -58,6 +63,8 @@ public abstract class Item {
 	}
 	
 	public void collide(List<Player> playerList, List<Item>itemList, List<Tile>tileList) {
+		if (isOnTable()) return;
+		
 		float[] itemPos = new float[2];
 		itemPos[0] = pos[0];
 		itemPos[1] = pos[1];
@@ -91,8 +98,7 @@ public abstract class Item {
 				pos[1] += ((toMove) * Math.sin(angle))/2;
 				
 			}
-			if (pos[0] > tile.getPos()[0] && pos[0] < tile.getPos()[0]+tile.getSize() &&
-				pos[1] > tile.getPos()[1] && pos[1] < tile.getPos()[1]+tile.getSize()) {
+			if (tile.isInTile(pos)) {
 
 				float[] tileCenter = new float[2];
 				tileCenter[0] = tile.getPos()[0] + tile.getSize() / 2;

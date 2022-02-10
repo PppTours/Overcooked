@@ -4,8 +4,7 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Item;
 
-public class Table extends Tile {
-	private Item content;
+public class Table extends ContainerTile {
 	
 	
 	public Table(float[] pos) {
@@ -16,19 +15,6 @@ public class Table extends Tile {
 	
 	public void render() {
 		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.table);
-	}
-	
-	public Item use(Item newContent) {	// a changer 
-		Item oldContent = this.content;
-		this.content = newContent;
-		if (this.content != null) {
-			this.content.setMode(1);
-			this.content.setPos(this.pos[0]+20, this.pos[1]+20);
-		}
-		if (oldContent != null) {
-			oldContent.setMode(0);
-		}
-		return oldContent;
 	}
 	
 }
