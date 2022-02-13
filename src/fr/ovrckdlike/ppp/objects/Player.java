@@ -15,6 +15,8 @@ public class Player {
 	private int moveSpeed;
 	private Item inHand;
 	private float lastMove;
+	private float dashTime;
+	private boolean dashIsReady;
 	
 	public Player(float[] pos) {
 		this.pos = pos;
@@ -22,6 +24,7 @@ public class Player {
 		this.direction = 0;
 		this.moveSpeed = 300;
 		this.lastMove = 0;
+		this.dashIsReady = true;
 		this.inHand = null;
 	}
 	
@@ -39,6 +42,25 @@ public class Player {
 	
 	public void setInHand(Item item) {
 		this.inHand = item;
+	}
+	
+	public void releaseDash(long dt) {
+		if (dashTime <= 0) dashIsReady = true;
+		dashTimer(dt);
+	}
+	
+	public void dash(long dt) {
+		if (dashIsReady) {
+			dashIsReady = false;
+			dashTime = .1f;
+		}
+		dashTimer(dt);
+	}
+	private void dashTimer(long dt) {
+		if (dashTime > 0) {
+			float s_dt = dt/1E9f;
+			dashTime -= s_dt;
+		}
 	}
 	
 	public int nearestItem(List<Item> itemList) {
@@ -227,8 +249,8 @@ public class Player {
 	public void movePlayer( long dt) {
 		float s_dt = (float) (dt / 1E9);
 		float dist = moveSpeed * s_dt;
+		if (dashTime > 0) dist *= 7;
 		float distX, distY;
-		float forceX, forceY;
 		double angle = getDirectionAngle();
 		
 		distX = (float)(dist * Math.cos(angle));
@@ -242,24 +264,37 @@ public class Player {
 	
 	public void collide(List<Tile> tileList, List<Player> playerList) {
 		double angle;
-		for (Player player:playerList) {
-			if (player != this) {
-				float movement = size - distanceTo(player.pos);
-				if (movement > 0) {
-					angle = angleTo(player.pos);
-					this.pos[0] += (-(movement) * Math.cos(angle))/2;
-					this.pos[1] += ((movement) * Math.sin(angle))/2;
-					player.pos[0] += ((movement) * Math.cos(angle))/2;
-					player.pos[1] += (-(movement) * Math.sin(angle))/2;
+		if (dashTime <= 0f) {
+			for (Player player:playerList) {
+				if (player != this && player.dashTime <= 0) {
+					float movement = size - distanceTo(player.pos);
+					if (movement > 0) {
+						angle = angleTo(player.pos);
+						this.pos[0] += (-(movement) * Math.cos(angle))/2;
+						this.pos[1] += ((movement) * Math.sin(angle))/2;
+						player.pos[0] += ((movement) * Math.cos(angle))/2;
+						player.pos[1] += (-(movement) * Math.sin(angle))/2;
+					}
 				}
 			}
 		}
+		
 		for (Tile tile:tileList) {
 			float toMoveBack = size/2 - distanceTo(tile.nearestFromPos(pos));
 			if (toMoveBack > 0) {
 				angle = angleTo(tile.nearestFromPos(pos));
 				pos[0] += (-(toMoveBack) * Math.cos(angle))/2;
 				pos[1] += ((toMoveBack) * Math.sin(angle))/2;
+			}
+			if (tile.isInTile(pos)) {
+
+				float[] tileCenter = new float[2];
+				tileCenter[0] = tile.getPos()[0] + tile.getSize() / 2;
+				tileCenter[1] = tile.getPos()[1] + tile.getSize() / 2;
+
+				angle = angleTo(tileCenter);
+				pos[0] += (-(15) * Math.cos(angle));
+				pos[1] += ((15) * Math.sin(angle));
 			}
 		}
 	}

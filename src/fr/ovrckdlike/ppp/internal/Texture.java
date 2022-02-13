@@ -40,6 +40,7 @@ public class Texture {
 	public static Texture rice;
 	public static Texture chicken;
 	public static Texture potato;
+	public static Texture font;
 
 	
 	
@@ -56,7 +57,7 @@ public class Texture {
 		this.height = height;
 	}
 	
-	public static Texture loadTexture(String path) throws IOException {
+	public static Texture loadTexture(String path, boolean linear) throws IOException {
 		int id, width, height;
 
 		try (InputStream is = Texture.class.getResourceAsStream(path)) {
@@ -90,8 +91,15 @@ public class Texture {
 
 			id = glGenTextures();
 			glBindTexture(GL_TEXTURE_2D, id);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			if (linear) {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			}
+			else {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			}
+			
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, px);

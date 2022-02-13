@@ -73,8 +73,8 @@ public abstract class Item {
 			float toMove = (player.getSize() + size)/2 - player.distanceTo(pos);
 			if (toMove > 0) {
 				double angle = angleTo(player.getPos());
-				this.pos[0] += (-player.getLastMove()) * Math.cos(angle);
-				this.pos[1] += (player.getLastMove()) * Math.sin(angle);
+				this.pos[0] += (-toMove) * Math.cos(angle);
+				this.pos[1] += (toMove) * Math.sin(angle);
 			}
 		}
 		

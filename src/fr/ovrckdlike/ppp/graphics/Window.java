@@ -126,34 +126,35 @@ public class Window {
 			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
 			
 			
-			Texture.CatSkin = Texture.loadTexture("/textures/player_cat_skin.png");	//affecter la texture a la variable ici
-			Texture.table = Texture.loadTexture("/textures/table.png");
-			Texture.cuttingTable = Texture.loadTexture("/textures/cutting_table.png");
-			Texture.salade = Texture.loadTexture("/textures/salade.png");
-			Texture.gasCooker = Texture.loadTexture("/textures/gas_cooker.png");
-			Texture.sink = Texture.loadTexture("/textures/sink.png");
-			Texture.dryer = Texture.loadTexture("/textures/dryer.png");
-			Texture.bin = Texture.loadTexture("/textures/bin.png");
-			Texture.ingredientRefiller = Texture.loadTexture("/textures/ingredient_refiller.png");
-			Texture.serviceTable = Texture.loadTexture("/textures/service_table.png");
-			Texture.plateReturn = Texture.loadTexture("/textures/plate_return.png");
-			Texture.pot = Texture.loadTexture("/textures/pot.png");
-			Texture.potEmpty = Texture.loadTexture("/textures/pot_empty.png");
-			Texture.potMushroom = Texture.loadTexture("/textures/pot_mushroom.png");
-			Texture.potTomato = Texture.loadTexture("/textures/pot_tomato.png");
-			Texture.potOnion = Texture.loadTexture("/textures/pot_onion.png");
-			Texture.onion = Texture.loadTexture("/textures/onion.png");
-			Texture.tomato = Texture.loadTexture("/textures/tomato.png");
-			Texture.cheese = Texture.loadTexture("/textures/cheese.png");
-			Texture.meat = Texture.loadTexture("/textures/meat.png");
-			Texture.mushroom = Texture.loadTexture("/textures/mushroom.png");
-			Texture.pasta = Texture.loadTexture("/textures/noodles.png");
-			Texture.sausage = Texture.loadTexture("/textures/sausage.png");
-			Texture.pizzaDough = Texture.loadTexture("/textures/pizza_dough.png");
-			Texture.burgerBread = Texture.loadTexture("/textures/bread.png");
-			Texture.rice = Texture.loadTexture("/textures/rice.png");
-			Texture.chicken = Texture.loadTexture("/textures/chicken.png");
-			Texture.potato = Texture.loadTexture("/textures/potato.png");
+			Texture.CatSkin = Texture.loadTexture("/textures/player_cat_skin.png", true);	//affecter la texture a la variable ici
+			Texture.table = Texture.loadTexture("/textures/table.png", true);
+			Texture.cuttingTable = Texture.loadTexture("/textures/cutting_table.png", true);
+			Texture.salade = Texture.loadTexture("/textures/salade.png", true);
+			Texture.gasCooker = Texture.loadTexture("/textures/gas_cooker.png", true);
+			Texture.sink = Texture.loadTexture("/textures/sink.png", true);
+			Texture.dryer = Texture.loadTexture("/textures/dryer.png", true);
+			Texture.bin = Texture.loadTexture("/textures/bin.png", true);
+			Texture.ingredientRefiller = Texture.loadTexture("/textures/ingredient_refiller.png", true);
+			Texture.serviceTable = Texture.loadTexture("/textures/service_table.png", true);
+			Texture.plateReturn = Texture.loadTexture("/textures/plate_return.png", true);
+			Texture.pot = Texture.loadTexture("/textures/pot.png", true);
+			Texture.potEmpty = Texture.loadTexture("/textures/pot_empty.png", true);
+			Texture.potMushroom = Texture.loadTexture("/textures/pot_mushroom.png", true);
+			Texture.potTomato = Texture.loadTexture("/textures/pot_tomato.png", true);
+			Texture.potOnion = Texture.loadTexture("/textures/pot_onion.png", true);
+			Texture.onion = Texture.loadTexture("/textures/onion.png", true);
+			Texture.tomato = Texture.loadTexture("/textures/tomato.png", true);
+			Texture.cheese = Texture.loadTexture("/textures/cheese.png", true);
+			Texture.meat = Texture.loadTexture("/textures/meat.png", true);
+			Texture.mushroom = Texture.loadTexture("/textures/mushroom.png", true);
+			Texture.pasta = Texture.loadTexture("/textures/noodles.png", true);
+			Texture.sausage = Texture.loadTexture("/textures/sausage.png", true);
+			Texture.pizzaDough = Texture.loadTexture("/textures/pizza_dough.png", true);
+			Texture.burgerBread = Texture.loadTexture("/textures/bread.png", true);
+			Texture.rice = Texture.loadTexture("/textures/rice.png", true);
+			Texture.chicken = Texture.loadTexture("/textures/chicken.png", true);
+			Texture.potato = Texture.loadTexture("/textures/potato.png", true);
+			Texture.font = Texture.loadTexture("/font/font.png", false);
 			
 			
 			

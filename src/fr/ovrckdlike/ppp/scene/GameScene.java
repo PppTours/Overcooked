@@ -6,7 +6,7 @@ import fr.ovrckdlike.ppp.objects.*;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.*;
 import fr.ovrckdlike.ppp.graphics.*;
-
+import fr.ovrckdlike.ppp.gui.Text;
 
 import java.util.*;
 
@@ -35,6 +35,7 @@ public class GameScene extends Scene {
 	private Table temp2;
 	private Pot tempPot;
 	private Pot tempIng;
+	private Text tempText;
 	
 	//public static GameScene game = new GameScene();
 	
@@ -49,10 +50,12 @@ public class GameScene extends Scene {
 		float posIng[] = {550, 700};
 		
 		
+		
 		temp = new Table(posIR);
 		temp2 = new Table(posIR2);
 		tempPot = new Pot(posPot);
 		tempIng = new Pot(posIng);
+		
 		
 		tileList.add(temp);
 		tileList.add(temp2);
@@ -168,7 +171,13 @@ public class GameScene extends Scene {
 				player2.drop();
 			}
 		}
+		if (p1dash) player1.dash(Time.get().getDt());
+		else player1.releaseDash(Time.get().getDt());
 		
+		if (p2dash) player2.dash(Time.get().getDt());
+		else player2.releaseDash(Time.get().getDt());
+			
+	
 		
 	}
 }
