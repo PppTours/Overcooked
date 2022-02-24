@@ -4,7 +4,7 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 
 
-public class GasCooker extends Tile{
+public class GasCooker extends ContainerTile{
 	private CookerContainer onGas;
 	
 	
@@ -12,17 +12,9 @@ public class GasCooker extends Tile{
 		this.type = 3;
 		this.pos = pos;
 		this.onGas = onGas;
+		this.onGas.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
 	}
 	
-	public CookerContainer dropOrTake(CookerContainer newOnGas) {
-		CookerContainer oldOnGas = this.onGas;
-		this.onGas = newOnGas;
-		if (this.onGas != null) {
-			this.onGas.setPos(this.pos[0]+20, this.pos[1]+20);
-			this.onGas.setMode(1);
-		}
-		return oldOnGas;
-	}
 	
 	public void use(long dt) {
 		this.onGas.cook(dt);

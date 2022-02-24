@@ -1,6 +1,6 @@
 package fr.ovrckdlike.ppp.tiles;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
@@ -10,7 +10,7 @@ import fr.ovrckdlike.ppp.objects.Plate;
 public class Table extends ContainerTile {
 	
 	
-	public Table(float[] pos, boolean withPlate, ArrayList<Item> itemList) {
+	public Table(float[] pos, boolean withPlate, List<Item> itemList) {
 		this.pos = pos;
 		if (withPlate) {
 			float[] platePos = new float[2];
