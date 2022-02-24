@@ -155,6 +155,7 @@ public class Window {
 			Texture.chicken = Texture.loadTexture("/textures/chicken.png", true);
 			Texture.potato = Texture.loadTexture("/textures/potato.png", true);
 			Texture.font = Texture.loadTexture("/font/font.png", false);
+			Texture.wall = Texture.loadTexture("/textures/wall.png", true);
 			
 			
 			

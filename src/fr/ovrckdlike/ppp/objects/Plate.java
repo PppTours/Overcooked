@@ -1,7 +1,7 @@
 package fr.ovrckdlike.ppp.objects;
 
 public class Plate extends Item {
-	private boolean[] content = new boolean[14];
+	private boolean[] content = new boolean[15];
 	private boolean dirty;
 
 	
@@ -28,6 +28,10 @@ public class Plate extends Item {
 	
 	public void prepare() {}
 	
+	public void cook() {
+		content[14] = true;
+	}
+	
 	public boolean fill(Ingredient ingredient) {
 		int count = 0;
 		for (int i = 0; i < 13; i++) {
@@ -43,18 +47,18 @@ public class Plate extends Item {
 	}
 	
 	public void flush() {
-		for (int i = 0; i < 14; i++) {
+		for (int i = 0; i < 15; i++) {
 			this.content[i] = false;
 		}
 	}
 	
 	public boolean merge(boolean[] food) {	//fusion du contenu de 2 assiettes
 		if (dirty) return false;
-		if (this.content[14]) return false;
+		if (this.content[13]) return false;
 		
-		boolean[] afterMerge = new boolean[14];
+		boolean[] afterMerge = new boolean[15];
 		int nbIngredients = 0;
-		for(int i = 0; i< 10; i++) {
+		for(int i = 0; i< 13; i++) {
 			if (food[i] && this.content[i]) return false;
 			afterMerge[i] = (food[i]||this.content[i]);
 			nbIngredients++;
@@ -69,7 +73,7 @@ public class Plate extends Item {
 	
 	public void render() {
 		int zoom = mode+1;
-		
+		if (mode == 2) return;
 		
 		
 	}

@@ -35,7 +35,6 @@ public class GameScene extends Scene {
 	private Table temp2;
 	private Pot tempPot;
 	private Pot tempIng;
-	private Text tempText;
 	
 	//public static GameScene game = new GameScene();
 	
@@ -43,29 +42,7 @@ public class GameScene extends Scene {
 		this.map = 0;
 		
 		float posp1[] = {200, 1080/2};
-		float posp2[] = {300, 1080/2};
-		float posIR[] = {1000, 500};
-		float posIR2[] = {1120, 620};
-		float posPot[] = {500, 700};
-		float posIng[] = {550, 700};
-		
-		
-		
-		temp = new Table(posIR);
-		temp2 = new Table(posIR2);
-		tempPot = new Pot(posPot);
-		tempIng = new Pot(posIng);
-		
-		
-		tileList.add(temp);
-		tileList.add(temp2);
-		
-		containerTileList.add(temp);
-		containerTileList.add(temp2);
-		
-		itemList.add(tempPot);
-		itemList.add(tempIng);
-		
+		float posp2[] = {300, 1080/2};		
 
 		
 		this.lastP1Action1 = 0;

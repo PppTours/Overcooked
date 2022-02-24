@@ -41,8 +41,7 @@ public class Texture {
 	public static Texture chicken;
 	public static Texture potato;
 	public static Texture font;
-
-	
+	public static Texture wall;
 	
 	
 

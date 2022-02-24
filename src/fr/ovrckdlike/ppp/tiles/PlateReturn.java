@@ -10,6 +10,7 @@ public class PlateReturn extends Tile{
 	public PlateReturn(float[] pos) {
 		this.pos = pos;
 		this.plateNb = 0;
+		this.type = 8;
 	}
 	
 	
