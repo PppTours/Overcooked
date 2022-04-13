@@ -74,9 +74,9 @@ public class Window {
 	}
 	
 	public void init() {
-		
 		mainMenu = new MainMenu();
-		gameScene = new GameScene();
+		gameScene = GameScene.init();
+		
 		
 		// création du retour d'erreur
 		GLFWErrorCallback.createPrint(System.err).set();
@@ -156,6 +156,9 @@ public class Window {
 			Texture.potato = Texture.loadTexture("/textures/potato.png", true);
 			Texture.font = Texture.loadTexture("/font/font.png", false);
 			Texture.wall = Texture.loadTexture("/textures/wall.png", true);
+			Texture.plate = Texture.loadTexture("/textures/plate.png", true);
+			Texture.recipeBackground =Texture.loadTexture("/textures/recipe_background.png", true);
+			Texture.circle = Texture.loadTexture("/textures/circle.png", false);
 			
 			
 			

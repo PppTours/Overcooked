@@ -5,7 +5,7 @@ import fr.ovrckdlike.ppp.objects.Item;
 public abstract class ContainerTile extends Tile{
 	protected Item content;
 	
-	
+	//public abstract CookerContainer takeOrDrop(CookerContainer newContent);
 	public Item takeOrDrop(Item newContent) {
 		Item oldContent = this.content;
 		this.content = newContent;
@@ -18,6 +18,4 @@ public abstract class ContainerTile extends Tile{
 		}
 		return oldContent;
 	}
-	
-
 }

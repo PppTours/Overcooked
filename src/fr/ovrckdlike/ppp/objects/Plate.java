@@ -1,5 +1,8 @@
 package fr.ovrckdlike.ppp.objects;
 
+import fr.ovrckdlike.ppp.graphics.Renderer;
+import fr.ovrckdlike.ppp.internal.Texture;
+
 public class Plate extends Item {
 	private boolean[] content = new boolean[15];
 	private boolean dirty;
@@ -74,7 +77,8 @@ public class Plate extends Item {
 	public void render() {
 		int zoom = mode+1;
 		if (mode == 2) return;
-		
+		float renderPos[] = {this.pos[0] - (this.size*zoom)/2, this.pos[1] - (this.size*zoom)/2};
+		Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, 0, Texture.plate);
 		
 	}
 }

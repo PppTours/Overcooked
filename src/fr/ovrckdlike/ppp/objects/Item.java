@@ -38,6 +38,8 @@ public abstract class Item {
 		return this.pos;
 	}
 	
+	public abstract void flush();
+	
 	public float distanceTo(float[] pos) {
 		float deltaX = this.pos[0] - pos[0];
 		float deltaY = this.pos[1] - pos[1];
@@ -70,16 +72,23 @@ public abstract class Item {
 		itemPos[1] = pos[1];
 		
 		for(Player player:playerList) {
-			float toMove = (player.getSize() + size)/2 - player.distanceTo(pos);
-			if (toMove > 0) {
-				double angle = angleTo(player.getPos());
-				this.pos[0] += (-toMove) * Math.cos(angle);
-				this.pos[1] += (toMove) * Math.sin(angle);
+			if (player.getInHand() != this) {
+				float toMove = (player.getSize() + size)/2 - player.distanceTo(pos);
+				if (toMove > 0) {
+					double angle = angleTo(player.getPos());
+					this.pos[0] += (-toMove) * Math.cos(angle)*3/4;
+					this.pos[1] += (toMove) * Math.sin(angle)*3/4;
+					float[] playerPos = {(float)(player.getPos()[0] + toMove * Math.cos(angle)/4),
+					(float)(player.getPos()[1] - toMove * Math.sin(angle)/4)};
+					player.setPos(playerPos);
+					
+				}
 			}
+			
 		}
 		
 		for (Item item:itemList) {
-			if (this != item && !inPlayerHand && !item.inPlayerHand) {
+			if (this != item && !inPlayerHand && !item.inPlayerHand && !item.isOnTable()) {
 				float toMove = size - distanceTo(item.pos);
 				if (toMove > 0) {
 					double angle = angleTo(item.pos);
@@ -96,7 +105,6 @@ public abstract class Item {
 				double angle = angleTo(tile.nearestFromPos(pos));
 				pos[0] += (-(toMove) * Math.cos(angle))/2;
 				pos[1] += ((toMove) * Math.sin(angle))/2;
-				
 			}
 			if (tile.isInTile(pos)) {
 

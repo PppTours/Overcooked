@@ -85,4 +85,6 @@ public class Ingredient extends Item {
 
 		}
 	}
+
+	public void flush() {}
 }

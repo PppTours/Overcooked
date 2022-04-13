@@ -8,8 +8,4 @@ public class Main {
 		window.run();
 		
 	}
-	/*public static void main(String[] args) {
-		int i = 'ç';
-		System.out.println(i);
-	}*/
 }

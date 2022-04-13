@@ -27,7 +27,7 @@ public class Renderer {
     public static void drawQuad(float x, float y, float width, float height, Color color) {
         VertexArray.simpleQuad.bind();
         simpleQuadShader.bind();
-        simpleQuadShader.setUniform4f("u_color", color.r, color.b, color.g, color.a);
+        simpleQuadShader.setUniform4f("u_color", color.r, color.g, color.b, color.a);
         simpleQuadShader.setUniform4f("u_position", x, y, width, height);
         setCameraUniform(simpleQuadShader);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);

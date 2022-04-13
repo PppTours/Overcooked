@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class Bin extends Tile{
 	
 	public Bin(float[] pos) {
-		this.type = 6;
+		this.type = 11;
 		this.pos = pos;
 	}
 	
-	public void use(Plate plate) {
-		plate.flush();
+	public void use(Player player) {
+		player.getInHand().flush();
 		
 	}
 	

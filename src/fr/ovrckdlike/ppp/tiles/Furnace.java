@@ -4,6 +4,8 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
+import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Time;
 
 
 public class Furnace extends ContainerTile{
@@ -31,9 +33,9 @@ public class Furnace extends ContainerTile{
 		}
 		return oldContent;
 	}
-	
-	
-	public void use(long dt) {
+
+	public void use(Player player) {
+		long dt = Time.get().getDt();
 		float s_dt = (float) (dt/1E9f);
 		timeInFurnace += s_dt;
 		

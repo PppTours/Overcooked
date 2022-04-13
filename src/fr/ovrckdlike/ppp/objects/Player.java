@@ -31,6 +31,10 @@ public class Player {
 	public int getSize() {
 		return size;
 	}
+	public void setPos(float[] newPos) {
+		pos[0] = newPos[0];
+		pos[1] = newPos[1];
+	}
 	
 	public float getLastMove() {
 		return lastMove;
@@ -144,7 +148,7 @@ public class Player {
 	
 	public float[] whereToDrop() {
 		double angle = getDirectionAngle();
-		int distance = 100;
+		int distance = 70;
 		float[] dropPos = new float[2];
 		dropPos[0] = pos[0] + (float) (distance * Math.cos(angle));
 		dropPos[1] = pos[1] - (float) (distance * Math.sin(angle));

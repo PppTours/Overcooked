@@ -6,6 +6,7 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
+import fr.ovrckdlike.ppp.objects.Player;
 
 public class Table extends ContainerTile {
 	
@@ -17,11 +18,14 @@ public class Table extends ContainerTile {
 			platePos[0] = this.pos[0] + size/2;
 			platePos[1] = this.pos[1] + size/2;
 			content = new Plate(platePos, false);
+			itemList.add(content);
 			
 		}
 		else content = null;
 		this.type = 1;
 	}
+	
+	public void use(Player player) {}
 	
 	public void render() {
 		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.table);

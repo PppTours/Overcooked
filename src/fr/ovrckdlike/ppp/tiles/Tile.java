@@ -1,4 +1,5 @@
 package fr.ovrckdlike.ppp.tiles;
+import fr.ovrckdlike.ppp.objects.Player;
 
 public abstract class Tile {
 	protected int size = 120;
@@ -22,6 +23,7 @@ public abstract class Tile {
 	}
 	
 	public abstract void render();
+	public abstract void use(Player player);
 	
 	public float[] nearestFromPos(float[] pos) {
 		if (pos[0] > this.pos[0] && pos[0] < this.pos[0]+this.size) {

@@ -12,7 +12,7 @@ import fr.ovrckdlike.ppp.tiles.*;
 
 
 public class Map {
-	public static Map map;
+	public static Map map = new Map();
 	
 	public Map() {
 		
@@ -25,8 +25,8 @@ public class Map {
 		playerList.clear();
 	}
 	
-	public boolean buildMap(int numero, List<Tile> tileList, List<Item> itemList, List<ContainerTile> containerTileList) {
-		File file = new File("/maps/map"+numero+".csv");
+	public static boolean buildMap(int numero, List<Tile> tileList, List<Item> itemList, List<ContainerTile> containerTileList) {
+		File file = new File("res/maps/map"+numero+".csv");
 		try {
 			Scanner scan = new Scanner(file);
 			int tilePosX = 0;
@@ -57,11 +57,15 @@ public class Map {
 							break;
 						case 3 :
 							if (option == 'a') {
-								Pot onGas = new Pot(tilePos);
+								float[] potPos = {0f, 0f};
+								Pot onGas = new Pot(potPos);
+								itemList.add(onGas);
 								tile = new GasCooker(tilePos, onGas);
 							}
 							else {
-								Pot onGas = new Pot(tilePos);
+								float[] panPos = {0f, 0f};
+								Pot onGas = new Pot(panPos);
+								itemList.add(onGas);
 								tile = new GasCooker(tilePos, onGas);
 							}
 							break;
@@ -71,6 +75,10 @@ public class Map {
 						case 5 :
 							tile = new Dryer(tilePos, direction);
 							break;
+						case 6 :
+							option-= 'a';
+							tile = new IngredientRefiller(tilePos, option);
+							break;
 						case 7 :
 							tile = new ServiceTable(tilePos, direction);
 							break;
@@ -78,14 +86,14 @@ public class Map {
 							tileList.clear();
 							return false;
 						}
-					
-					//mettre la containerTileList a jour
+						if (tile != null) tileList.add(tile);
+						if (type == 1 || type == 2 || type == 3 || type == 9 || type == 6) containerTileList.add((ContainerTile) (tile));
 						
 					}
 					else {
 						if (chunk.length() > 1) {
 							type *= 10;
-							type += chunk.charAt(0) - '0';
+							type += chunk.charAt(1) - '0';
 						}
 						
 						Tile tile;
@@ -97,7 +105,7 @@ public class Map {
 						case 2:
 							tile = new CuttingTable(tilePos);
 							break;
-						case 6:
+						case 11:
 							tile = new Bin(tilePos);
 							break;
 						case 8:
@@ -110,18 +118,24 @@ public class Map {
 							tile = new Wall(tilePos);
 							break;
 						default:
+							System.out.println(type);
 							tileList.clear();
 							return false;
 						}
 						if (tile != null) tileList.add(tile);
-						if (type == 1 || type == 2 || type == 3 || type == 9) containerTileList.add((ContainerTile) (tile));
+						if (type == 1 || type == 2 || type == 3 || type == 9 || type == 6) containerTileList.add((ContainerTile) (tile));
 					}
+					tilePosX++;
 				}
+				tilePosX = 0;
+				tilePosY++;
 			}
 			
+			scan.close();
 			return true;
 		} 
 		catch (FileNotFoundException e) {
+			System.out.println("failed to find " + file);
 			return false;
 		}
 		

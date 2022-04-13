@@ -4,6 +4,8 @@ import java.util.List;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
+import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.objects.Recipe;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 
 
@@ -17,9 +19,16 @@ public class ServiceTable extends Tile {
 		this.direction = dir;
 	}
 	
-	public int use(Plate plate, List<Item> itemList, PlateReturn pr) {
+	public void use(Player player) {}
+	
+	public int serve(Plate plate, List<Item> itemList, List<Recipe> recipeList, PlateReturn pr) {
 		pr.addPlate();
-		int score = 0;	//TODO compter les points et déréférencer l'assiette.
+		int score = 0;
+		for (Recipe rec : recipeList) {
+			if (true) {
+				
+			}
+		}
 		itemList.remove(plate);
 		return score;
 	}

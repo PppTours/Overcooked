@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.tiles;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Plate;
+import fr.ovrckdlike.ppp.objects.Player;
 
 public class PlateReturn extends Tile{
 	int plateNb;
@@ -18,6 +19,7 @@ public class PlateReturn extends Tile{
 		plateNb++;
 	}
 	
+	public void use(Player player) {}
 	
 	public Plate takePlate() {
 		if (plateNb > 0) {

@@ -23,6 +23,6 @@ public class Color {
 	}
 	
 	public Color(int r, int g, int b) {
-		this(r, g, b, 256);
+		this(r, g, b, 255);
 	}
 }

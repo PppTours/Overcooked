@@ -42,6 +42,9 @@ public class Texture {
 	public static Texture potato;
 	public static Texture font;
 	public static Texture wall;
+	public static Texture plate;
+	public static Texture recipeBackground;
+	public static Texture circle;
 	
 	
 
