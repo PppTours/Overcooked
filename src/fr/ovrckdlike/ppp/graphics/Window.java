@@ -159,6 +159,10 @@ public class Window {
 			Texture.plate = Texture.loadTexture("/textures/plate.png", true);
 			Texture.recipeBackground =Texture.loadTexture("/textures/recipe_background.png", true);
 			Texture.circle = Texture.loadTexture("/textures/circle.png", false);
+			Texture.slicedTomato = Texture.loadTexture("/textures/sliced_tomato.png", true);
+			Texture.slicedSalade = Texture.loadTexture("/textures/sliced_salade.png", true);
+			Texture.slicedOnion = Texture.loadTexture("/textures/sliced_onion.png", true);
+			Texture.slicedMushroom = Texture.loadTexture("/textures/sliced_mushroom.png", true);
 			
 			
 			

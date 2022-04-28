@@ -2,6 +2,7 @@ package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Time;
@@ -26,11 +27,18 @@ public class CuttingTable extends ContainerTile{
 	
 	
 	public void use(Player player) {
-		long dt = Time.get().getDt();
-		float s_dt = dt/1E9f;
-		this.currentCuttingTime += s_dt;
-		if (this.currentCuttingTime >= this.cuttingTime) {
-			this.content.prepare();
+		if (content instanceof Ingredient) {
+			if (!((Ingredient) content).getPrepared()) {
+				player.lockMove();
+				long dt = Time.get().getDt();
+				float s_dt = dt/1E9f;
+				this.currentCuttingTime += s_dt;
+				if (currentCuttingTime >= cuttingTime) {
+					currentCuttingTime = 0;
+					player.unlockMove();
+					content.prepare();
+				}
+			}
 		}
 	}
 }

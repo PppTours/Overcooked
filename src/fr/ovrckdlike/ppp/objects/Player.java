@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.objects;
 import java.util.List;
 import java.util.ArrayList;
 
+import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.tiles.Tile;
@@ -13,6 +14,7 @@ public class Player {
 	private int size;
 	private int direction;
 	private int moveSpeed;
+	private boolean blocked;
 	private Item inHand;
 	private float lastMove;
 	private float dashTime;
@@ -20,6 +22,7 @@ public class Player {
 	
 	public Player(float[] pos) {
 		this.pos = pos;
+		this.blocked = false;
 		this.size = 100;
 		this.direction = 0;
 		this.moveSpeed = 300;
@@ -60,6 +63,14 @@ public class Player {
 		}
 		dashTimer(dt);
 	}
+	
+	public void lockMove() {
+		blocked = true;
+	}
+	public void unlockMove() {
+		blocked = false;
+	}
+	
 	private void dashTimer(long dt) {
 		if (dashTime > 0) {
 			float s_dt = dt/1E9f;
@@ -148,11 +159,10 @@ public class Player {
 	
 	public float[] whereToDrop() {
 		double angle = getDirectionAngle();
-		int distance = 70;
+		int distance = 75;
 		float[] dropPos = new float[2];
 		dropPos[0] = pos[0] + (float) (distance * Math.cos(angle));
 		dropPos[1] = pos[1] - (float) (distance * Math.sin(angle));
-		
 		return dropPos;
 	}
 	public void take(Item item) {
@@ -251,19 +261,20 @@ public class Player {
 	}
 	
 	public void movePlayer( long dt) {
-		float s_dt = (float) (dt / 1E9);
-		float dist = moveSpeed * s_dt;
-		if (dashTime > 0) dist *= 7;
-		float distX, distY;
-		double angle = getDirectionAngle();
-		
-		distX = (float)(dist * Math.cos(angle));
-		distY = (float)(-dist * Math.sin(angle));
-		
-		pos[0] += distX;
-		pos[1] += distY;
-		lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
-		
+		if (!blocked) {
+			float s_dt = (float) (dt / 1E9);
+			float dist = moveSpeed * s_dt;
+			if (dashTime > 0) dist *= 7;
+			float distX, distY;
+			double angle = getDirectionAngle();
+			
+			distX = (float)(dist * Math.cos(angle));
+			distY = (float)(-dist * Math.sin(angle));
+			
+			pos[0] += distX;
+			pos[1] += distY;
+			lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
+		}
 	}
 	
 	public void collide(List<Tile> tileList, List<Player> playerList) {
@@ -304,14 +315,15 @@ public class Player {
 	}
 	
 	public void changeAngle(boolean up, boolean down, boolean left, boolean right) {
-
-		if ( up && right ) direction = 1;
-		else if ( up && left ) direction = 7;
-		else if ( down && left ) direction = 5;
-		else if ( down && right ) direction = 3;
-		else if (up) direction = 0;
-		else if (down) direction = 4;
-		else if (left) direction = 6;
-		else if (right) direction = 2;
+		if (!blocked) {
+			if ( up && right ) direction = 1;
+			else if ( up && left ) direction = 7;
+			else if ( down && left ) direction = 5;
+			else if ( down && right ) direction = 3;
+			else if (up) direction = 0;
+			else if (down) direction = 4;
+			else if (left) direction = 6;
+			else if (right) direction = 2;
+		}
 	}
 }

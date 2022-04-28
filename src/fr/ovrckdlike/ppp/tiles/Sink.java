@@ -42,6 +42,7 @@ public class Sink extends Tile {
 		long dt = Time.get().getDt();
 		float s_dt = dt/1E9f;
 		if (nbPlate > 0) {
+			player.lockMove();
 			currentWashTime += s_dt;
 			
 			if (currentWashTime >= washTime) {
@@ -49,6 +50,7 @@ public class Sink extends Tile {
 				plates.get(nbPlate).wash(); 	//transférer l'assiette au séchoir
 				attachedDryer.add(plates.remove(nbPlate));
 				currentWashTime = 0;
+				if (nbPlate == 0) player.unlockMove();
 			}
 		}
 		

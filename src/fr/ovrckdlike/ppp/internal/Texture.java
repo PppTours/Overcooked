@@ -45,6 +45,10 @@ public class Texture {
 	public static Texture plate;
 	public static Texture recipeBackground;
 	public static Texture circle;
+	public static Texture slicedTomato;
+	public static Texture slicedSalade;
+	public static Texture slicedOnion;
+	public static Texture slicedMushroom;
 	
 	
 

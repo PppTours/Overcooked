@@ -14,6 +14,10 @@ public class Plate extends Item {
 		this.mode = 1;
 	}
 	
+	public boolean[] getContent() {
+		return content;
+	}
+	
 	public boolean getDirty() {
 		return this.dirty;
 	}

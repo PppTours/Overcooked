@@ -70,6 +70,19 @@ public class Recipe {
 		
 	}
 	
+	public byte getComNo() {
+		return commandNumero;
+	}
+	
+	public void setComNo(byte numero) {
+		commandNumero = numero;
+		pos[0] = (size[0]-20) * commandNumero;
+	}
+	
+	public float getTimer() {
+		return timer;
+	}
+	
 	public int[] getIngredients() {
 		return ingredientList;
 	}

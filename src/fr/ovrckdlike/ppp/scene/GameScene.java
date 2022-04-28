@@ -1,7 +1,6 @@
 package fr.ovrckdlike.ppp.scene;
 
 
-import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.objects.*;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.*;
@@ -186,12 +185,19 @@ public class GameScene extends Scene {
 					tile.use(player1);
 				}
 			}
+			if (!p1action2) {
+				player1.unlockMove();
+			
+			}
 			
 			if (p2action1 && tile.isInTile(player2.whereToDrop())) flagDropP2 = false;
 			if (p2action2) {
 				if (tile.isInTile(player1.whereToDrop())) {
 					tile.use(player1);
 				}
+			}
+			if (!p2action2) {
+				player2.unlockMove();
 			}
 		}
 		
