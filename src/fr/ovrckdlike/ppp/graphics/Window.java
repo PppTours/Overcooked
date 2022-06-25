@@ -125,7 +125,6 @@ public class Window {
 			Renderer.simpleQuadShader = Shader.compileAndCreateShader("/shaders/simple_quad.vert", "/shaders/simple_quad.frag");
 			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
 			
-			
 			Texture.CatSkin = Texture.loadTexture("/textures/player_cat_skin.png", true);	//affecter la texture a la variable ici
 			Texture.table = Texture.loadTexture("/textures/table.png", true);
 			Texture.cuttingTable = Texture.loadTexture("/textures/cutting_table.png", true);
@@ -163,6 +162,12 @@ public class Window {
 			Texture.slicedSalade = Texture.loadTexture("/textures/sliced_salade.png", true);
 			Texture.slicedOnion = Texture.loadTexture("/textures/sliced_onion.png", true);
 			Texture.slicedMushroom = Texture.loadTexture("/textures/sliced_mushroom.png", true);
+			Texture.slicedCheese = Texture.loadTexture("/textures/grated_cheese.png", true);
+			Texture.slicedMeat = Texture.loadTexture("/textures/sliced_meat.png", true);
+			Texture.slicedSausage = Texture.loadTexture("/textures/sliced_sausage.png", true);
+			Texture.slicedBread = Texture.loadTexture("/textures/cut_bread.png", true);
+			Texture.slicedChicken = Texture.loadTexture("/textures/cut_chicken.png", true);
+			Texture.slicedPotato = Texture.loadTexture("/textures/cut_potatoes.png", true);
 			
 			
 			

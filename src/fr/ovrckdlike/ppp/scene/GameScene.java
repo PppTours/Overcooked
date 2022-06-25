@@ -50,12 +50,21 @@ public class GameScene extends Scene {
 		return pList;
 	}
 	
+	public static boolean isRunning() {
+		return game.running;
+	}
+	
+	public static void setRunning(boolean run) {
+		game.running = run;
+	}
+	
 	
 	public static ArrayList<Item> getItemList(){
 		return game.itemList;
 	}
 	
-	public GameScene() {
+	private GameScene() {
+		running = false;
 		this.mapNum = 0;
 		if (!Map.buildMap(mapNum, tileList, itemList, containerTileList)) 
 			System.out.println("pas bon");

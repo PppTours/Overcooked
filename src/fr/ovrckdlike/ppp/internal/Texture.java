@@ -49,7 +49,12 @@ public class Texture {
 	public static Texture slicedSalade;
 	public static Texture slicedOnion;
 	public static Texture slicedMushroom;
-	
+	public static Texture slicedSausage;
+	public static Texture slicedMeat;
+	public static Texture slicedCheese;
+	public static Texture slicedBread;
+	public static Texture slicedChicken;
+	public static Texture slicedPotato;
 	
 
 	public final String path;
