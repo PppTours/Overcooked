@@ -55,6 +55,9 @@ public class Texture {
 	public static Texture slicedBread;
 	public static Texture slicedChicken;
 	public static Texture slicedPotato;
+	public static Texture furnaceFront;
+	public static Texture furnaceBack;
+	public static Texture dirtyPlate;
 	
 
 	public final String path;

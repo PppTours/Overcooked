@@ -7,6 +7,7 @@ import java.util.Scanner;
 import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.scene.GameScene;
 
 
@@ -60,14 +61,14 @@ public class Recipe {
 				}
 				k++;
 			}
-			
-			
 		}
 		catch(FileNotFoundException e){
 			System.out.println("Recipe file not found.");
 		}
-		
-		
+	}
+	
+	public void reset() {
+		timer = 60f;
 	}
 	
 	public byte getComNo() {
@@ -81,6 +82,32 @@ public class Recipe {
 	
 	public float getTimer() {
 		return timer;
+	}
+	
+	public boolean checkValid(boolean[] content) {
+		boolean[] actualContent = new boolean[15];
+		if (recipeSet == 0) actualContent[14] = true;
+		else actualContent[14] = false;
+		if (recipeSet == 1) actualContent[13] = true;
+		else actualContent[13] = false;
+		int k;
+		for (k = 0; k < 13; k++) {
+			for (int i = 0; i < ingredientList.length; i++) {
+				if (k == ingredientList[i]) 
+					actualContent[k] = true;
+			}
+		}
+		boolean flag = true;
+		for (k = 0; k < 15; k++) {
+			if (content[k] != actualContent[k]) flag = false;
+		}
+		return flag;
+		
+	}
+	
+	public void updateTimer() {
+		timer -= Time.get().getDtS();
+		if (timer < 0) timer = 0;
 	}
 	
 	public int[] getIngredients() {
@@ -161,6 +188,5 @@ public class Recipe {
 		}
 		else Renderer.drawQuad(pos[0]+30, pos[1]+5, timeBarLength, 15, Color.yellow);
 	}
-	
 	
 }

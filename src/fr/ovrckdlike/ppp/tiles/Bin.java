@@ -18,15 +18,12 @@ public class Bin extends Tile{
 	}
 	
 	public void use(Player player) {
-		player.getInHand().flush();
+		if (player.getInHand() != null) player.getInHand().flush();
+		if (player.getInHand() instanceof Ingredient) {
+			player.drop();
+		}
 		
 	}
-	
-	public void use(Player player, Ingredient ing, List<Item> itemList) {
-		player.drop();
-		itemList.remove(ing);
-	}
-	//TODO rajouter un use pour les cooker container et un pour les ingrédients
 	
 	public void render() {
 		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.bin);

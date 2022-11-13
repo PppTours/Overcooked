@@ -75,7 +75,7 @@ public class Window {
 	
 	public void init() {
 		mainMenu = new MainMenu();
-		gameScene = GameScene.init();
+		gameScene = GameScene.get();
 		
 		
 		// création du retour d'erreur
@@ -168,17 +168,16 @@ public class Window {
 			Texture.slicedBread = Texture.loadTexture("/textures/cut_bread.png", true);
 			Texture.slicedChicken = Texture.loadTexture("/textures/cut_chicken.png", true);
 			Texture.slicedPotato = Texture.loadTexture("/textures/cut_potatoes.png", true);
+			Texture.furnaceBack = Texture.loadTexture("/textures/furnace_background.png", true);
+			Texture.furnaceFront = Texture.loadTexture("/textures/furnace_foreground.png", true);
+			Texture.dirtyPlate = Texture.loadTexture("/textures/plate_dirty.png", true);
 			
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 	}
 	
 	public void loop() {
@@ -202,12 +201,6 @@ public class Window {
 		}
 	}
 }
-
-
-
-
-
-
 
 
 

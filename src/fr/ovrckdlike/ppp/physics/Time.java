@@ -43,5 +43,8 @@ public class Time {
 		return dt;
 	}
 	
-
+	public float getDtS() {
+		return dt/1E9f;
+	}
+	
 }

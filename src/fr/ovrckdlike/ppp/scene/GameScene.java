@@ -1,24 +1,32 @@
 package fr.ovrckdlike.ppp.scene;
 
 
-import fr.ovrckdlike.ppp.objects.*;
-import fr.ovrckdlike.ppp.physics.Time;
-import fr.ovrckdlike.ppp.tiles.*;
-import fr.ovrckdlike.ppp.graphics.*;
-import fr.ovrckdlike.ppp.gui.Text;
+import java.util.List;
+
+import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
 import fr.ovrckdlike.ppp.map.Map;
-
-import java.util.*;
-
-
-
-import static org.lwjgl.glfw.GLFW.*;
+import fr.ovrckdlike.ppp.objects.Ingredient;
+import fr.ovrckdlike.ppp.objects.IngredientContainer;
+import fr.ovrckdlike.ppp.objects.Item;
+import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Time;
+import fr.ovrckdlike.ppp.tiles.ContainerTile;
+import fr.ovrckdlike.ppp.tiles.PlateReturn;
+import fr.ovrckdlike.ppp.tiles.Tile;
 
 public class GameScene extends Scene {
 	private static GameScene game;
 	
+	private List<Item> itemList;
+	private List<Tile> tileList;
+	private List<Player> playerList;
+	private RecipeScheduler recSch;
+	
+	private byte plateToReturn;
+	
 	
 	private int mapNum;
+	private Map map;
 	
 	private Player player1;
 	private Player player2;
@@ -28,15 +36,8 @@ public class GameScene extends Scene {
 	private long lastP1Action2;
 	private long lastP2Action2;
 	
-	
-	private ArrayList<Item> itemList = new ArrayList<Item>();
-	private ArrayList<Tile> tileList = new ArrayList<Tile>();
-	private ArrayList<Player> playerList = new ArrayList<Player>();
-	private ArrayList<ContainerTile> containerTileList = new ArrayList<ContainerTile>();
-	private ArrayList<Recipe> recipeList = new ArrayList<Recipe>();
-	
-	
-	public static GameScene init() {
+		
+	public static GameScene get() {
 		if (game == null) {
 			game = new GameScene();
 		}
@@ -54,20 +55,31 @@ public class GameScene extends Scene {
 		return game.running;
 	}
 	
+	public static void addPlateToReturn() {
+		game.plateToReturn++;
+	}
+	
+	
 	public static void setRunning(boolean run) {
 		game.running = run;
 	}
 	
 	
-	public static ArrayList<Item> getItemList(){
-		return game.itemList;
-	}
-	
 	private GameScene() {
 		running = false;
 		this.mapNum = 0;
-		if (!Map.buildMap(mapNum, tileList, itemList, containerTileList)) 
-			System.out.println("pas bon");
+		this.map = Map.get();
+		if (!Map.buildMap(mapNum))		//TODO : remettre itemList
+			System.out.println("Error while building the map");
+		
+		itemList = map.getItemList();
+		tileList = map.getTileList();
+		playerList = map.getPlayerList();
+		
+		recSch = RecipeScheduler.get();
+		recSch.setRecSet(0);
+		
+		plateToReturn = 0;
 		
 		
 		float posp1[] = {200, 1080/2};
@@ -80,8 +92,8 @@ public class GameScene extends Scene {
 		this.lastP2Action2 = 0;
 
 		
-		this.player1 = new Player( posp1 );
-		this.player2 = new Player( posp2 );
+		this.player1 = new Player(posp1, (byte) 1);
+		this.player2 = new Player(posp2, (byte) 2);
 		
 		playerList.add(player1);
 		playerList.add(player2);
@@ -90,8 +102,8 @@ public class GameScene extends Scene {
 	
 	public void render() {
 		
-		this.player1.render();
-		this.player2.render();
+		player1.render();
+		player2.render();
 		
 		
 		for (Tile tile : tileList) {
@@ -101,41 +113,13 @@ public class GameScene extends Scene {
 			item.render();
 		}
 		
-		for (Recipe r : recipeList) {
-			r.render();
-		}
+		recSch.render();
 	}
 	
 	public void run() {
 		boolean flagDropP1 = true;
 		boolean flagDropP2 = true;
-		
-		boolean p1up = KeyListener.isKeyPressed(GLFW_KEY_W);
-		boolean p1down = KeyListener.isKeyPressed(GLFW_KEY_S);
-		boolean p1left = KeyListener.isKeyPressed(GLFW_KEY_A);
-		boolean p1right = KeyListener.isKeyPressed(GLFW_KEY_D);
-		boolean p1action1 = KeyListener.isKeyPressed(GLFW_KEY_TAB);
-		boolean p1action2 = KeyListener.isKeyPressed(GLFW_KEY_F);
-		boolean p1dash = KeyListener.isKeyPressed(GLFW_KEY_SPACE);
-		
-		boolean p2up = KeyListener.isKeyPressed(GLFW_KEY_UP);
-		boolean p2down = KeyListener.isKeyPressed(GLFW_KEY_DOWN);
-		boolean p2left = KeyListener.isKeyPressed(GLFW_KEY_LEFT);
-		boolean p2right = KeyListener.isKeyPressed(GLFW_KEY_RIGHT);
-		boolean p2action1 = KeyListener.isKeyPressed(GLFW_KEY_RIGHT_CONTROL);
-		boolean p2action2 = KeyListener.isKeyPressed(GLFW_KEY_KP_0);
-		boolean p2dash = KeyListener.isKeyPressed(GLFW_KEY_ENTER);
-		
-		
-		if ( p1up || p1down || p1left || p1right ) {
-			player1.changeAngle(p1up, p1down, p1left, p1right);
-			player1.movePlayer(Time.get().getDt());
-		}
-		
-		if ( p2up || p2down || p2left || p2right ) {
-			player2.changeAngle(p2up, p2down, p2left, p2right);
-			player2.movePlayer(Time.get().getDt());
-		}
+			
 		
 		for (Item item : itemList) {
 			item.collide(playerList, itemList, tileList);
@@ -146,100 +130,81 @@ public class GameScene extends Scene {
 			
 		}
 		
-		for (ContainerTile tile:containerTileList) {
+		recSch.run();
+		
+		for (Player p:playerList) {
+			p.updateKeyPressed();
 			
-			if (tile.isInTile(player1.whereToDrop()) && Time.get().timeSince(lastP1Action1) > 0.25 && p1action1) {
-				lastP1Action1 = Time.get().getCurrentTime();
-				Item item = player1.getInHand();
-				if(tile instanceof GasCooker) {
-					if (item instanceof CookerContainer || item == null) {
-						player1.drop();
-						item = tile.takeOrDrop(item);
-						player1.take(item);
+			for (Tile tile:tileList) {
+				if (tile instanceof ContainerTile) {
+						
+					if ((tile).isInTile(p.whereToDrop()) && Time.get().timeSince(lastP1Action1) > 0.25 && p.getPickDrop()) {//TODO mettre les actions joueurs dans la classe player
+						lastP1Action1 = Time.get().getCurrentTime();
+						Item item = p.getInHand();
+						ContainerTile cTile = (ContainerTile) tile;
+						
+						if (item instanceof Ingredient && (cTile).getContent() instanceof IngredientContainer) {
+							if (((IngredientContainer)(cTile).getContent()).fill((Ingredient) item)) {
+								itemList.remove(item);
+								p.drop();
+							}
+							else {
+								p.drop();
+								item = (cTile).takeOrDrop(item);
+								p.take(item);
+							}
+						}
+						else if (item instanceof IngredientContainer && ((ContainerTile) tile).getContent() instanceof Ingredient) {
+							if (((IngredientContainer) item).fill(((Ingredient)(cTile).getContent()))) {
+								itemList.remove(cTile.takeOrDrop(null));
+							}
+							else {
+								p.drop();
+								item = (cTile).takeOrDrop(item);
+								p.take(item);
+							}
+						}
+						else {
+							p.drop();
+							item = (cTile).takeOrDrop(item);
+							p.take(item);
+						}
+						
 					}
 				}
-				else {
-					player1.drop();
-					item = tile.takeOrDrop(item);
-					player1.take(item);
-				}
-
-			}
-			
-			
-			if (tile.isInTile(player2.whereToDrop()) && Time.get().timeSince(lastP2Action1) > 0.25 && p2action1) {
-				lastP2Action1 = Time.get().getCurrentTime();
-				Item item = player2.getInHand();
-				if(tile instanceof GasCooker) {
-					if (item instanceof CookerContainer || item == null) {
-						player2.drop();
-						item = tile.takeOrDrop(item);
-						player2.take(item);
+				
+				if (plateToReturn > 0) {
+					if (tile instanceof PlateReturn) {
+						((PlateReturn) tile).addPlate();
+						plateToReturn--;
 					}
 				}
+				
+			}
+			
+			
+			for (Tile tile: tileList) {
+				if (p.getPickDrop() && tile.isInTile(p.whereToDrop())) flagDropP1 = false;
+				if (p.getInteract()) {
+					if (tile.isInTile(p.whereToDrop())) {
+						tile.use(p);
+					}
+				}
+				if (!p.getInteract()) {
+					p.unlockMove();
+				
+				}
+			}
+			
+			if (p.getPickDrop() && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && flagDropP1) {
+				p.resetLastPickDrop();
+				if (p.getInHand() == null) {
+					p.takeNearestItem(itemList); 
+				}
 				else {
-					player2.drop();
-					item = tile.takeOrDrop(item);
-					player2.take(item);
-				}
-
-			}
-			
-		}
-		
-		for (Tile tile: tileList) {
-			if (p1action1 && tile.isInTile(player1.whereToDrop())) flagDropP1 = false;
-			if (p1action2) {
-				if (tile.isInTile(player1.whereToDrop())) {
-					tile.use(player1);
+					p.drop();
 				}
 			}
-			if (!p1action2) {
-				player1.unlockMove();
-			
-			}
-			
-			if (p2action1 && tile.isInTile(player2.whereToDrop())) flagDropP2 = false;
-			if (p2action2) {
-				if (tile.isInTile(player1.whereToDrop())) {
-					tile.use(player1);
-				}
-			}
-			if (!p2action2) {
-				player2.unlockMove();
-			}
 		}
-		
-		
-		if (p1action1 && Time.get().timeSince(lastP1Action1) > 0.25 && flagDropP1) {
-			lastP1Action1 = Time.get().getCurrentTime();
-			if (player1.getInHand() == null) {
-				this.player1.takeNearestItem(itemList); 
-			}
-			else {
-				player1.drop();
-			}
-		}
-		
-		if (p2action1 && Time.get().timeSince(lastP2Action1) > 0.25 && flagDropP2) {
-			lastP2Action1 = Time.get().getCurrentTime();
-			if (player2.getInHand() == null) {
-				this.player2.takeNearestItem(itemList);
-			}
-			else {
-				player2.drop();
-			}
-		}
-		
-		
-		if (p1dash) player1.dash(Time.get().getDt());
-		else player1.releaseDash(Time.get().getDt());
-		
-		if (p2dash) player2.dash(Time.get().getDt());
-		else player2.releaseDash(Time.get().getDt());
-			
-	
-		
 	}
-	
 }

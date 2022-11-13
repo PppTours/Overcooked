@@ -1,38 +1,64 @@
 package fr.ovrckdlike.ppp.map;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 
 import fr.ovrckdlike.ppp.objects.*;
+import fr.ovrckdlike.ppp.scene.GameScene;
 import fr.ovrckdlike.ppp.tiles.*;
 
 
 
 
 public class Map {
-	public static Map map = new Map();
+	public static Map map;
 	
-	public Map() {
+	private List<Tile> tileList = new ArrayList<Tile>();
+	private List<Item> itemList = new ArrayList<Item>();
+	private List<Player> playerList = new ArrayList<Player>();
+	
+	public static Map get() {
+		if (map == null) map = new Map();
+		return map;
+	}
+	
+	private Map() {
 		
 	}
 	
-	public void clearMap(List<Tile> tileList, List<Item> itemList, List<ContainerTile> containerTileList,List<Player> playerList) {
-		tileList.clear();
-		itemList.clear();
-		containerTileList.clear();
-		playerList.clear();
+	public List<Tile> getTileList(){
+		return tileList;
 	}
 	
-	public static boolean buildMap(int numero, List<Tile> tileList, List<Item> itemList, List<ContainerTile> containerTileList) {
+	public List<Item> getItemList(){
+		return itemList;
+	}
+	
+	public List<Player> getPlayerList(){
+		return playerList;
+	}
+	
+	
+	public void clearMap() {
+		tileList.clear();
+		itemList.clear();
+		playerList.clear();
+	}
+	//TODO copier les list
+	
+	
+	public static boolean buildMap(int numero) {
+		Map.get();
 		File file = new File("res/maps/map"+numero+".csv");
 		try {
 			Scanner scan = new Scanner(file);
 			int tilePosX = 0;
 			int tilePosY = 0;
 			while (scan.hasNext()) {
-				String line = scan.next();
+				String line = scan.next();		//TODO rajouter les coo de spawn des players sur une ligne qui commence par §
 				String[] chunks = line.split(";", -1);
 				for (String chunk:chunks) {
 					int type = chunk.charAt(0) - '0';
@@ -52,20 +78,20 @@ public class Map {
 						
 						switch(type) {
 						case 1:
-							if (option == 'a') tile = new Table(tilePos, false, itemList);
-							else tile = new Table(tilePos, true, itemList);
+							if (option == 'a') tile = new Table(tilePos, false);
+							else tile = new Table(tilePos, true);
 							break;
 						case 3 :
 							if (option == 'a') {
 								float[] potPos = {0f, 0f};
 								Pot onGas = new Pot(potPos);
-								itemList.add(onGas);
+								map.itemList.add(onGas);
 								tile = new GasCooker(tilePos, onGas);
 							}
 							else {
 								float[] panPos = {0f, 0f};
-								Pot onGas = new Pot(panPos);
-								itemList.add(onGas);
+								Pot onGas = new Pot(panPos);	//TODO : modifier Pot en Pan 
+								map.itemList.add(onGas);
 								tile = new GasCooker(tilePos, onGas);
 							}
 							break;
@@ -83,11 +109,10 @@ public class Map {
 							tile = new ServiceTable(tilePos, direction);
 							break;
 						default :
-							tileList.clear();
+							map.tileList.clear();
 							return false;
 						}
-						if (tile != null) tileList.add(tile);
-						if (type == 1 || type == 2 || type == 3 || type == 9 || type == 6) containerTileList.add((ContainerTile) (tile));
+						if (tile != null) map.tileList.add(tile);
 						
 					}
 					else {
@@ -119,11 +144,10 @@ public class Map {
 							break;
 						default:
 							System.out.println(type);
-							tileList.clear();
+							map.tileList.clear();
 							return false;
 						}
-						if (tile != null) tileList.add(tile);
-						if (type == 1 || type == 2 || type == 3 || type == 9 || type == 6) containerTileList.add((ContainerTile) (tile));
+						if (tile != null) map.tileList.add(tile);
 					}
 					tilePosX++;
 				}

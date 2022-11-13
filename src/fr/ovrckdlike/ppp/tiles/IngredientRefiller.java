@@ -2,13 +2,14 @@ package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Player;
-import fr.ovrckdlike.ppp.scene.GameScene;
 
-public class IngredientRefiller extends ContainerTile {
+public class IngredientRefiller extends Tile implements ContainerTile {
 	private int ingredientType;
+	private Item content;
 	
 	public IngredientRefiller(float[] pos, int ingredientType) {
 		this.pos = pos;
@@ -25,7 +26,7 @@ public class IngredientRefiller extends ContainerTile {
 		if (content == null) {
 			if (player.getInHand() == null) {
 				Ingredient ing = new Ingredient(ingredientType);
-				GameScene.getItemList().add(ing);
+				Map.get().getItemList().add(ing);
 				player.setInHand(ing);
 			}
 		}
@@ -74,5 +75,19 @@ public class IngredientRefiller extends ContainerTile {
 			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.potato);
 			break;
 		}
+	}
+
+	@Override
+	public Item takeOrDrop(Item newContent) {
+		Item oldContent = this.content;
+		this.content = newContent;
+		if (this.content != null) {
+			this.content.setMode(1);
+			this.content.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
+		}
+		if (oldContent != null) {
+			oldContent.setMode(0);
+		}
+		return oldContent;
 	}
 }

@@ -1,15 +1,34 @@
 package fr.ovrckdlike.ppp.objects;
 
 import java.util.List;
+
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ENTER;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_F;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_KP_0;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_LEFT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_RIGHT_CONTROL;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_SPACE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
+
 import java.util.ArrayList;
 
 import fr.ovrckdlike.ppp.graphics.Color;
+import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.Tile;
 
 
 public class Player {
+	private byte id;
 	private float pos[] = new float[2];
 	private int size;
 	private int direction;
@@ -20,7 +39,19 @@ public class Player {
 	private float dashTime;
 	private boolean dashIsReady;
 	
-	public Player(float[] pos) {
+	private boolean up;
+	private boolean down;
+	private boolean left;
+	private boolean right;
+	private boolean dash;
+	private boolean pickDrop;
+	private boolean interact;
+	private long lastPickDrop = 0;
+	private long lastInteract = 0;
+	
+	
+	public Player(float[] pos, byte id) {
+		this.id = id;
 		this.pos = pos;
 		this.blocked = false;
 		this.size = 100;
@@ -29,6 +60,62 @@ public class Player {
 		this.lastMove = 0;
 		this.dashIsReady = true;
 		this.inHand = null;
+	}
+	
+	public void updateKeyPressed() {
+		switch (id) {
+		case 1 :
+			up = KeyListener.isKeyPressed(GLFW_KEY_W);
+			down = KeyListener.isKeyPressed(GLFW_KEY_S);
+			left = KeyListener.isKeyPressed(GLFW_KEY_A);
+			right = KeyListener.isKeyPressed(GLFW_KEY_D);
+			pickDrop = KeyListener.isKeyPressed(GLFW_KEY_TAB);
+			interact = KeyListener.isKeyPressed(GLFW_KEY_F);
+			dash = KeyListener.isKeyPressed(GLFW_KEY_SPACE);
+			break;
+		case 2 :
+			up = KeyListener.isKeyPressed(GLFW_KEY_UP);
+			down = KeyListener.isKeyPressed(GLFW_KEY_DOWN);
+			left = KeyListener.isKeyPressed(GLFW_KEY_LEFT);
+			right = KeyListener.isKeyPressed(GLFW_KEY_RIGHT);
+			pickDrop = KeyListener.isKeyPressed(GLFW_KEY_RIGHT_CONTROL);
+			interact = KeyListener.isKeyPressed(GLFW_KEY_KP_0);
+			dash = KeyListener.isKeyPressed(GLFW_KEY_ENTER);
+			break;
+		default :
+			return;
+		}
+		
+		if (up || down || left || right) {
+			changeAngle(up, down, left, right);
+			movePlayer(Time.get().getDt());
+			if (dash) dash(Time.get().getDt());
+			else releaseDash(Time.get().getDt());
+		}
+	}
+	
+	public void resetLastPickDrop() {
+		lastPickDrop = Time.get().getCurrentTime();
+	}
+	
+	public void resetLastInteract() {
+		lastInteract = Time.get().getCurrentTime();
+	}
+	
+	public long getLastInteract() {
+		return lastInteract;
+	}
+	
+	public long getLastPickDrop() {
+		return lastPickDrop;
+	}
+	
+	public boolean getPickDrop() {
+		return pickDrop;
+	}
+	
+	public boolean getInteract() {
+		return interact;
 	}
 	
 	public int getSize() {
@@ -316,10 +403,10 @@ public class Player {
 	
 	public void changeAngle(boolean up, boolean down, boolean left, boolean right) {
 		if (!blocked) {
-			if ( up && right ) direction = 1;
-			else if ( up && left ) direction = 7;
-			else if ( down && left ) direction = 5;
-			else if ( down && right ) direction = 3;
+			if (up && right) direction = 1;
+			else if (up && left) direction = 7;
+			else if (down && left) direction = 5;
+			else if (down && right) direction = 3;
 			else if (up) direction = 0;
 			else if (down) direction = 4;
 			else if (left) direction = 6;

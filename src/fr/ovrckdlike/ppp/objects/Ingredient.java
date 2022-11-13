@@ -2,6 +2,7 @@ package fr.ovrckdlike.ppp.objects;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.map.Map;
 
 public class Ingredient extends Item {
 	private int type;
@@ -22,8 +23,46 @@ public class Ingredient extends Item {
 		
 	}
 	
+	public static Texture getTexture(int ingType) {
+		switch (ingType) {
+		case 0:
+			return Texture.tomato;
+		case 1:
+			return Texture.salade;
+		case 2:
+			return Texture.onion;
+		case 3:
+			return Texture.mushroom;
+		case 4:
+			return Texture.meat;
+		case 5:
+			return Texture.cheese;
+		case 6:
+			return Texture.pasta;
+		case 7:
+			return Texture.sausage;
+		case 8:
+			return Texture.pizzaDough;
+		case 9:
+			return Texture.burgerBread;
+		case 10:
+			return Texture.chicken;
+		case 11:
+			return Texture.rice;
+		case 12:
+			return Texture.potato;
+		default:
+			return null;
+		}
+	}
+	
 	public boolean getPrepared() {
 		return prepared;
+	}
+	
+	@Override
+	public void flush() {
+		Map.get().getItemList().remove(this);
 	}
 	
 	public void prepare() {
@@ -89,6 +128,4 @@ public class Ingredient extends Item {
 
 		}
 	}
-
-	public void flush() {}
 }

@@ -3,9 +3,9 @@ package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
-import fr.ovrckdlike.ppp.scene.GameScene;
 
 public class Dryer extends Tile{
 	private int nbPlate;
@@ -31,7 +31,7 @@ public class Dryer extends Tile{
 			if (player.getInHand() == null) {
 				float[] tempPos = {-50f, -50f};
 				Plate plate = new Plate(tempPos, false);
-				GameScene.getItemList().add(plate);
+				Map.get().getItemList().add(plate);
 				player.setInHand(plate);
 				nbPlate--;
 			}

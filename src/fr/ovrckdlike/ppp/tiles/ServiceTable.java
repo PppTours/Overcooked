@@ -2,12 +2,16 @@ package fr.ovrckdlike.ppp.tiles;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
+import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.objects.Recipe;
-import fr.ovrckdlike.ppp.graphics.Renderer;
+import fr.ovrckdlike.ppp.scene.GameScene;
 
 
 public class ServiceTable extends Tile {
@@ -20,7 +24,18 @@ public class ServiceTable extends Tile {
 		this.direction = dir;
 	}
 	
-	public void use(Player player) {}
+	public void use(Player player) {
+		
+		Item content = player.getInHand();
+		if (content instanceof Plate) {
+			boolean[] ingList = ((Plate) content).getContent();
+			Map.get().getItemList().remove(content);
+			player.drop();
+			GameScene.addPlateToReturn();
+			RecipeScheduler.get().checkAContent(ingList);
+		}
+		else return;
+	}
 	
 	public int serve(Plate plate, List<Item> itemList, List<Recipe> recipeList, PlateReturn pr) {
 		pr.addPlate();
