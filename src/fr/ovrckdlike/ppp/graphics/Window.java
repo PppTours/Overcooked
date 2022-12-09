@@ -74,8 +74,6 @@ public class Window {
 	}
 	
 	public void init() {
-		mainMenu = new MainMenu();
-		gameScene = GameScene.get();
 		
 		
 		// création du retour d'erreur
@@ -125,58 +123,35 @@ public class Window {
 			Renderer.simpleQuadShader = Shader.compileAndCreateShader("/shaders/simple_quad.vert", "/shaders/simple_quad.frag");
 			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
 			
-			Texture.CatSkin = Texture.loadTexture("/textures/player_cat_skin.png", true);	//affecter la texture a la variable ici
-			Texture.table = Texture.loadTexture("/textures/table.png", true);
-			Texture.cuttingTable = Texture.loadTexture("/textures/cutting_table.png", true);
-			Texture.salade = Texture.loadTexture("/textures/salade.png", true);
-			Texture.gasCooker = Texture.loadTexture("/textures/gas_cooker.png", true);
-			Texture.sink = Texture.loadTexture("/textures/sink.png", true);
-			Texture.dryer = Texture.loadTexture("/textures/dryer.png", true);
-			Texture.bin = Texture.loadTexture("/textures/bin.png", true);
-			Texture.ingredientRefiller = Texture.loadTexture("/textures/ingredient_refiller.png", true);
-			Texture.serviceTable = Texture.loadTexture("/textures/service_table.png", true);
-			Texture.plateReturn = Texture.loadTexture("/textures/plate_return.png", true);
-			Texture.pot = Texture.loadTexture("/textures/pot.png", true);
-			Texture.potEmpty = Texture.loadTexture("/textures/pot_empty.png", true);
-			Texture.potMushroom = Texture.loadTexture("/textures/pot_mushroom.png", true);
-			Texture.potTomato = Texture.loadTexture("/textures/pot_tomato.png", true);
-			Texture.potOnion = Texture.loadTexture("/textures/pot_onion.png", true);
-			Texture.onion = Texture.loadTexture("/textures/onion.png", true);
-			Texture.tomato = Texture.loadTexture("/textures/tomato.png", true);
-			Texture.cheese = Texture.loadTexture("/textures/cheese.png", true);
-			Texture.meat = Texture.loadTexture("/textures/meat.png", true);
-			Texture.mushroom = Texture.loadTexture("/textures/mushroom.png", true);
-			Texture.pasta = Texture.loadTexture("/textures/noodles.png", true);
-			Texture.sausage = Texture.loadTexture("/textures/sausage.png", true);
-			Texture.pizzaDough = Texture.loadTexture("/textures/pizza_dough.png", true);
-			Texture.burgerBread = Texture.loadTexture("/textures/bread.png", true);
-			Texture.rice = Texture.loadTexture("/textures/rice.png", true);
-			Texture.chicken = Texture.loadTexture("/textures/chicken.png", true);
-			Texture.potato = Texture.loadTexture("/textures/potato.png", true);
+			Texture.CatSkin = Texture.loadTexture("/textures/skins/player_cat_skin.png", true);
+			Texture.table = Texture.loadTexture("/textures/tiles/table.png", true);
+			Texture.cuttingTable = Texture.loadTexture("/textures/tiles/cutting_table.png", true);
+			Texture.gasCooker = Texture.loadTexture("/textures/tiles/gas_cooker.png", true);
+			Texture.sink = Texture.loadTexture("/textures/tiles/sink.png", true);
+			Texture.dryer = Texture.loadTexture("/textures/tiles/dryer.png", true);
+			Texture.bin = Texture.loadTexture("/textures/tiles/bin.png", true);
+			Texture.ingredientRefiller = Texture.loadTexture("/textures/tiles/ingredient_refiller.png", true);
+			Texture.serviceTable = Texture.loadTexture("/textures/tiles/service_table.png", true);
+			Texture.plateReturn = Texture.loadTexture("/textures/tiles/plate_return.png", true);
+			Texture.pot = Texture.loadTexture("/textures/general/pot.png", true);
+			Texture.potEmpty = Texture.loadTexture("/textures/general/pot_empty.png", true);
 			Texture.font = Texture.loadTexture("/font/font.png", false);
-			Texture.wall = Texture.loadTexture("/textures/wall.png", true);
-			Texture.plate = Texture.loadTexture("/textures/plate.png", true);
-			Texture.recipeBackground =Texture.loadTexture("/textures/recipe_background.png", true);
-			Texture.circle = Texture.loadTexture("/textures/circle.png", false);
-			Texture.slicedTomato = Texture.loadTexture("/textures/sliced_tomato.png", true);
-			Texture.slicedSalade = Texture.loadTexture("/textures/sliced_salade.png", true);
-			Texture.slicedOnion = Texture.loadTexture("/textures/sliced_onion.png", true);
-			Texture.slicedMushroom = Texture.loadTexture("/textures/sliced_mushroom.png", true);
-			Texture.slicedCheese = Texture.loadTexture("/textures/grated_cheese.png", true);
-			Texture.slicedMeat = Texture.loadTexture("/textures/sliced_meat.png", true);
-			Texture.slicedSausage = Texture.loadTexture("/textures/sliced_sausage.png", true);
-			Texture.slicedBread = Texture.loadTexture("/textures/cut_bread.png", true);
-			Texture.slicedChicken = Texture.loadTexture("/textures/cut_chicken.png", true);
-			Texture.slicedPotato = Texture.loadTexture("/textures/cut_potatoes.png", true);
-			Texture.furnaceBack = Texture.loadTexture("/textures/furnace_background.png", true);
-			Texture.furnaceFront = Texture.loadTexture("/textures/furnace_foreground.png", true);
-			Texture.dirtyPlate = Texture.loadTexture("/textures/plate_dirty.png", true);
-			
-			
+			Texture.wall = Texture.loadTexture("/textures/tiles/wall.png", true);
+			Texture.plate = Texture.loadTexture("/textures/general/plate.png", true);
+			Texture.recipeBackground =Texture.loadTexture("/textures/gui/recipe_background.png", true);
+			Texture.circle = Texture.loadTexture("/textures/gui/circle.png", false); //false ?
+			Texture.furnaceBack = Texture.loadTexture("/textures/tiles/furnace_background.png", true);
+			Texture.furnaceFront = Texture.loadTexture("/textures/tiles/furnace_foreground.png", true);
+			Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
+		
 			
 		} catch (IOException e) {
+			System.out.println("unable to load texture");
 			e.printStackTrace();
 		}
+		
+		mainMenu = new MainMenu();
+		gameScene = GameScene.get();
 
 	}
 	

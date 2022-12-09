@@ -50,7 +50,7 @@ public class CuttingTable extends Tile implements ContainerTile{	// reinitialise
 	
 	public void render() {
 		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.cuttingTable);
-		timeBar.render(currentCuttingTime, timeBarPos);
+		timeBar.render(currentCuttingTime);
 	}
 	
 	public void use(Player player) {

@@ -4,14 +4,18 @@ package fr.ovrckdlike.ppp.scene;
 import java.util.List;
 
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
+import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.IngredientContainer;
 import fr.ovrckdlike.ppp.objects.Item;
+import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.ContainerTile;
+import fr.ovrckdlike.ppp.tiles.Dryer;
 import fr.ovrckdlike.ppp.tiles.PlateReturn;
+import fr.ovrckdlike.ppp.tiles.Sink;
 import fr.ovrckdlike.ppp.tiles.Tile;
 
 public class GameScene extends Scene {
@@ -28,14 +32,6 @@ public class GameScene extends Scene {
 	private int mapNum;
 	private Map map;
 	
-	private Player player1;
-	private Player player2;
-	
-	private long lastP1Action1;
-	private long lastP2Action1;
-	private long lastP1Action2;
-	private long lastP2Action2;
-	
 		
 	public static GameScene get() {
 		if (game == null) {
@@ -44,11 +40,8 @@ public class GameScene extends Scene {
 		return game;
 	}
 	
-	public static Player[] getPlayers() {
-		Player[] pList = new Player[2];
-		pList[0] = game.player1;
-		pList[1] = game.player2;
-		return pList;
+	public static List<Player> getPlayers() {
+		return game.playerList;
 	}
 	
 	public static boolean isRunning() {
@@ -66,11 +59,14 @@ public class GameScene extends Scene {
 	
 	
 	private GameScene() {
+		
 		running = false;
 		this.mapNum = 0;
 		this.map = Map.get();
-		if (!Map.buildMap(mapNum))		//TODO : remettre itemList
+		if (!Map.buildMap(mapNum))
 			System.out.println("Error while building the map");
+		
+		Texture.loadForMapType(map.getType());
 		
 		itemList = map.getItemList();
 		tileList = map.getTileList();
@@ -80,39 +76,20 @@ public class GameScene extends Scene {
 		recSch.setRecSet(0);
 		
 		plateToReturn = 0;
-		
-		
-		float posp1[] = {200, 1080/2};
-		float posp2[] = {1720, 1080/2};
-
-		
-		this.lastP1Action1 = 0;
-		this.lastP2Action1 = 0;
-		this.lastP1Action2 = 0;
-		this.lastP2Action2 = 0;
-
-		
-		this.player1 = new Player(posp1, (byte) 1);
-		this.player2 = new Player(posp2, (byte) 2);
-		
-		playerList.add(player1);
-		playerList.add(player2);
-		
 	}
 	
 	public void render() {
 		
-		player1.render();
-		player2.render();
 		
-		
+		for (Player p:playerList) {
+			p.render();
+		}
 		for (Tile tile : tileList) {
 			tile.render();
 		}
 		for (Item item : itemList) {
 			item.render();
 		}
-		
 		recSch.render();
 	}
 	
@@ -123,11 +100,9 @@ public class GameScene extends Scene {
 		
 		for (Item item : itemList) {
 			item.collide(playerList, itemList, tileList);
-
 		}
 		for (Player player:playerList) {
 			player.collide(tileList, playerList);
-			
 		}
 		
 		recSch.run();
@@ -138,8 +113,8 @@ public class GameScene extends Scene {
 			for (Tile tile:tileList) {
 				if (tile instanceof ContainerTile) {
 						
-					if ((tile).isInTile(p.whereToDrop()) && Time.get().timeSince(lastP1Action1) > 0.25 && p.getPickDrop()) {//TODO mettre les actions joueurs dans la classe player
-						lastP1Action1 = Time.get().getCurrentTime();
+					if ((tile).isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {//TODO mettre les actions joueurs dans la classe player
+						p.resetLastPickDrop();
 						Item item = p.getInHand();
 						ContainerTile cTile = (ContainerTile) tile;
 						
@@ -173,13 +148,32 @@ public class GameScene extends Scene {
 					}
 				}
 				
+				if (tile instanceof Dryer && p.getInHand() == null) {
+					if (tile.isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {
+						((Dryer) tile).takePlate(p);
+					}
+				}
+				
+				if (tile instanceof Sink && p.getInHand() instanceof Plate) {
+					if (tile.isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {
+						if (((Plate)p.getInHand()).getDirty()) {
+							Sink sink = (Sink) tile;
+							sink.addPlate();
+							itemList.remove(p.getInHand());
+							p.drop();
+						}
+					}
+					if (tile.isInTile(p.whereToDrop()) && p.getInteract()) {
+						tile.use(p);
+					}
+				}
+				
 				if (plateToReturn > 0) {
 					if (tile instanceof PlateReturn) {
 						((PlateReturn) tile).addPlate();
 						plateToReturn--;
 					}
-				}
-				
+				}	
 			}
 			
 			
@@ -199,7 +193,7 @@ public class GameScene extends Scene {
 			if (p.getPickDrop() && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && flagDropP1) {
 				p.resetLastPickDrop();
 				if (p.getInHand() == null) {
-					p.takeNearestItem(itemList); 
+					p.takeNearestItem(itemList);
 				}
 				else {
 					p.drop();

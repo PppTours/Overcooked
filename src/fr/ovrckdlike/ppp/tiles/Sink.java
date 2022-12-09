@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.tiles;
 import java.util.ArrayList;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
+import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
@@ -15,9 +16,11 @@ public class Sink extends Tile {
 	private Dryer attachedDryer;
 	private ArrayList<Plate> plates;
 	private float currentWashTime;
+	private TimeBar tb;
 	
 	
 	public Sink(float[] pos, int direction) {
+		
 		this.type = 4;
 		this.washTime = 3;
 		this.pos = pos;
@@ -25,10 +28,21 @@ public class Sink extends Tile {
 		this.attachedDryer = null;
 		this.direction = direction;
 		this.currentWashTime = 0;
-		this.plates = new ArrayList<Plate>();
+		float[] timeBarPos = new float[2];
+		timeBarPos[0] = this.pos[0]+35; timeBarPos[1] = this.pos[1]+108;
+		this.tb = new TimeBar(timeBarPos, washTime);
 	}
+	
+	public void addPlate() {
+		nbPlate++;
+	}
+	
 	public void setAttachedDryer(Dryer dryer) {
 		attachedDryer = dryer;
+	}
+	
+	public int getDirection() {
+		return direction;
 	}
 	
 	public void drop(Plate plate) {
@@ -47,18 +61,17 @@ public class Sink extends Tile {
 			
 			if (currentWashTime >= washTime) {
 				nbPlate--;
-				plates.get(nbPlate).wash(); 	//transférer l'assiette au séchoir
-				attachedDryer.add(plates.remove(nbPlate));
+				attachedDryer.addPlate();
 				currentWashTime = 0;
 				if (nbPlate == 0) player.unlockMove();
 			}
 		}
-		
 	}
 	
 	
 	public void render() {
 		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, (float)(Math.PI*direction/2), Texture.sink);
+		tb.render(currentWashTime);
 	}
 
 }

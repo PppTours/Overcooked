@@ -309,6 +309,11 @@ public class Player {
 		return pos;
 	}
 	
+	public void setPos(float x, float y) {
+		pos[0] = x;
+		pos[1] = y;
+	}
+	
 	public int getDirection() {
 		return this.direction;
 	}

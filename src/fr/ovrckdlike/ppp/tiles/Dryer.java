@@ -19,9 +19,10 @@ public class Dryer extends Tile{
 	}
 	
 	
-	public void add(Plate plate) {
+	public void addPlate() {
 		nbPlate++;
 	}
+	
 	
 	public void use(Player player) {}
 	
@@ -30,7 +31,7 @@ public class Dryer extends Tile{
 		if (nbPlate > 0) {
 			if (player.getInHand() == null) {
 				float[] tempPos = {-50f, -50f};
-				Plate plate = new Plate(tempPos, false);
+				Plate plate = new Plate(tempPos, false, 0);
 				Map.get().getItemList().add(plate);
 				player.setInHand(plate);
 				nbPlate--;

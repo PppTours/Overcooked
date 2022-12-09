@@ -28,7 +28,6 @@ public class PlateReturn extends Tile implements ContainerTile{
 	
 	@Override
 	public Item takeOrDrop(Item content) {
-		System.out.println(plateNb);
 		if (content != null) return content;
 		if (plateNb > 0) {
 			plateNb--;

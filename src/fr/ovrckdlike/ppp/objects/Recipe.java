@@ -63,7 +63,7 @@ public class Recipe {
 			}
 		}
 		catch(FileNotFoundException e){
-			System.out.println("Recipe file not found.");
+			System.out.println("Recipe file res/recipes/set"+recipeSet+".csv not found.");
 		}
 	}
 	
@@ -118,8 +118,8 @@ public class Recipe {
 	public void render() {
 		float alpha = .8f;
 		float[] middlePos = {pos[0] + size[0]/2, pos[1] + size[1]/2};
-		float p1Dist = GameScene.getPlayers()[0].distanceTo(middlePos);
-		float p2Dist = GameScene.getPlayers()[1].distanceTo(middlePos);
+		float p1Dist = GameScene.getPlayers().get(0).distanceTo(middlePos);
+		float p2Dist = GameScene.getPlayers().get(1).distanceTo(middlePos);
 		float dist = Math.min(p1Dist, p2Dist);
 		if (dist < size[0]+50) {
 			alpha = .6f * dist/(size[0]+50)+ .2f;

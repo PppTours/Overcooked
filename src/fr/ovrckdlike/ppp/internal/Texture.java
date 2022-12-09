@@ -1,6 +1,9 @@
 package fr.ovrckdlike.ppp.internal;
 
 import javax.imageio.ImageIO;
+
+import fr.ovrckdlike.ppp.map.MapType;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +17,7 @@ public class Texture {
 	
 	public static Texture CatSkin; 		//déclarer les textures ici
 	public static Texture table;
+	public static Texture flattenPizzaDough;
 	public static Texture cuttingTable;
 	public static Texture salade;
 	public static Texture gasCooker;
@@ -151,5 +155,71 @@ public class Texture {
 
 	public void dispose() {
 		glDeleteTextures(id);
+	}
+
+	public static void loadForMapType(MapType type) {
+		try {
+			Texture.salade = Texture.loadTexture("/textures/general/salade.png", true);
+			Texture.onion = Texture.loadTexture("/textures/general/onion.png", true);
+			Texture.tomato = Texture.loadTexture("/textures/general/tomato.png", true);
+			Texture.cheese = Texture.loadTexture("/textures/general/cheese.png", true);
+			Texture.meat = Texture.loadTexture("/textures/general/meat.png", true);
+			Texture.mushroom = Texture.loadTexture("/textures/general/mushroom.png", true);
+			Texture.pasta = Texture.loadTexture("/textures/general/noodles.png", true);
+			Texture.sausage = Texture.loadTexture("/textures/general/sausage.png", true);
+			Texture.pizzaDough = Texture.loadTexture("/textures/general/pizza_dough.png", true);	
+			Texture.burgerBread = Texture.loadTexture("/textures/general/bread.png", true);
+			Texture.rice = Texture.loadTexture("/textures/general/rice.png", true);
+			Texture.chicken = Texture.loadTexture("/textures/general/chicken.png", true);
+			Texture.potato = Texture.loadTexture("/textures/general/potato.png", true);
+			
+			switch (type) {
+			case DEFAULT :
+				break;
+			case BURGER :
+				Texture.slicedTomato = Texture.loadTexture("/textures/burger/sliced_tomato.png", true);
+				Texture.slicedSalade = Texture.loadTexture("/textures/burger/sliced_salade.png", true);
+				Texture.slicedCheese = Texture.loadTexture("/textures/burger/grated_cheese.png", true);
+				Texture.slicedBread = Texture.loadTexture("/textures/burger/cut_bread.png", true);
+				Texture.slicedMeat = Texture.loadTexture("/textures/burger/sliced_meat.png", true);
+				break;
+			case NOODLES :
+				Texture.slicedTomato = Texture.loadTexture("/textures/noodles/tomato_layer.png", true);
+				Texture.slicedCheese = Texture.loadTexture("/textures/noodles/cheese_layer.png", true);
+				Texture.slicedMeat = Texture.loadTexture("/textures/noodles/bolognese_layer.png", true);
+				break;
+			case SOUP :
+				Texture.potMushroom = Texture.loadTexture("/textures/soups/pot_mushroom.png", true);
+				Texture.potTomato = Texture.loadTexture("/textures/soups/pot_tomato.png", true);
+				Texture.potOnion = Texture.loadTexture("/textures/soups/pot_onion.png", true);
+				Texture.slicedTomato = Texture.loadTexture("/textures/soups/sliced_tomato.png", true);
+				Texture.slicedOnion = Texture.loadTexture("/textures/soups/sliced_onion.png", true);
+				Texture.slicedMushroom = Texture.loadTexture("/textures/soups/sliced_mushroom.png", true);
+				break;
+			case PIZZA :
+				Texture.slicedTomato = Texture.loadTexture("/textures/pizza/sliced_tomato.png", true);
+				Texture.flattenPizzaDough = Texture.loadTexture("Texture/pizza/flatten_pizza_dough.png", true);
+				Texture.slicedSausage = Texture.loadTexture("/textures/pizza/sliced_sausage.png", true);
+				Texture.slicedCheese = Texture.loadTexture("/textures/pizza/grated_cheese.png", true);
+				break;
+			case SALAD :
+				Texture.slicedTomato = Texture.loadTexture("/textures/salad/sliced_tomato.png", true);
+				Texture.slicedSalade = Texture.loadTexture("/textures/salad/sliced_salade.png", true);
+				Texture.slicedOnion = Texture.loadTexture("/textures/salad/sliced_onion.png", true);
+				break;
+			case CHICKEN :
+				Texture.slicedChicken = Texture.loadTexture("/textures/chickens/cut_chicken.png", true);
+				Texture.slicedPotato = Texture.loadTexture("/textures/chickens/cut_potatoes.png", true);
+				Texture.slicedMushroom = Texture.loadTexture("/textures/chickens/sliced_mushroom.png", true);
+				break;
+			}
+		}
+		catch (IOException e) {
+			System.out.println("unable to laod textures");
+			e.printStackTrace();
+			System.exit(0);
+		}
+		
+		
 	}
 }
