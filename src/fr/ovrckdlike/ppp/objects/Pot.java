@@ -12,7 +12,6 @@ import fr.ovrckdlike.ppp.tiles.CookerContainer;
 public class Pot extends CookerContainer implements IngredientContainer{
 	private int[] content = new int[3];
 	private int nbIng;
-	private TimeBar timeBar;
 	private List<IngredientVisualizer> ivList = new ArrayList();
 	
 	
@@ -27,7 +26,7 @@ public class Pot extends CookerContainer implements IngredientContainer{
 			ivList.add(new IngredientVisualizer(0, posIV));
 		}
 		float[] timeBarPos = {pos[0]-25, pos[1]+25*mode};
-		timeBar = new TimeBar(timeBarPos, cookingTime);
+		timebar = new TimeBar(timeBarPos, cookingTime);
 		nbIng = 0;
 	}
 	
@@ -37,7 +36,14 @@ public class Pot extends CookerContainer implements IngredientContainer{
 			ivList.get(i).setVisible(false);
 		}
 		nbIng = 0;
+		currentCookingTime = 0f;
 		
+	}
+	
+	@Override
+	public boolean isFilled() {
+		if (nbIng > 0) return true;
+		else return false;
 	}
 	
 	@Override
@@ -47,6 +53,7 @@ public class Pot extends CookerContainer implements IngredientContainer{
 		if (ing.getType() == 0 || ing.getType() == 2 || ing.getType() == 3) {
 			content[nbIng] = ing.getType();
 			nbIng++;
+			currentCookingTime *= (float) (nbIng-1)/(float) nbIng; //TODO (verifier)
 			return true;
 		}
 		else return false;
@@ -112,7 +119,7 @@ public class Pot extends CookerContainer implements IngredientContainer{
 			iv.render();
 		}
 		
-		float[] timeBarPos = {pos[0]-25, pos[1]+25*mode};
-		timeBar.render(currentCookingTime, timeBarPos);
+		float[] timeBarPos = {pos[0]-25, pos[1]+30};
+		timebar.render(currentCookingTime, timeBarPos);
 	}
 }

@@ -7,8 +7,20 @@ import fr.ovrckdlike.ppp.map.Map;
 public class Ingredient extends Item {
 	private int type;
 	private boolean prepared;
+	private boolean cooked;
+	private boolean cookable;
 	
+	public boolean isCooked() {
+		return cooked;
+	}
 	
+	public boolean isCookable() {
+		return cookable;
+	}
+	
+	public void cook() {
+		cooked = true;
+	}
 	
 	public int getType() {
 		return this.type;
@@ -18,9 +30,14 @@ public class Ingredient extends Item {
 		this.type = type;
 		if (this.type == 6 || this.type == 11) prepared = true;
 		else prepared = false;
-		this.direction = 0;
-		this.mode = 0;
+		direction = 0;
+		mode = 0;
+		cooked = false;
 		
+		if (type == 0 || type == 4 || type == 6 || type == 10 || type == 11 || type == 12) {
+			cookable = true;
+		}
+		else cookable = false;
 	}
 	
 	public static Texture getTexture(int ingType) {

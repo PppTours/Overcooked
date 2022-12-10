@@ -67,7 +67,6 @@ public class Map {
 			ArrayList<Sink> sinkList = new ArrayList();
 			while (scan.hasNext()) {
 				String line = scan.next();
-				System.out.println(line);
 				if(line.charAt(0) != '§') {
 					String[] chunks = line.split(";", -1);
 					for (String chunk:chunks) {
@@ -170,7 +169,6 @@ public class Map {
 					String[] chunks = line.split(";", -1);
 					float[] playerPosRaw = new float[4];
 					for (int i = 0; i < 4; i++) {
-						System.out.println(chunks.length);
 						playerPosRaw[i] = Float.parseFloat(chunks[i+1]);
 					}
 					

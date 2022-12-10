@@ -27,8 +27,8 @@ public class Recipe {
 		this.commandNumero = commandNumero;
 		
 		timer = 60f;
-		size[0] = 180;
-		size[1] = 120;
+		size[0] = 240;
+		size[1] = 140;
 		pos[0] = (size[0]-20) * commandNumero;
 		pos[1] = 0;
 		File recipeFile = new File("res/recipes/set"+recipeSet+".csv");
@@ -128,49 +128,50 @@ public class Recipe {
 		
 		byte ingIdx = 0;
 		for (ingIdx = 0; ingIdx < ingredientList.length; ingIdx++) {
-			int ingSize = 30;
-			float xIng = middlePos[0] - ingSize*ingredientList.length/2f + ingSize*ingIdx;
+			int ingSize = 38;
+			float xIng = middlePos[0] - ingSize*ingredientList.length/2f + ingSize*ingIdx + 5;
+			float yIng = pos[1]+100;
 			
-			Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.circle);
+			Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.circle);
 			switch (ingredientList[ingIdx]) {
 			case 0 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.tomato);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.tomato);
 				break;
 			case 1 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.salade);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.salade);
 				break;
 			case 2 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.onion);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.onion);
 				break;
 			case 3 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.mushroom);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.mushroom);
 				break;
 			case 4 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.meat);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.meat);
 				break;
 			case 5 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.cheese);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.cheese);
 				break;
 			case 6 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.pasta);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.pasta);
 				break;
 			case 7 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.sausage);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.sausage);
 				break;
 			case 8 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.pizzaDough);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.pizzaDough);
 				break;
 			case 9 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.burgerBread);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.burgerBread);
 				break;
 			case 10 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.chicken);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.chicken);
 				break;
 			case 11 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.rice);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.rice);
 				break;
 			case 12 :
-				Renderer.drawTextureTransparent(xIng, pos[1]+80, 28, 28, 0, alpha, Texture.potato);
+				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.potato);
 				break;
 			default :
 				break;

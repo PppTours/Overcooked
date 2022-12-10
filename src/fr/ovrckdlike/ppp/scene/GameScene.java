@@ -1,9 +1,12 @@
 package fr.ovrckdlike.ppp.scene;
 
 
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+
 import java.util.List;
 
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
+import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Ingredient;
@@ -14,6 +17,7 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.ContainerTile;
 import fr.ovrckdlike.ppp.tiles.Dryer;
+import fr.ovrckdlike.ppp.tiles.GasCooker;
 import fr.ovrckdlike.ppp.tiles.PlateReturn;
 import fr.ovrckdlike.ppp.tiles.Sink;
 import fr.ovrckdlike.ppp.tiles.Tile;
@@ -38,6 +42,10 @@ public class GameScene extends Scene {
 			game = new GameScene();
 		}
 		return game;
+	}
+	
+	public static void deleteItem(Item i) {
+		game.itemList.remove(i);
 	}
 	
 	public static List<Player> getPlayers() {
@@ -105,7 +113,17 @@ public class GameScene extends Scene {
 			player.collide(tileList, playerList);
 		}
 		
+		if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
+			System.exit(0);
+		}
+		
 		recSch.run();
+		
+		for(Tile tile:tileList) {
+			if (tile instanceof GasCooker) {
+				((GasCooker) tile).cook();
+			}
+		}
 		
 		for (Player p:playerList) {
 			p.updateKeyPressed();
@@ -113,7 +131,7 @@ public class GameScene extends Scene {
 			for (Tile tile:tileList) {
 				if (tile instanceof ContainerTile) {
 						
-					if ((tile).isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {//TODO mettre les actions joueurs dans la classe player
+					if ((tile).isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {
 						p.resetLastPickDrop();
 						Item item = p.getInHand();
 						ContainerTile cTile = (ContainerTile) tile;

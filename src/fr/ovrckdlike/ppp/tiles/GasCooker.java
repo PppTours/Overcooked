@@ -24,19 +24,20 @@ public class GasCooker extends Tile implements ContainerTile{
 		this.content.setMode(1);
 	}
 	
-	
 	public void cook() {
-		long dt = Time.get().getDt();
-		((CookerContainer) content).cook(dt); //TODO changer, ici use ne dois pas faire ca
+		if (content == null) return;
+		if (content.isFilled()) {
+			long dt = Time.get().getDt();
+			content.cook(dt);
+		}
+		
 	}
+	
 	public void use(Player player) {}
-	
-	
-	
+
 	public void render() {
 		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, 0, Texture.gasCooker);
 	}
-
 
 	@Override
 	public Item takeOrDrop(Item newContent) {

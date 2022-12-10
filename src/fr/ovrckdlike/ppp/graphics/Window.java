@@ -57,6 +57,7 @@ public class Window {
 	
 	public void run() {
 		System.out.println("hello LWJGL" + Version.getVersion() + " !");
+
 		
 		init();
 		loop();
@@ -89,6 +90,7 @@ public class Window {
 		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+		glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -143,6 +145,7 @@ public class Window {
 			Texture.furnaceBack = Texture.loadTexture("/textures/tiles/furnace_background.png", true);
 			Texture.furnaceFront = Texture.loadTexture("/textures/tiles/furnace_foreground.png", true);
 			Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
+			Texture.pan = Texture.loadTexture("/textures/general/pan.png", true);
 		
 			
 		} catch (IOException e) {
