@@ -17,9 +17,9 @@ import fr.ovrckdlike.ppp.tiles.*;
 public class Map {
 	public static Map map;
 	
-	private List<Tile> tileList = new ArrayList<Tile>();
-	private List<Item> itemList = new ArrayList<Item>();
-	private List<Player> playerList = new ArrayList<Player>();
+	private List<Tile> tileList;
+	private List<Item> itemList;
+	private List<Player> playerList;
 	private MapType type;
 	
 	public static Map get() {
@@ -28,7 +28,9 @@ public class Map {
 	}
 	
 	private Map() {
-		
+		tileList = new ArrayList<Tile>();
+		itemList = new ArrayList<Item>();
+		playerList = new ArrayList<Player>();
 	}
 	
 	public MapType getType() {
@@ -53,9 +55,7 @@ public class Map {
 		itemList.clear();
 		playerList.clear();
 	}
-	//TODO copier les list
-	
-	
+
 	public static boolean buildMap(int numero) {
 		Map.get();
 		File file = new File("res/maps/map"+numero+".csv");

@@ -13,7 +13,11 @@ public class RecipeScheduler {
 	private byte recipeSet;
 	
 	private RecipeScheduler() {
-		this.recipeList = new ArrayList<Recipe>();
+		recipeList = new ArrayList<Recipe>();
+	}
+	
+	public void reset() {
+		recipeList.clear();
 	}
 	
 	public static RecipeScheduler get() {

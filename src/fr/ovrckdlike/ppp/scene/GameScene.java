@@ -31,8 +31,7 @@ public class GameScene extends Scene {
 	private RecipeScheduler recSch;
 	
 	private byte plateToReturn;
-	
-	
+
 	private int mapNum;
 	private Map map;
 	
@@ -44,6 +43,25 @@ public class GameScene extends Scene {
 		return game;
 	}
 	
+	public void reset() {
+		map.clearMap();
+		recSch.reset();
+		itemList = map.getItemList();
+		tileList = map.getTileList();
+		playerList = map.getPlayerList();
+		
+		this.mapNum = 0;
+		this.map = Map.get();
+		if (!Map.buildMap(mapNum))
+			System.out.println("Error while building the map");
+		
+		Texture.loadForMapType(map.getType());
+		
+		
+		recSch = RecipeScheduler.get(); //TODO verifier le reset
+		
+	}
+	
 	public static void deleteItem(Item i) {
 		game.itemList.remove(i);
 	}
@@ -52,23 +70,12 @@ public class GameScene extends Scene {
 		return game.playerList;
 	}
 	
-	public static boolean isRunning() {
-		return game.running;
-	}
-	
 	public static void addPlateToReturn() {
 		game.plateToReturn++;
+		System.out.println(game.plateToReturn);
 	}
-	
-	
-	public static void setRunning(boolean run) {
-		game.running = run;
-	}
-	
 	
 	private GameScene() {
-		
-		running = false;
 		this.mapNum = 0;
 		this.map = Map.get();
 		if (!Map.buildMap(mapNum))
@@ -114,7 +121,7 @@ public class GameScene extends Scene {
 		}
 		
 		if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
-			System.exit(0);
+			SceneManager.get().pauseGame();
 		}
 		
 		recSch.run();

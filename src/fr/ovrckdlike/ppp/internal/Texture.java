@@ -63,6 +63,8 @@ public class Texture {
 	public static Texture furnaceBack;
 	public static Texture dirtyPlate;
 	public static Texture pan;
+	public static Texture arrowLeft;
+	public static Texture arrowRight;
 	
 
 	public final String path;

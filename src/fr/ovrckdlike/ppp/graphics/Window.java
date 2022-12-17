@@ -142,6 +142,8 @@ public class Window {
 			Texture.plate = Texture.loadTexture("/textures/general/plate.png", true);
 			Texture.recipeBackground =Texture.loadTexture("/textures/gui/recipe_background.png", true);
 			Texture.circle = Texture.loadTexture("/textures/gui/circle.png", false); //false ?
+			Texture.arrowLeft = Texture.loadTexture("/textures/gui/arrow_left.png", true);
+			Texture.arrowRight = Texture.loadTexture("/textures/gui/arrow_right.png", true);
 			Texture.furnaceBack = Texture.loadTexture("/textures/tiles/furnace_background.png", true);
 			Texture.furnaceFront = Texture.loadTexture("/textures/tiles/furnace_foreground.png", true);
 			Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
@@ -153,7 +155,7 @@ public class Window {
 			e.printStackTrace();
 		}
 		
-		mainMenu = new MainMenu();
+		mainMenu = MainMenu.get();
 		gameScene = GameScene.get();
 
 	}
@@ -168,8 +170,9 @@ public class Window {
 			
 			glClear(GL_COLOR_BUFFER_BIT);
 			
-			gameScene.run();
-			gameScene.render();
+			
+			SceneManager sceneManager = SceneManager.get();
+			sceneManager.execute();
 			
 			
 			glfwSwapBuffers(glfwWindow);
