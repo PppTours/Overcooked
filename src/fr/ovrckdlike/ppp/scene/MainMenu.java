@@ -13,6 +13,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.gui.Text;
+import fr.ovrckdlike.ppp.physics.Time;
 
 public class MainMenu extends Scene {
 	private static MainMenu instance;
@@ -26,6 +27,7 @@ public class MainMenu extends Scene {
 	}
 	
 	public void render() {
+		text.changeSize(52 + (float)(2*Math.sin(Time.get().getCurrentTime()/(1E9f))));
 		text.render();
 	}
 	
@@ -54,6 +56,6 @@ public class MainMenu extends Scene {
 
 	private MainMenu() {
 		float[] textPos = {1920/2, 800};
-		text = new Text("Move any joystick to start", textPos, Color.black, 8, 0);
+		text = new Text("Move any joystick to start", textPos, Color.black, 50, 0);
 	}
 }

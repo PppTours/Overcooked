@@ -16,7 +16,7 @@ public class Button {
 		this.pos = pos;
 		this.size = size;
 		float[] textPos = {pos[0]+size[0]/2, pos[1]+size[1]/2};
-		this.text = new Text(text, textPos, Color.black, 3, 0);
+		this.text = new Text(text, textPos, size, Color.black, 0);
 		this.selected = false;
 	}
 	

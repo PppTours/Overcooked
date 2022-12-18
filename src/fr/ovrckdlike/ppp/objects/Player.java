@@ -268,7 +268,7 @@ public class Player {
 	
 	public void render() {
 		float renderpos[] = {this.pos[0]-this.size/2, this.pos[1]-this.size/2};
-		Renderer.drawTexture(renderpos[0]-10, renderpos[1]-10, this.size+20, this.size+20, (float)(this.direction*Math.PI/4), Texture.CatSkin);
+		Renderer.drawTexture(renderpos[0]-10, renderpos[1]-10, this.size+20, this.size+20, (float)(this.direction*Math.PI/4+Math.PI), Texture.CatSkin);
 		if (this.inHand != null) {
 			switch (direction){
 			case 0:
