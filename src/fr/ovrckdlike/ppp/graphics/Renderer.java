@@ -1,12 +1,15 @@
 package fr.ovrckdlike.ppp.graphics;
 
-import fr.ovrckdlike.ppp.internal.Shader;
-import fr.ovrckdlike.ppp.internal.VertexArray;
-import fr.ovrckdlike.ppp.internal.Texture;
-
-
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.system.MemoryUtil.NULL;
+
+import fr.ovrckdlike.ppp.internal.Shader;
+import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.internal.VertexArray;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public class Renderer {
 	static Shader defaultTextured;
@@ -19,42 +22,46 @@ public class Renderer {
         float ratio = Window.DISPLAY_RATIO;
         float w = fov;
         float h = fov/ratio;
-        float centerX = w/2f;
-        float centerY = h/2f;
-        shader.setUniform4f("u_camera", centerX-w*.5f, centerY-h*.5f, w, h);
+        shader.setUniform4f("u_camera", 0, 0, w, h);
     }
-
-    public static void drawQuad(float x, float y, float width, float height, Color color) {
+    
+    public static void drawQuad(Rectangle rect, Color color) {
         VertexArray.simpleQuad.bind();
+        double pi = Math.PI;
+        
         simpleQuadShader.bind();
         simpleQuadShader.setUniform4f("u_color", color.r, color.g, color.b, color.a);
-        simpleQuadShader.setUniform4f("u_position", x, y, width, height);
+        simpleQuadShader.setUniform4f("u_position", rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        simpleQuadShader.setUniform1f("u_theta", rect.getAngle());
         setCameraUniform(simpleQuadShader);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
     }
-    public static void drawTexture(float x, float y, float width, float height, float angle, Texture texture) {
-    	y = 1080 - y;
-    	height = -height;
+    
+    public static void drawTexture(Rectangle rect, Texture texture) {
+    	Rectangle copy = new Rectangle(rect);
+    	copy.setPos(new Dot(copy.getX(), 1080 - copy.getY()));
+    	copy.resize(copy.getWidth(), -copy.getHeight());
     	VertexArray.simpleQuad.bind();
         defaultTextured.bind();
-        defaultTextured.setUniform4f("u_position", x, y, width, height);
+        defaultTextured.setUniform4f("u_position", copy.getX(), copy.getY(), copy.getWidth(), copy.getHeight());
         defaultTextured.setUniform4f("u_tex", 0, 0, 1, 1);
         defaultTextured.setUniform4f("u_alphaColor", 1, 1, 1, 1);
-        defaultTextured.setUniform1f("u_theta", angle);
+        defaultTextured.setUniform1f("u_theta", copy.getAngle());
         setCameraUniform(defaultTextured);
         texture.bind();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
     }
     
-    public static void drawTextureTransparent(float x, float y, float width, float height, float angle, float alpha, Texture texture) {
-    	y = 1080 - y;
-    	height = -height;
+    public static void drawTextureTransparent(Rectangle rect, float alpha, Texture texture) {
+    	Rectangle copy = new Rectangle(rect);
+    	copy.setPos(new Dot(copy.getX(), 1080 - copy.getY()));
+    	copy.resize(copy.getWidth(), -copy.getHeight());
     	VertexArray.simpleQuad.bind();
         defaultTextured.bind();
-        defaultTextured.setUniform4f("u_position", x, y, width, height);
+        defaultTextured.setUniform4f("u_position", copy.getX(), copy.getY(), copy.getWidth(), copy.getHeight());
         defaultTextured.setUniform4f("u_tex", 0, 0, 1, 1);
         defaultTextured.setUniform4f("u_alphaColor", 1, 1, 1, alpha);
-        defaultTextured.setUniform1f("u_theta", angle);
+        defaultTextured.setUniform1f("u_theta", copy.getAngle());
         setCameraUniform(defaultTextured);
         texture.bind();
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);

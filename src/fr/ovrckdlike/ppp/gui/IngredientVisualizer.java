@@ -3,25 +3,30 @@ package fr.ovrckdlike.ppp.gui;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Ingredient;
+import fr.ovrckdlike.ppp.physics.Circle;
+import fr.ovrckdlike.ppp.physics.Dot;
 
 public class IngredientVisualizer {
-	private float[] pos = new float[2];
+	private Circle space;
 	private int ingType;
 	private boolean visible;
 	
 	
-	public IngredientVisualizer(int ingType, float[] pos) {
+	public IngredientVisualizer(int ingType, Dot pos) {
 		this.ingType = ingType;
-		this.pos = pos;
+		this.space = new Circle(pos, 15);
 	}
 	
 	public void setVisible(boolean param) {
 		visible = param;
 	}
 	
-	public void setPos(float x, float y) {
-		this.pos[0] = x;
-		this.pos[1] = y;
+	public void setPos(float newX, float newY) {
+		space.setPos(new Dot(newX, newY));
+	}
+	
+	public void setPos(Dot newPos) {
+		space.setPos(newPos);
 	}
 	
 	public void setIngredient(int ingType) {
@@ -30,8 +35,8 @@ public class IngredientVisualizer {
 	
 	public void render() {
 		if (visible) {
-			Renderer.drawTexture(pos[0]-15, pos[1]-15, 30, 30, 0, Texture.circle);
-			Renderer.drawTexture(pos[0]-13, pos[1]-13, 26, 26, 0, Ingredient.getTexture(ingType));
+			Renderer.drawTexture(space.surroundBySquare(0), Texture.circle);
+			Renderer.drawTexture(space.resized(13).surroundBySquare(0), Ingredient.getTexture(ingType));
 		}
 		else return;
 	}

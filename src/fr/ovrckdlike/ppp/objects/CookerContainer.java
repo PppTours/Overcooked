@@ -1,7 +1,7 @@
-package fr.ovrckdlike.ppp.tiles;
+package fr.ovrckdlike.ppp.objects;
 
 import fr.ovrckdlike.ppp.gui.TimeBar;
-import fr.ovrckdlike.ppp.objects.Item;
+import fr.ovrckdlike.ppp.physics.Dot;
 
 public abstract class CookerContainer extends Item {
 	protected final int cookingTime = 10;
@@ -9,6 +9,10 @@ public abstract class CookerContainer extends Item {
 	protected boolean cooked;
 	protected boolean burnt;
 	protected TimeBar timebar;
+	
+	public CookerContainer(Dot pos){
+		super(pos);
+	}
 	
 	public void prepare() {}
 	public abstract void render();

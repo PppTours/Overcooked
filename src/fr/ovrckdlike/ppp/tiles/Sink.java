@@ -7,6 +7,8 @@ import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 public class Sink extends Tile {
@@ -19,17 +21,16 @@ public class Sink extends Tile {
 	private TimeBar tb;
 	
 	
-	public Sink(float[] pos, int direction) {
+	public Sink(Dot pos, int direction) {
 		
 		this.type = 4;
 		this.washTime = 3;
-		this.pos = pos;
+		this.space = new Rectangle(pos, size, size, (float)(direction*(-Math.PI/2)));
 		this.nbPlate = 0;
 		this.attachedDryer = null;
 		this.direction = direction;
 		this.currentWashTime = 0;
-		float[] timeBarPos = new float[2];
-		timeBarPos[0] = this.pos[0]+35; timeBarPos[1] = this.pos[1]+108;
+		Dot timeBarPos = new Dot(pos.getX()-25f, pos.getY()+48f);
 		this.tb = new TimeBar(timeBarPos, washTime);
 	}
 	
@@ -70,7 +71,7 @@ public class Sink extends Tile {
 	
 	
 	public void render() {
-		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, (float)(Math.PI*direction/2), Texture.sink);
+		Renderer.drawTexture(space, Texture.sink);
 		tb.render(currentWashTime);
 	}
 

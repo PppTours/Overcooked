@@ -1,15 +1,28 @@
 package fr.ovrckdlike.ppp.map;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-
-import fr.ovrckdlike.ppp.objects.*;
-import fr.ovrckdlike.ppp.scene.GameScene;
-import fr.ovrckdlike.ppp.tiles.*;
+import fr.ovrckdlike.ppp.objects.Item;
+import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.objects.Pot;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.tiles.Bin;
+import fr.ovrckdlike.ppp.tiles.CuttingTable;
+import fr.ovrckdlike.ppp.tiles.Dryer;
+import fr.ovrckdlike.ppp.tiles.Furnace;
+import fr.ovrckdlike.ppp.tiles.GasCooker;
+import fr.ovrckdlike.ppp.tiles.IngredientRefiller;
+import fr.ovrckdlike.ppp.tiles.PlateReturn;
+import fr.ovrckdlike.ppp.tiles.ServiceTable;
+import fr.ovrckdlike.ppp.tiles.Sink;
+import fr.ovrckdlike.ppp.tiles.Table;
+import fr.ovrckdlike.ppp.tiles.Tile;
+import fr.ovrckdlike.ppp.tiles.Wall;
 
 
 
@@ -74,7 +87,7 @@ public class Map {
 						if (chunk.length() > 1 && chunk.charAt(1)>='a' && chunk.charAt(1)<='z') {
 							char option = chunk.charAt(1);
 							Tile tile;
-							float[] tilePos = {tilePosX * 120f, tilePosY * 120f};
+							Dot tilePos = new Dot(tilePosX*120+60, tilePosY*120+60);
 							
 							
 							int direction = 0;
@@ -92,13 +105,13 @@ public class Map {
 								break;
 							case 3 :
 								if (option == 'a') {
-									float[] potPos = {0f, 0f};
+									Dot potPos = new Dot(0f, 0f);
 									Pot onGas = new Pot(potPos);
 									map.itemList.add(onGas);
 									tile = new GasCooker(tilePos, onGas);
 								}
 								else {
-									float[] panPos = {0f, 0f};
+									Dot panPos = new Dot(0f, 0f);
 									Pot onGas = new Pot(panPos);	//TODO : modifier Pot en Pan 
 									map.itemList.add(onGas);
 									tile = new GasCooker(tilePos, onGas);
@@ -133,7 +146,7 @@ public class Map {
 							}
 							
 							Tile tile;
-							float[] tilePos = {tilePosX * 120f, tilePosY * 120f};
+							Dot tilePos = new Dot(tilePosX * 120f + 60, tilePosY * 120f + 60);
 							switch(type) {
 							case 0:
 								tile = null;
@@ -172,8 +185,8 @@ public class Map {
 						playerPosRaw[i] = Float.parseFloat(chunks[i+1]);
 					}
 					
-					float[] posP1 = {playerPosRaw[0], playerPosRaw[1]};
-					float[] posP2 = {playerPosRaw[2], playerPosRaw[3]};
+					Dot posP1 = new Dot(playerPosRaw[0], playerPosRaw[1]);
+					Dot posP2 = new Dot(playerPosRaw[2], playerPosRaw[3]);
 					
 					
 					Player player1 = new Player(posP1, (byte) 1);

@@ -1,8 +1,5 @@
 package fr.ovrckdlike.ppp.tiles;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
@@ -10,7 +7,8 @@ import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
-import fr.ovrckdlike.ppp.objects.Recipe;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.scene.GameScene;
 
 
@@ -18,9 +16,9 @@ public class ServiceTable extends Tile {
 	private int direction;
 	
 	
-	public ServiceTable(float[] pos, int dir) {
+	public ServiceTable(Dot pos, int dir) {
 		this.type = 7;
-		this.pos = pos;
+		this.space = new Rectangle(pos, size, size, (float)(dir*(Math.PI/2)));
 		this.direction = dir;
 	}
 	
@@ -40,7 +38,7 @@ public class ServiceTable extends Tile {
 	
 	
 	public void render() {
-		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, (float)(this.direction*(Math.PI/2)), Texture.serviceTable);
+		Renderer.drawTexture(space, Texture.serviceTable);
 	}
 
 }

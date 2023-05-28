@@ -1,72 +1,33 @@
 package fr.ovrckdlike.ppp.tiles;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public abstract class Tile {
-	protected int size = 120;
-	protected float pos[] = new float[2];	// position en px
+	Rectangle space;	// position en px
 	protected int type;
+	protected float size = 120;
 	
-	public float[] getPos() {
-		return pos;
+	public Dot getPos() {
+		return space.getPos();
 	}
 	
-	public int getSize() {
-		return size;
+	public float getSize() {
+		return space.getWidth();
 	}
 	
-	public boolean isInTile(float[] pos) {
-		if (pos[0] > this.pos[0] && pos[0] < this.pos[0]+size &&
-			pos[1] > this.pos[1] && pos[1] < this.pos[1]+size) {
-			return true;
-		}
-		return false;
+	public Rectangle getSpace() {
+		return space;
+	}
+	
+	public boolean isInTile(Dot pos) {
+		return space.includes(pos);
 	}
 	
 	public abstract void render();
 	public abstract void use(Player player);
 	
-	public float[] nearestFromPos(float[] pos) {
-		if (pos[0] > this.pos[0] && pos[0] < this.pos[0]+this.size) {
-			if (pos[1] < this.pos[1]) {
-				float[] newPos = {pos[0], this.pos[1]};
-				return newPos;
-			}
-			else { 
-				float[] newPos = {pos[0], this.pos[1]+this.size};
-				return newPos;
-			}
-		}
-		else if (pos[1] > this.pos[1] && pos[1] < this.pos[1]+this.size) {
-			if (pos[0] < this.pos[0]) {
-				float[] newPos = {this.pos[0], pos[1]};
-				return newPos;
-			}
-			else { 
-				float[] newPos = {this.pos[0]+this.size, pos[1]};
-				return newPos;
-			}
-		}
-		else {
-			if (pos[0] < this.pos[0]) {
-				if (pos[1] < this.pos[1]) {
-					float[] newPos = {this.pos[0], this.pos[1]};
-					return newPos;
-				}
-				else {
-					float[] newPos = {this.pos[0], this.pos[1]+this.size};
-					return newPos;
-				}
-			}
-			else {
-				if (pos[1] < this.pos[1]) {
-				float[] newPos = {this.pos[0]+this.size, this.pos[1]};
-				return newPos;
-				}
-				else {
-					float[] newPos = {this.pos[0]+this.size, this.pos[1]+this.size};
-					return newPos;
-				}
-			}
-		}
+	public Dot nearestFromPos(Dot pos) {
+		return space.nearestFromPos(pos);
 	}
 }

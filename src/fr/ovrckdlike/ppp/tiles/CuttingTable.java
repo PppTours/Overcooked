@@ -6,6 +6,8 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 
@@ -15,7 +17,7 @@ public class CuttingTable extends Tile implements ContainerTile{	// reinitialise
 	private Item content;
 	private float currentCuttingTime;
 	private TimeBar timeBar;
-	private float[] timeBarPos = new float[2];
+	private Dot timeBarPos;
 	
 	public Item getContent() {
 		return content;
@@ -27,7 +29,7 @@ public class CuttingTable extends Tile implements ContainerTile{	// reinitialise
 		this.content = newContent;
 		if (this.content != null) {
 			this.content.setMode(1);
-			this.content.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
+			this.content.setPos(space.getPos());
 		}
 		if (oldContent != null) {
 			oldContent.setMode(0);
@@ -36,20 +38,19 @@ public class CuttingTable extends Tile implements ContainerTile{	// reinitialise
 	}
 	
 	
-	public CuttingTable(float[] pos) {
+	public CuttingTable(Dot pos) {
 		
-		this.pos = pos;
+		this.space = new Rectangle(pos, size, size, 0f) ;
 		this.content = null;
 		this.type = 2;
 		this.currentCuttingTime = 0;
 		this.cuttingTime = 2;
-		this.timeBarPos[0] = pos[0]+35f; 
-		this.timeBarPos[1] = pos[1]+108f;
+		this.timeBarPos = new Dot(pos.getX(), pos.getY() + 35f); 
 		this.timeBar = new TimeBar(timeBarPos, cuttingTime);
 	}
 	
 	public void render() {
-		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.cuttingTable);
+		Renderer.drawTexture(space, Texture.cuttingTable);
 		timeBar.render(currentCuttingTime);
 	}
 	

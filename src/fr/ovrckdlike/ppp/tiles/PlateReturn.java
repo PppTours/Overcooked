@@ -6,13 +6,15 @@ import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public class PlateReturn extends Tile implements ContainerTile{
 	int plateNb;
 	
 	
-	public PlateReturn(float[] pos) {
-		this.pos = pos;
+	public PlateReturn(Dot pos) {
+		this.space = new Rectangle(pos, size, size, 0f);
 		this.plateNb = 0;
 		this.type = 8;
 	}
@@ -31,7 +33,7 @@ public class PlateReturn extends Tile implements ContainerTile{
 		if (content != null) return content;
 		if (plateNb > 0) {
 			plateNb--;
-			float[] platePos = {this.pos[0]+20, this.pos[1]+20};
+			Dot platePos = new Dot(space.getPos());
 			Plate newPlate = new Plate(platePos, true, 0);
 			Map.get().getItemList().add(newPlate);
 			return newPlate;
@@ -41,9 +43,11 @@ public class PlateReturn extends Tile implements ContainerTile{
 	
 	
 	public void render() {
-		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, 0, Texture.plateReturn);
+		Renderer.drawTexture(space, Texture.plateReturn);
 		if (plateNb > 0) {
-			Renderer.drawTexture(pos[0]+20, pos[1]+20, 80, 80, 0, Texture.dirtyPlate);
+			Dot pos = space.getPos();
+			Rectangle plateSpace = new Rectangle(pos.add(-40f, -40f), size, size, 0f);
+			Renderer.drawTexture(plateSpace, Texture.dirtyPlate);
 		}
 	}
 

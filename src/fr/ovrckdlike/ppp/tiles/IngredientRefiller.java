@@ -6,13 +6,15 @@ import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public class IngredientRefiller extends Tile implements ContainerTile {
 	private int ingredientType;
 	private Item content;
 	
-	public IngredientRefiller(float[] pos, int ingredientType) {
-		this.pos = pos;
+	public IngredientRefiller(Dot pos, int ingredientType) {
+		this.space = new Rectangle(pos, size, size, 0f);
 		this.type = 6;
 		this.content = null;
 		this.ingredientType = ingredientType;
@@ -33,46 +35,49 @@ public class IngredientRefiller extends Tile implements ContainerTile {
 	}
 	
 	public void render() {
-		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, 0, Texture.ingredientRefiller);
+		Renderer.drawTexture(space, Texture.ingredientRefiller);
+		Rectangle ingSpace = new Rectangle(space.getPos().getX()-5,
+											space.getPos().getY(),
+											45f, 45f, -0.35f);
 		switch (this.ingredientType) {
 		case 0:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.tomato);
+			Renderer.drawTexture(ingSpace, Texture.tomato);
 			break;
 		case 1:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.salade);
+			Renderer.drawTexture(ingSpace, Texture.salade);
 			break;
 		case 2:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.onion);
+			Renderer.drawTexture(ingSpace, Texture.onion);
 			break;
 		case 3:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.mushroom);
+			Renderer.drawTexture(ingSpace, Texture.mushroom);
 			break;
 		case 4:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.meat);
+			Renderer.drawTexture(ingSpace, Texture.meat);
 			break;
 		case 5:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.cheese);
+			Renderer.drawTexture(ingSpace, Texture.cheese);
 			break;
 		case 6:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.pasta);
+			Renderer.drawTexture(ingSpace, Texture.pasta);
 			break;
 		case 7:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.sausage);
+			Renderer.drawTexture(ingSpace, Texture.sausage);
 			break;
 		case 8:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.pizzaDough);
+			Renderer.drawTexture(ingSpace, Texture.pizzaDough);
 			break;
 		case 9:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.burgerBread);
+			Renderer.drawTexture(ingSpace, Texture.burgerBread);
 			break;
 		case 10:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.chicken);
+			Renderer.drawTexture(ingSpace, Texture.chicken);
 			break;
 		case 11:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.rice);
+			Renderer.drawTexture(ingSpace, Texture.rice);
 			break;
 		case 12:
-			Renderer.drawTexture(this.pos[0]+35, this.pos[1]+45, 45f, 45f, 0.35f, Texture.potato);
+			Renderer.drawTexture(ingSpace, Texture.potato);
 			break;
 		}
 	}
@@ -83,7 +88,7 @@ public class IngredientRefiller extends Tile implements ContainerTile {
 		this.content = newContent;
 		if (this.content != null) {
 			this.content.setMode(1);
-			this.content.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
+			this.content.setPos(space.getPos());
 		}
 		if (oldContent != null) {
 			oldContent.setMode(0);

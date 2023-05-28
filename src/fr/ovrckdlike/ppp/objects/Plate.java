@@ -6,6 +6,7 @@ import java.util.List;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.gui.IngredientVisualizer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.physics.Dot;
 
 public class Plate extends Item implements IngredientContainer{
 	private boolean[] content = new boolean[15];
@@ -14,19 +15,17 @@ public class Plate extends Item implements IngredientContainer{
 	private List<IngredientVisualizer> ivList = new ArrayList();
 
 	
-	public Plate(float[] pos, boolean dirty) {
+	public Plate(Dot pos, boolean dirty) {
 		this(pos, dirty, 1);
 	}
 	
-	public Plate(float[] pos, boolean dirty, int mode) {
+	public Plate(Dot pos, boolean dirty, int mode) {
+		super(pos);
 		this.dirty = dirty;
-		this.pos = pos; 	//position du centre de l'objet
 		this.mode = mode;
 		
 		for (int i = 0; i < 5; i++) {
-			float[] posCopy = new float[2];
-			posCopy[0] = pos[0];
-			posCopy[1] = pos[1];
+			Dot posCopy = new Dot(pos);
 			ivList.add(i, new IngredientVisualizer(0, posCopy));
 		}
 		
@@ -102,11 +101,10 @@ public class Plate extends Item implements IngredientContainer{
 	public void render() {
 		int zoom = mode+1;
 		if (mode == 2) return;
-		float renderPos[] = {this.pos[0] - (this.size*zoom)/2, this.pos[1] - (this.size*zoom)/2};
 		if (!dirty)
-			Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, 0, Texture.plate);
+			Renderer.drawTexture(space.surroundBySquare(0), Texture.plate);
 		else 
-			Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, 0, Texture.dirtyPlate);
+			Renderer.drawTexture(space.surroundBySquare(0), Texture.dirtyPlate);
 		int[] ingIdx = new int[5];
 		byte i = 0;
 		for (int k=0; k < 13; k++) {
@@ -115,70 +113,71 @@ public class Plate extends Item implements IngredientContainer{
 				i++;
 			}
 		}
+		Dot pos = space.getPos();
 		
 		switch (ingCount) {
 		case 1:
-			ivList.get(0).setPos(pos[0], pos[1]-35);
+			ivList.get(0).setPos(pos.getX(), pos.getY()-35);
 			ivList.get(0).setIngredient(ingIdx[0]);
 			ivList.get(0).setVisible(true);
 			break;
 		case 2:
-			ivList.get(0).setPos(pos[0]-35, pos[1]);
+			ivList.get(0).setPos(pos.getX()-35, pos.getY());
 			ivList.get(0).setIngredient(ingIdx[0]);
 			ivList.get(0).setVisible(true);
 			
-			ivList.get(1).setPos(pos[0]+35, pos[1]);
+			ivList.get(1).setPos(pos.getX()+35, pos.getY());
 			ivList.get(1).setIngredient(ingIdx[1]);
 			ivList.get(1).setVisible(true);
 			break;
 		case 3:
-			ivList.get(0).setPos(pos[0], pos[1]-35);
+			ivList.get(0).setPos(pos.getX(), pos.getY()-35);
 			ivList.get(0).setIngredient(ingIdx[0]);
 			ivList.get(0).setVisible(true);
 			
-			ivList.get(1).setPos(pos[0]+30, pos[1]+18);
+			ivList.get(1).setPos(pos.getX()+30, pos.getY()+18);
 			ivList.get(1).setIngredient(ingIdx[1]);
 			ivList.get(1).setVisible(true);
 			
-			ivList.get(2).setPos(pos[0]-30, pos[1]+18);
+			ivList.get(2).setPos(pos.getX()-30, pos.getY()+18);
 			ivList.get(2).setIngredient(ingIdx[2]);
 			ivList.get(2).setVisible(true);
 			break;
 		case 4:
-			ivList.get(0).setPos(pos[0]-25, pos[1]-25);
+			ivList.get(0).setPos(pos.getX()-25, pos.getY()-25);
 			ivList.get(0).setIngredient(ingIdx[0]);
 			ivList.get(0).setVisible(true);
 			
-			ivList.get(1).setPos(pos[0]+25, pos[1]-25);
+			ivList.get(1).setPos(pos.getX()+25, pos.getY()-25);
 			ivList.get(1).setIngredient(ingIdx[1]);
 			ivList.get(1).setVisible(true);
 			
-			ivList.get(2).setPos(pos[0]+25, pos[1]+25);
+			ivList.get(2).setPos(pos.getX()+25, pos.getY()+25);
 			ivList.get(2).setIngredient(ingIdx[2]);
 			ivList.get(2).setVisible(true);
 			
-			ivList.get(3).setPos(pos[0]-25, pos[1]+25);
+			ivList.get(3).setPos(pos.getX()-25, pos.getY()+25);
 			ivList.get(3).setIngredient(ingIdx[3]);
 			ivList.get(3).setVisible(true);
 			break;
 		case 5 :
-			ivList.get(0).setPos(pos[0], pos[1]-35);
+			ivList.get(0).setPos(pos.getX(), pos.getY()-35);
 			ivList.get(0).setIngredient(ingIdx[0]);
 			ivList.get(0).setVisible(true);
 			
-			ivList.get(1).setPos(pos[0]+33, pos[1]-11);
+			ivList.get(1).setPos(pos.getX()+33, pos.getY()-11);
 			ivList.get(1).setIngredient(ingIdx[1]);
 			ivList.get(1).setVisible(true);
 			
-			ivList.get(2).setPos(pos[0]+21, pos[1]+28);
+			ivList.get(2).setPos(pos.getX()+21, pos.getY()+28);
 			ivList.get(2).setIngredient(ingIdx[2]);
 			ivList.get(2).setVisible(true);
 			
-			ivList.get(3).setPos(pos[0]-21, pos[1]+28);
+			ivList.get(3).setPos(pos.getX()-21, pos.getY()+28);
 			ivList.get(3).setIngredient(ingIdx[3]);
 			ivList.get(3).setVisible(true);
 			
-			ivList.get(4).setPos(pos[0]-33, pos[1]-11);
+			ivList.get(4).setPos(pos.getX()-33, pos.getY()-11);
 			ivList.get(4).setIngredient(ingIdx[4]);
 			ivList.get(4).setVisible(true);
 			break;

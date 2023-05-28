@@ -5,18 +5,17 @@ import java.util.List;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public class RoundRobin {
-	private float[] pos;
-	private float[] size;
+	private Rectangle space;
 	private List<SelectCard> elements;
 	private int selected;
 	private boolean moveReady;
 	private boolean lock;
 	
-	public RoundRobin(float[] pos, float[] size) {
-		this.size = size;
-		this.pos = pos;
+	public RoundRobin(Rectangle space) {
+		this.space = space;
 		elements = new ArrayList<SelectCard>();
 		selected = -1;
 		moveReady = true;
@@ -58,8 +57,10 @@ public class RoundRobin {
 	}
 	
 	public void render() {
-		Renderer.drawTexture(pos[0]-size[1]/4-10, pos[1]+size[1]/4, size[1]/4, size[1]/2, 0, Texture.arrowLeft);
-		Renderer.drawTexture(pos[0]+size[0]+10, pos[1]+size[1]/4, size[1]/4, size[1]/2, 0, Texture.arrowRight);
+		Rectangle renderSpace1 = new Rectangle(space.getX()-space.getWidth()/4*3, space.getY(), space.getWidth()/2, 0);
+		Rectangle renderSpace2 = new Rectangle(space.getX()+space.getWidth()/4*3, space.getY(), space.getWidth()/2, 0);
+		Renderer.drawTexture(renderSpace1, Texture.arrowLeft);
+		Renderer.drawTexture(renderSpace2, Texture.arrowRight);
 		if (selected != -1) {
 			elements.get(selected).render();
 		}

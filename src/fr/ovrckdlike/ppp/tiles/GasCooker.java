@@ -2,8 +2,11 @@ package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.CookerContainer;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 
@@ -15,12 +18,12 @@ public class GasCooker extends Tile implements ContainerTile{
 		return content;
 	}
 	
-	public GasCooker(float[] pos, CookerContainer onGas) {
+	public GasCooker(Dot pos, CookerContainer onGas) {
 		this.type = 3;
-		this.pos = pos;
+		this.space = new Rectangle(pos, size, size, 0f);
 		this.cookingTime = 0f;
 		this.content = onGas;
-		this.content.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
+		this.content.setPos(pos);
 		this.content.setMode(1);
 	}
 	
@@ -36,7 +39,7 @@ public class GasCooker extends Tile implements ContainerTile{
 	public void use(Player player) {}
 
 	public void render() {
-		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, 0, Texture.gasCooker);
+		Renderer.drawTexture(space, Texture.gasCooker);
 	}
 
 	@Override
@@ -47,7 +50,7 @@ public class GasCooker extends Tile implements ContainerTile{
 			cookingTime = 0f;
 			if (content != null) {
 				content.setMode(1);
-				content.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
+				content.setPos(space.getPos());
 			}
 			if (oldContent != null) {
 				oldContent.setMode(0);

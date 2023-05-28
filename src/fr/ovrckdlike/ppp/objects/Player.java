@@ -1,7 +1,5 @@
 package fr.ovrckdlike.ppp.objects;
 
-import java.util.List;
-
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_A;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_D;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
@@ -17,20 +15,20 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.physics.Circle;
+import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Time;
+import fr.ovrckdlike.ppp.tiles.Sink;
 import fr.ovrckdlike.ppp.tiles.Tile;
 
 
-public class Player {
+public class Player extends Entity{
 	private byte id;
-	private float pos[] = new float[2];
-	private int size;
 	private int direction;
 	private int moveSpeed;
 	private boolean blocked;
@@ -50,16 +48,15 @@ public class Player {
 	private long lastInteract = 0;
 	
 	
-	public Player(float[] pos, byte id) {
+	public Player(Dot pos, byte id) {
 		this.id = id;
-		this.pos = pos;
-		this.blocked = false;
-		this.size = 100;
-		this.direction = 0;
-		this.moveSpeed = 300;
-		this.lastMove = 0;
-		this.dashIsReady = true;
-		this.inHand = null;
+		space = new Circle(pos, 50);
+		blocked = false;
+		direction = 0;
+		moveSpeed = 300;
+		lastMove = 0;
+		dashIsReady = true;
+		inHand = null;
 	}
 	
 	public void updateKeyPressed() {
@@ -118,12 +115,11 @@ public class Player {
 		return interact;
 	}
 	
-	public int getSize() {
-		return size;
+	public float getSize() {
+		return space.getRay() * 2f;
 	}
-	public void setPos(float[] newPos) {
-		pos[0] = newPos[0];
-		pos[1] = newPos[1];
+	public void setPos(Dot newPos) {
+		space.setPos(newPos);
 	}
 	
 	public float getLastMove() {
@@ -177,8 +173,8 @@ public class Player {
 					continue;
 				}
 				else {
-					float itemPos[] = item.getPos();
-					float dist = this.distanceTo(itemPos);
+					Dot itemPos = item.getPos();
+					float dist = distanceTo(itemPos);
 					if (dist < mindist) {
 						nearest = i;
 						mindist = dist;
@@ -191,31 +187,16 @@ public class Player {
 		}
 	}
 	
-	public float distanceTo(float[] pos) {
-		float deltaX = this.pos[0] - pos[0];
-		float deltaY = this.pos[1] - pos[1];
-		
-		float dist = (float)(Math.sqrt(deltaX * deltaX + deltaY * deltaY));
-		return dist;
+	public float distanceTo(Dot pos) {
+		return space.getPos().distanceTo(pos);
 	}
 	
-	public double angleTo(float[] pos) {
-		float deltaX = this.pos[0] - pos[0];
-		float deltaY = this.pos[1] - pos[1];
-		
-		if (deltaX == 0 && deltaY == 0) {
-			return 0;
-		}
-		double angle;
-		if (deltaY < 0) angle = 0;
-		else angle = Math.PI;
-		angle +=  (Math.atan(deltaX/deltaY) - Math.PI/2);
-		if (angle < 0) angle += 2 * Math.PI;
-		return angle;
+	public double angleTo(Dot pos) {
+		return space.getPos().angleTo(pos);
 		
 	}
 	
-	public int directionTo(float[] pos) {
+	public int directionTo(Dot pos) {
 		double angle = this.angleTo(pos);
 		
 		if (angle <= Math.PI/8 || angle > 15 * Math.PI/8) return 0;
@@ -233,7 +214,7 @@ public class Player {
 		int itemId = this.nearestItem(itemList);
 		if (itemId == -1) return false;
 		Item item = itemList.get(itemId);
-		if (distanceTo(item.getPos()) > size*1.05) return false;
+		if (distanceTo(item.getPos()) > space.getRay()*2*1.05) return false;
 		else {
 			if (this.inHand != null) return false;
 			else {
@@ -244,14 +225,14 @@ public class Player {
 		}
 	}
 	
-	public float[] whereToDrop() {
+	public Dot whereToDrop() {
 		double angle = getDirectionAngle();
 		int distance = 75;
-		float[] dropPos = new float[2];
-		dropPos[0] = pos[0] + (float) (distance * Math.cos(angle));
-		dropPos[1] = pos[1] - (float) (distance * Math.sin(angle));
+		Dot dropPos = new Dot(space.getPos().getX() + (float) (distance * Math.cos(angle)),
+							  space.getPos().getY() - (float) (distance * Math.sin(angle)));
 		return dropPos;
 	}
+	
 	public void take(Item item) {
 		if (inHand == null && item != null) {
 			inHand = item;
@@ -267,51 +248,55 @@ public class Player {
 	}
 	
 	public void render() {
-		float renderpos[] = {this.pos[0]-this.size/2, this.pos[1]-this.size/2};
-		Renderer.drawTexture(renderpos[0]-10, renderpos[1]-10, this.size+20, this.size+20, (float)(this.direction*Math.PI/4+Math.PI), Texture.CatSkin);
+		Renderer.drawTexture(space.resized(60).surroundBySquare((float)((4-direction)*Math.PI/4)), Texture.CatSkin);
 		if (this.inHand != null) {
+			Dot pos = space.getPos();
+			float ray = space.getRay();
+			Dot inHandPos;
 			switch (direction){
 			case 0:
-				this.inHand.setPos(this.pos[0], this.pos[1] - this.size/2);
+				inHandPos = new Dot(pos.getX(), pos.getY() - ray);
 				break;
 			case 1:
-				this.inHand.setPos( (float)(this.pos[0] + (Math.sqrt(2)*this.size/2)/2),
-									(float)(this.pos[1] - (Math.sqrt(2)*this.size/2)/2));
+				inHandPos = new Dot( (float)(pos.getX() + (Math.sqrt(2)*ray)/2),
+									(float)(pos.getY() - (Math.sqrt(2)*ray)/2));
 				break;
 			case 2:
-				this.inHand.setPos(this.pos[0] + this.size/2, this.pos[1]);
+				inHandPos = new Dot(pos.getX() + ray, pos.getY());
 				break;
 			case 3:
-				this.inHand.setPos( (float)(this.pos[0] + (Math.sqrt(2)*this.size/2)/2),
-									(float)(this.pos[1] + (Math.sqrt(2)*this.size/2)/2));
+				inHandPos = new Dot( (float)(pos.getX() + (Math.sqrt(2)*ray)/2),
+									(float)(pos.getY() + (Math.sqrt(2)*ray)/2));
 				break;
 			case 4:
-				this.inHand.setPos(this.pos[0], this.pos[1] + this.size/2);
+				inHandPos = new Dot(pos.getX(), pos.getY() + ray);
 				break;
 			case 5:
-				this.inHand.setPos( (float)(this.pos[0] - (Math.sqrt(2)*this.size/2)/2),
-									(float)(this.pos[1] + (Math.sqrt(2)*this.size/2)/2));
+				inHandPos = new Dot( (float)(pos.getX() - (Math.sqrt(2)*ray)/2),
+									(float)(pos.getY() + (Math.sqrt(2)*ray)/2));
 				break;
 			case 6:
-				this.inHand.setPos(this.pos[0] - this.size/2, this.pos[1]);
+				inHandPos = new Dot(pos.getX() + ray, pos.getY());
 				break;
 			case 7:
-				this.inHand.setPos( (float)(this.pos[0] - (Math.sqrt(2)*this.size/2)/2),
-									(float)(this.pos[1] - (Math.sqrt(2)*this.size/2)/2));
+				inHandPos = new Dot( (float)(pos.getX() - (Math.sqrt(2)*ray)/2),
+									(float)(pos.getY() - (Math.sqrt(2)*ray)/2));
+				break;
+			default :
+				inHandPos = new Dot(0f,0f);
 				break;
 			}
+			inHand.setPos(inHandPos);
 			this.inHand.render();
 		}
 	}
 	
-	
-	public float[] getPos(){
-		return pos;
+	public Dot getPos(){
+		return space.getPos();
 	}
 	
 	public void setPos(float x, float y) {
-		pos[0] = x;
-		pos[1] = y;
+		space.setPos(new Dot(x, y));
 	}
 	
 	public int getDirection() {
@@ -352,7 +337,7 @@ public class Player {
 		return angle;
 	}
 	
-	public void movePlayer( long dt) {
+	public void movePlayer(long dt) {
 		if (!blocked) {
 			float s_dt = (float) (dt / 1E9);
 			float dist = moveSpeed * s_dt;
@@ -363,46 +348,39 @@ public class Player {
 			distX = (float)(dist * Math.cos(angle));
 			distY = (float)(-dist * Math.sin(angle));
 			
-			pos[0] += distX;
-			pos[1] += distY;
+			space.getPos().addToThis(distX, distY);
 			lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
 		}
 	}
 	
-	public void collide(List<Tile> tileList, List<Player> playerList) {
-		double angle;
+	public void collidePlayer(List<Player> playerList) {
 		if (dashTime <= 0f) {
-			for (Player player:playerList) {
-				if (player != this && player.dashTime <= 0) {
-					float movement = size - distanceTo(player.pos);
-					if (movement > 0) {
-						angle = angleTo(player.pos);
-						this.pos[0] += (-(movement) * Math.cos(angle))/2;
-						this.pos[1] += ((movement) * Math.sin(angle))/2;
-						player.pos[0] += ((movement) * Math.cos(angle))/2;
-						player.pos[1] += (-(movement) * Math.sin(angle))/2;
-					}
+			for (Player p:playerList) {
+				if (p != this && p.dashTime <= 0f) {
+					float move = space.getRay() + p.space.getRay() - distanceTo(p.space.getPos());
+					if (move > 0) 
+						space.collide(p.space, move, true);
 				}
+				
 			}
 		}
-		
+	}
+	
+	public <T extends Entity> void collideEntity(List<T> objList) {
+		if (dashTime <= 0f) {
+			for (Entity obj:objList) {
+				float move = space.getRay() + obj.space.getRay() - distanceTo(obj.space.getPos());
+				if (move > 0) 
+					space.collide(obj.space, move, true);
+			}
+		}
+	}
+	
+	public void collideTile(List<Tile> tileList) {
 		for (Tile tile:tileList) {
-			float toMoveBack = size/2 - distanceTo(tile.nearestFromPos(pos));
-			if (toMoveBack > 0) {
-				angle = angleTo(tile.nearestFromPos(pos));
-				pos[0] += (-(toMoveBack) * Math.cos(angle))/2;
-				pos[1] += ((toMoveBack) * Math.sin(angle))/2;
-			}
-			if (tile.isInTile(pos)) {
-
-				float[] tileCenter = new float[2];
-				tileCenter[0] = tile.getPos()[0] + tile.getSize() / 2;
-				tileCenter[1] = tile.getPos()[1] + tile.getSize() / 2;
-
-				angle = angleTo(tileCenter);
-				pos[0] += (-(15) * Math.cos(angle));
-				pos[1] += ((15) * Math.sin(angle));
-			}
+			float move = -getPos().distanceTo(tile.getSpace().nearestFromPos(getPos())) + space.getRay();
+			if (move > 0)
+				space.collide(tile.getSpace(), move);
 		}
 	}
 	

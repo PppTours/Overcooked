@@ -7,17 +7,18 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.gui.IngredientVisualizer;
 import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.scene.GameScene;
-import fr.ovrckdlike.ppp.tiles.CookerContainer;
 
 public class Pan extends CookerContainer implements IngredientContainer{
 	Ingredient content;
 	List<IngredientVisualizer> ivList;
 	
-	public Pan(float[] pos) {
+	public Pan(Dot pos) {
+		super(pos);
 		content = null;
 		ivList = new ArrayList<IngredientVisualizer>();
-		float[] timeBarPos = {pos[0]-25, pos[1]+25*mode};
+		Dot timeBarPos = new Dot(pos.getX()-25, pos.getY()+25*mode);
 		timebar = new TimeBar(timeBarPos, cookingTime);
 	}
 	
@@ -47,8 +48,8 @@ public class Pan extends CookerContainer implements IngredientContainer{
 	
 	@Override
 	public void render() {
-		int zoom = 1+mode;
-		Renderer.drawTexture(pos[0], pos[1], size*zoom, size*zoom, 0, Texture.pan);
+		float zoom = space.getRay()*(mode+1);
+		Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pan);
 		
 	}
 }

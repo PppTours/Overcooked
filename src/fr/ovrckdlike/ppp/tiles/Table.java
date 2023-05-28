@@ -1,25 +1,22 @@
 package fr.ovrckdlike.ppp.tiles;
 
-import java.util.List;
-
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
-import fr.ovrckdlike.ppp.scene.GameScene;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public class Table extends Tile implements ContainerTile {
 	private Item content;
 	
-	public Table(float[] pos, boolean withPlate) {
-		this.pos = pos;
+	public Table(Dot pos, boolean withPlate) {
+		this.space = new Rectangle(pos, size, size, 0f);
 		if (withPlate) {
-			float[] platePos = new float[2];
-			platePos[0] = this.pos[0] + size/2;
-			platePos[1] = this.pos[1] + size/2;
-			content = new Plate(platePos, false);
+
+			content = new Plate(new Dot(pos), false);
 			Map.get().getItemList().add(content);
 			
 		}
@@ -38,7 +35,7 @@ public class Table extends Tile implements ContainerTile {
 		this.content = newContent;
 		if (this.content != null) {
 			this.content.setMode(1);
-			this.content.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
+			this.content.setPos(space.getPos());
 		}
 		if (oldContent != null) {
 			oldContent.setMode(0);
@@ -49,7 +46,7 @@ public class Table extends Tile implements ContainerTile {
 	public void use(Player player) {}
 	
 	public void render() {
-		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.table);
+		Renderer.drawTexture(space, Texture.table);
 	}
 	
 }

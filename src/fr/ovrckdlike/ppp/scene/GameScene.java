@@ -14,6 +14,7 @@ import fr.ovrckdlike.ppp.objects.IngredientContainer;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.ContainerTile;
 import fr.ovrckdlike.ppp.tiles.Dryer;
@@ -50,7 +51,7 @@ public class GameScene extends Scene {
 		tileList = map.getTileList();
 		playerList = map.getPlayerList();
 		
-		this.mapNum = 0;
+		this.mapNum = 0;			// passer la map en param
 		this.map = Map.get();
 		if (!Map.buildMap(mapNum))
 			System.out.println("Error while building the map");
@@ -76,7 +77,7 @@ public class GameScene extends Scene {
 	}
 	
 	private GameScene() {
-		this.mapNum = 0;
+		this.mapNum = 0; 		// change map here
 		this.map = Map.get();
 		if (!Map.buildMap(mapNum))
 			System.out.println("Error while building the map");
@@ -111,14 +112,7 @@ public class GameScene extends Scene {
 	public void run() {
 		boolean flagDropP1 = true;
 		boolean flagDropP2 = true;
-			
-		
-		for (Item item : itemList) {
-			item.collide(playerList, itemList, tileList);
-		}
-		for (Player player:playerList) {
-			player.collide(tileList, playerList);
-		}
+					
 		
 		if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
 			SceneManager.get().pauseGame();
@@ -136,34 +130,46 @@ public class GameScene extends Scene {
 			p.updateKeyPressed();
 			
 			for (Tile tile:tileList) {
+				
+				//player can exchange items with this tile
 				if (tile instanceof ContainerTile) {
-						
-					if ((tile).isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {
+					
+					//player is in range, press the key and cooldown is ok
+					if (tile.getSpace().includes(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {
 						p.resetLastPickDrop();
 						Item item = p.getInHand();
 						ContainerTile cTile = (ContainerTile) tile;
 						
+						//player wants to merge ingredient in hand with container in tile
 						if (item instanceof Ingredient && (cTile).getContent() instanceof IngredientContainer) {
+							//merge is successful (ingredients corresponds
 							if (((IngredientContainer)(cTile).getContent()).fill((Ingredient) item)) {
 								itemList.remove(item);
 								p.drop();
 							}
+							//merge aborted, player exchange the item in hand with the content of tile
 							else {
+								System.out.println("fezfze");
 								p.drop();
 								item = (cTile).takeOrDrop(item);
 								p.take(item);
 							}
 						}
+						
+						//player wants to merge ingredient in tile with container in hand
 						else if (item instanceof IngredientContainer && ((ContainerTile) tile).getContent() instanceof Ingredient) {
+							//successful
 							if (((IngredientContainer) item).fill(((Ingredient)(cTile).getContent()))) {
 								itemList.remove(cTile.takeOrDrop(null));
 							}
+							//aborted
 							else {
 								p.drop();
 								item = (cTile).takeOrDrop(item);
 								p.take(item);
 							}
 						}
+						//player exchange item in hand with tile content
 						else {
 							p.drop();
 							item = (cTile).takeOrDrop(item);
@@ -173,12 +179,14 @@ public class GameScene extends Scene {
 					}
 				}
 				
+				// player take a plate in the dryer
 				if (tile instanceof Dryer && p.getInHand() == null) {
 					if (tile.isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {
 						((Dryer) tile).takePlate(p);
 					}
 				}
 				
+				//player drop a plate in sink
 				if (tile instanceof Sink && p.getInHand() instanceof Plate) {
 					if (tile.isInTile(p.whereToDrop()) && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && p.getPickDrop()) {
 						if (((Plate)p.getInHand()).getDirty()) {
@@ -224,6 +232,17 @@ public class GameScene extends Scene {
 					p.drop();
 				}
 			}
+		}
+		for (Item item : itemList) {
+			item.collideEntity(playerList);
+			item.collideEntity(itemList);
+			item.collideTile(tileList);
+		}
+
+		for (Player player:playerList) {
+			player.collideTile(tileList);
+			player.collidePlayer(playerList);
+			
 		}
 	}
 }

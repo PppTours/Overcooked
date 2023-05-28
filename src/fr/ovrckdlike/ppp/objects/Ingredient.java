@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.objects;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
+import fr.ovrckdlike.ppp.physics.Dot;
 
 public class Ingredient extends Item {
 	private int type;
@@ -27,10 +28,11 @@ public class Ingredient extends Item {
 	}
 	
 	public Ingredient(int type) {
+		super(new Dot(0f, 0f));
 		this.type = type;
 		if (this.type == 6 || this.type == 11) prepared = true;
 		else prepared = false;
-		direction = 0;
+		angle = 0;
 		mode = 0;
 		cooked = false;
 		
@@ -87,60 +89,59 @@ public class Ingredient extends Item {
 	}
 	
 	public void render() {
-		int zoom = this.mode+1;
-		float renderPos[] = {this.pos[0] - (this.size*zoom)/2, this.pos[1] - (this.size*zoom)/2};
+		float zoom = space.getRay()*(mode+1);
 		switch (type) {
 		case 0 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedTomato);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.tomato);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedTomato);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.tomato);
 			break;
 		case 1 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedSalade);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.salade);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedSalade);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.salade);
 			break;
 		case 2 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedOnion);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.onion);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedOnion);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.onion);
 			break;
 		case 3 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedMushroom);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.mushroom);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedMushroom);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.mushroom);
 			break;
 		case 4 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedMeat);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.meat);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedMeat);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.meat);
 			break;
 		case 5 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedCheese);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.cheese);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedCheese);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.cheese);
 			break;
 		case 6 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.pasta);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.pasta);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pasta);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pasta);
 			break;
 		case 7 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedSausage);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.sausage);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedSausage);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.sausage);
 			break;
 		case 8 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.pizzaDough);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.pizzaDough);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pizzaDough);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pizzaDough);
 			break;
 		case 9 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedBread);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.burgerBread);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedBread);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.burgerBread);
 			break;
 		case 10 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedChicken);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.chicken);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedChicken);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.chicken);
 			break;
 		case 11 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.rice);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.rice);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.rice);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.rice);
 			break;
 		case 12 :
-			if (prepared) Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.slicedPotato);
-			else Renderer.drawTexture(renderPos[0], renderPos[1], this.size*zoom, this.size*zoom, (float)(direction*Math.PI/4), Texture.potato);
+			if (prepared) Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedPotato);
+			else Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.potato);
 			break;
 
 		}

@@ -3,18 +3,15 @@ package fr.ovrckdlike.ppp.tiles;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Ingredient;
-import fr.ovrckdlike.ppp.objects.Item;
-import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
-
-import java.util.List;
-import java.util.ArrayList;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public class Bin extends Tile{
 	
-	public Bin(float[] pos) {
+	public Bin(Dot pos) {
 		this.type = 11;
-		this.pos = pos;
+		this.space = new Rectangle(pos, size, size, 0f);
 	}
 	
 	public void use(Player player) {
@@ -26,6 +23,6 @@ public class Bin extends Tile{
 	}
 	
 	public void render() {
-		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.bin);
+		Renderer.drawTexture(space, Texture.bin);
 	}
 }

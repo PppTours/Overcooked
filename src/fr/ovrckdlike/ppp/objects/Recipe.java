@@ -2,11 +2,16 @@ package fr.ovrckdlike.ppp.objects;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.Renderer;
+import fr.ovrckdlike.ppp.gui.IngredientVisualizer;
+import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.scene.GameScene;
 
@@ -15,22 +20,23 @@ public class Recipe {
 	byte recipeSet;
 	byte recipeId;
 	float timer;		//timer is in seconds
-	int[] ingredientList;
+	int[] ingredientList = new int[5];
+	List<IngredientVisualizer> ivList;
 	byte commandNumero;
-	float[] pos = new float[2];
-	float[] size = new float[2];
-	
+	Rectangle space;
+	TimeBar timeBar;
 	
 	
 	public Recipe(byte recipeSet, byte commandNumero){
 		this.recipeSet = recipeSet;
 		this.commandNumero = commandNumero;
+		space = new Rectangle(220*commandNumero, 0, 240, 140);
+		ivList = new ArrayList();
 		
 		timer = 60f;
-		size[0] = 240;
-		size[1] = 140;
-		pos[0] = (size[0]-20) * commandNumero;
-		pos[1] = 0;
+		Rectangle timeBarPos = new Rectangle(space.getPos().add(new Dot(0, -65)), 200, 15, 0);
+		timeBar = new TimeBar(timeBarPos, timer);
+		
 		File recipeFile = new File("res/recipes/set"+recipeSet+".csv");
 		try {
 			Scanner scan = new Scanner(recipeFile);
@@ -65,6 +71,16 @@ public class Recipe {
 		catch(FileNotFoundException e){
 			System.out.println("Recipe file res/recipes/set"+recipeSet+".csv not found.");
 		}
+		byte ingIdx = 0;
+		for (ingIdx = 0; ingIdx < ingredientList.length; ingIdx++) {
+			int ingSize = 38;
+			float xIng = space.getX() - ingSize*ingredientList.length/2f + ingSize*ingIdx + 5;
+			float yIng = space.getY()+30;
+			
+			ivList.add(new IngredientVisualizer(ingredientList[ingIdx], new Dot(xIng, yIng)));
+		
+		
+		}
 	}
 	
 	public void reset() {
@@ -77,7 +93,7 @@ public class Recipe {
 	
 	public void setComNo(byte numero) {
 		commandNumero = numero;
-		pos[0] = (size[0]-20) * commandNumero;
+		space.getPos().setX(220*commandNumero);
 	}
 	
 	public float getTimer() {
@@ -117,77 +133,20 @@ public class Recipe {
 	
 	public void render() {
 		float alpha = .8f;
-		float[] middlePos = {pos[0] + size[0]/2, pos[1] + size[1]/2};
-		float p1Dist = GameScene.getPlayers().get(0).distanceTo(middlePos);
-		float p2Dist = GameScene.getPlayers().get(1).distanceTo(middlePos);
+		Dot pos = space.getPos();
+		float p1Dist = GameScene.getPlayers().get(0).distanceTo(pos);
+		float p2Dist = GameScene.getPlayers().get(1).distanceTo(pos);
 		float dist = Math.min(p1Dist, p2Dist);
-		if (dist < size[0]+50) {
-			alpha = .6f * dist/(size[0]+50)+ .2f;
+		if (dist < space.getHeight()+50) {
+			alpha = .6f * dist/(space.getHeight()+50)+ .2f;
 		}
-		Renderer.drawTextureTransparent(pos[0], pos[1], size[0], size[1], 0, alpha, Texture.recipeBackground);
+		Renderer.drawTextureTransparent(space, alpha, Texture.recipeBackground);
 		
-		byte ingIdx = 0;
-		for (ingIdx = 0; ingIdx < ingredientList.length; ingIdx++) {
-			int ingSize = 38;
-			float xIng = middlePos[0] - ingSize*ingredientList.length/2f + ingSize*ingIdx + 5;
-			float yIng = pos[1]+100;
-			
-			Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.circle);
-			switch (ingredientList[ingIdx]) {
-			case 0 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.tomato);
-				break;
-			case 1 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.salade);
-				break;
-			case 2 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.onion);
-				break;
-			case 3 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.mushroom);
-				break;
-			case 4 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.meat);
-				break;
-			case 5 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.cheese);
-				break;
-			case 6 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.pasta);
-				break;
-			case 7 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.sausage);
-				break;
-			case 8 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.pizzaDough);
-				break;
-			case 9 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.burgerBread);
-				break;
-			case 10 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.chicken);
-				break;
-			case 11 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.rice);
-				break;
-			case 12 :
-				Renderer.drawTextureTransparent(xIng, yIng, 28, 28, 0, alpha, Texture.potato);
-				break;
-			default :
-				break;
-			}	
-		}
-		Renderer.drawQuad(pos[0]+30, pos[1]+5, 120, 15, Color.black);
 		
-		float timeBarLength = 2*timer;
+		for (IngredientVisualizer iv:ivList) {
+			iv.render();
+		}
 		
-		if (timer > 40f) {
-			Renderer.drawQuad(pos[0]+30, pos[1]+5, timeBarLength, 15, Color.darkGreen);
-		}
-		else if (timer < 20f) {
-			Renderer.drawQuad(pos[0]+30, pos[1]+5, timeBarLength, 15, Color.red);
-		}
-		else Renderer.drawQuad(pos[0]+30, pos[1]+5, timeBarLength, 15, Color.yellow);
 	}
 	
 }

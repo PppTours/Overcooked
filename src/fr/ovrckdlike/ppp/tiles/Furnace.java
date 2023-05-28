@@ -6,6 +6,8 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
+import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 
@@ -15,12 +17,13 @@ public class Furnace extends Tile implements ContainerTile{
 	private int cookingTime = 10;
 	private float timeInFurnace;
 	private TimeBar timeBar;
-	private float[] timeBarPos = {this.pos[0]+35, this.pos[1]+108};
+	private Dot timeBarPos;
 	
 	
-	public Furnace(float[] pos) {
+	public Furnace(Dot pos) {
 		type = 9;
-		this.pos = pos;
+		this.space = new Rectangle(pos, size, size, 0f);
+		timeBarPos = new Dot(space.getPos().getX(), pos.getY() + 48f);
 		inFurnace = null;
 		timeInFurnace = 0;
 		timeBar = new TimeBar(timeBarPos, cookingTime);
@@ -37,7 +40,7 @@ public class Furnace extends Tile implements ContainerTile{
 			timeInFurnace = 0f;
 			if (inFurnace != null) {
 				inFurnace.setMode(1);
-				inFurnace.setPos(this.pos[0]+size/2, this.pos[1]+size/2);
+				inFurnace.setPos(space.getPos());
 			}
 			if (oldContent != null) {
 				oldContent.setMode(0);
@@ -61,13 +64,13 @@ public class Furnace extends Tile implements ContainerTile{
 	}
 		
 	public void render() {
-		Renderer.drawTexture(this.pos[0], this.pos[1], this.size, this.size, 0, Texture.furnaceBack);
+		Renderer.drawTexture(space, Texture.furnaceBack);
 		
 		if (inFurnace != null) {
 			inFurnace.render();
 		}
 		
-		Renderer.drawTexture(pos[0], pos[1], size, size, 0, Texture.furnaceFront);
+		Renderer.drawTexture(space, Texture.furnaceFront);
 		timeBar.render(timeInFurnace, timeBarPos);
 		
 	}
