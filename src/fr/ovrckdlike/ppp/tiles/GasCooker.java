@@ -33,13 +33,13 @@ public class GasCooker extends Tile implements ContainerTile{
 			long dt = Time.get().getDt();
 			content.cook(dt);
 		}
-		
 	}
 	
 	public void use(Player player) {}
 
 	public void render() {
 		Renderer.drawTexture(space, Texture.gasCooker);
+		if (content != null) content.render();
 	}
 
 	@Override

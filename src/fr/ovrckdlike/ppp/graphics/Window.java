@@ -125,33 +125,12 @@ public class Window {
 			Renderer.simpleQuadShader = Shader.compileAndCreateShader("/shaders/simple_quad.vert", "/shaders/simple_quad.frag");
 			Renderer.defaultTextured = Shader.compileAndCreateShader("/shaders/default_textured.vert", "/shaders/default_textured.frag");
 			
-			Texture.CatSkin = Texture.loadTexture("/textures/skins/player_cat_skin.png", true);
-			Texture.table = Texture.loadTexture("/textures/tiles/table.png", true);
-			Texture.cuttingTable = Texture.loadTexture("/textures/tiles/cutting_table.png", true);
-			Texture.gasCooker = Texture.loadTexture("/textures/tiles/gas_cooker.png", true);
-			Texture.sink = Texture.loadTexture("/textures/tiles/sink.png", true);
-			Texture.dryer = Texture.loadTexture("/textures/tiles/dryer.png", true);
-			Texture.bin = Texture.loadTexture("/textures/tiles/bin.png", true);
-			Texture.ingredientRefiller = Texture.loadTexture("/textures/tiles/ingredient_refiller.png", true);
-			Texture.serviceTable = Texture.loadTexture("/textures/tiles/service_table.png", true);
-			Texture.plateReturn = Texture.loadTexture("/textures/tiles/plate_return.png", true);
-			Texture.pot = Texture.loadTexture("/textures/general/pot.png", true);
-			Texture.potEmpty = Texture.loadTexture("/textures/general/pot_empty.png", true);
-			Texture.font = Texture.loadTexture("/font/font.png", false);
-			Texture.wall = Texture.loadTexture("/textures/tiles/wall.png", true);
-			Texture.plate = Texture.loadTexture("/textures/general/plate.png", true);
-			Texture.recipeBackground =Texture.loadTexture("/textures/gui/recipe_background.png", true);
-			Texture.circle = Texture.loadTexture("/textures/gui/circle.png", false); //false ?
-			Texture.arrowLeft = Texture.loadTexture("/textures/gui/arrow_left.png", true);
-			Texture.arrowRight = Texture.loadTexture("/textures/gui/arrow_right.png", true);
-			Texture.furnaceBack = Texture.loadTexture("/textures/tiles/furnace_background.png", true);
-			Texture.furnaceFront = Texture.loadTexture("/textures/tiles/furnace_foreground.png", true);
-			Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
-			Texture.pan = Texture.loadTexture("/textures/general/pan.png", true);
-		
+			// load gui, skins, and miscellaneous textures
+			Texture.loadGeneralTextures();
+
 			
 		} catch (IOException e) {
-			System.out.println("unable to load texture");
+			System.out.println("unable to load shaders");
 			e.printStackTrace();
 		}
 		

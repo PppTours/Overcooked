@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.objects.Pot;
@@ -189,8 +190,8 @@ public class Map {
 					Dot posP2 = new Dot(playerPosRaw[2], playerPosRaw[3]);
 					
 					
-					Player player1 = new Player(posP1, (byte) 1);
-					Player player2 = new Player(posP2, (byte) 2);
+					Player player1 = new Player(posP1, (byte) 1, Texture.catSkin);
+					Player player2 = new Player(posP2, (byte) 2, Texture.dragonSkin);
 					
 					map.playerList.add(player1);
 					map.playerList.add(player2);

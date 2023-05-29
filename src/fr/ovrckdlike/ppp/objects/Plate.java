@@ -11,6 +11,7 @@ import fr.ovrckdlike.ppp.physics.Dot;
 public class Plate extends Item implements IngredientContainer{
 	private boolean[] content = new boolean[15];
 	private boolean dirty;
+	private boolean burnt;
 	private byte ingCount;
 	private List<IngredientVisualizer> ivList = new ArrayList();
 
@@ -22,6 +23,7 @@ public class Plate extends Item implements IngredientContainer{
 	public Plate(Dot pos, boolean dirty, int mode) {
 		super(pos);
 		this.dirty = dirty;
+		burnt = false;
 		this.mode = mode;
 		
 		for (int i = 0; i < 5; i++) {
@@ -48,6 +50,11 @@ public class Plate extends Item implements IngredientContainer{
 		return (ingCount == 0);
 	}
 	
+	public void burn() {
+		flush();
+		burnt = true;
+	}
+	
 	public void prepare() {}
 	
 	public void cook() {
@@ -57,7 +64,7 @@ public class Plate extends Item implements IngredientContainer{
 	@Override
 	public boolean fill(Ingredient ingredient) {
 		if (!ingredient.getPrepared()) return false;
-		if (dirty) return false;
+		if (dirty || burnt) return false;
 		
 		if (this.content[ingredient.getType()] == true) return false;
 		if (ingCount > 5) return false;
@@ -70,6 +77,7 @@ public class Plate extends Item implements IngredientContainer{
 	
 	public void flush() {
 		ingCount = 0;
+		burnt = false;
 		for (IngredientVisualizer iv:ivList) {
 			iv.setVisible(false);
 		}
@@ -102,9 +110,9 @@ public class Plate extends Item implements IngredientContainer{
 		int zoom = mode+1;
 		if (mode == 2) return;
 		if (!dirty)
-			Renderer.drawTexture(space.surroundBySquare(0), Texture.plate);
+			Renderer.drawTexture(space.resized(zoom*space.getRay()).surroundBySquare(0), Texture.plate);
 		else 
-			Renderer.drawTexture(space.surroundBySquare(0), Texture.dirtyPlate);
+			Renderer.drawTexture(space.resized(zoom*space.getRay()).surroundBySquare(0), Texture.dirtyPlate);
 		int[] ingIdx = new int[5];
 		byte i = 0;
 		for (int k=0; k < 13; k++) {

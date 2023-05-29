@@ -10,7 +10,7 @@ public class Circle {
 	}
 	
 	public void setPos(Dot newPos) {
-		centre = newPos;
+		centre = new Dot(newPos);
 	}
 	
 	public Dot getPos() {

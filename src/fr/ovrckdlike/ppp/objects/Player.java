@@ -28,6 +28,7 @@ import fr.ovrckdlike.ppp.tiles.Tile;
 
 
 public class Player extends Entity{
+	private Texture skin;
 	private byte id;
 	private int direction;
 	private int moveSpeed;
@@ -37,6 +38,7 @@ public class Player extends Entity{
 	private float dashTime;
 	private boolean dashIsReady;
 	
+	// controls
 	private boolean up;
 	private boolean down;
 	private boolean left;
@@ -48,7 +50,8 @@ public class Player extends Entity{
 	private long lastInteract = 0;
 	
 	
-	public Player(Dot pos, byte id) {
+	public Player(Dot pos, byte id, Texture skin) {
+		this.skin = skin;
 		this.id = id;
 		space = new Circle(pos, 50);
 		blocked = false;
@@ -248,7 +251,7 @@ public class Player extends Entity{
 	}
 	
 	public void render() {
-		Renderer.drawTexture(space.resized(60).surroundBySquare((float)((4-direction)*Math.PI/4)), Texture.CatSkin);
+		Renderer.drawTexture(space.resized(60).surroundBySquare((float)((4-direction)*Math.PI/4)), skin);
 		if (this.inHand != null) {
 			Dot pos = space.getPos();
 			float ray = space.getRay();
@@ -276,7 +279,7 @@ public class Player extends Entity{
 									(float)(pos.getY() + (Math.sqrt(2)*ray)/2));
 				break;
 			case 6:
-				inHandPos = new Dot(pos.getX() + ray, pos.getY());
+				inHandPos = new Dot(pos.getX() - ray, pos.getY());
 				break;
 			case 7:
 				inHandPos = new Dot( (float)(pos.getX() - (Math.sqrt(2)*ray)/2),
@@ -287,7 +290,8 @@ public class Player extends Entity{
 				break;
 			}
 			inHand.setPos(inHandPos);
-			this.inHand.render();
+			inHand.changeAngle(direction);
+			inHand.render();
 		}
 	}
 	

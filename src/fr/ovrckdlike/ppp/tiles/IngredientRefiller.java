@@ -28,6 +28,7 @@ public class IngredientRefiller extends Tile implements ContainerTile {
 		if (content == null) {
 			if (player.getInHand() == null) {
 				Ingredient ing = new Ingredient(ingredientType);
+				ing.setInPlayerHand(true);
 				Map.get().getItemList().add(ing);
 				player.setInHand(ing);
 			}
@@ -80,6 +81,7 @@ public class IngredientRefiller extends Tile implements ContainerTile {
 			Renderer.drawTexture(ingSpace, Texture.potato);
 			break;
 		}
+		if (content != null) content.render();
 	}
 
 	@Override

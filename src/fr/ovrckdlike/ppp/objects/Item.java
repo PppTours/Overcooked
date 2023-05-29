@@ -20,6 +20,10 @@ public abstract class Item extends Entity{
 	public abstract void render();
 	public abstract void prepare();
 	
+	public boolean isOnGround() {
+		return (mode == 0 && !inPlayerHand);
+	}
+	
 	public void setMode(int mode) {
 		this.mode = mode;
 	}
@@ -29,7 +33,7 @@ public abstract class Item extends Entity{
 	}
 	
 	public void changeAngle(int direction) {
-		angle = (float)(direction*Math.PI/4f);
+		angle = (float)(-direction*Math.PI/4f);
 	}
 	
 	public void setInPlayerHand(boolean set) {
@@ -46,7 +50,7 @@ public abstract class Item extends Entity{
 	}
 	
 	public void setPos(Dot newPos) {
-		
+		space.setPos(newPos);
 	}
 	public Dot getPos() {
 		return space.getPos();
@@ -82,55 +86,4 @@ public abstract class Item extends Entity{
 			}
 		}
 	}
-	
-	/*
-	@Deprecated
-	public void collide(List<Player> playerList, List<Item>itemList, List<Tile>tileList) {
-		if (isOnTable()) return;
-		
-		float size = 2 * space.getRay();
-		Dot pos = space.getPos();
-		
-		for(Player player:playerList) {
-			if (player.getInHand() != this) {
-				float toMove = (player.getSize() + size)/2 - player.distanceTo(pos);
-				if (toMove > 0) {
-					float angle = angleTo(player.getPos());
-					pos.addToThis((float)((-toMove) * Math.cos(angle)*3/4),(float)((toMove) * Math.sin(angle)*3/4));
-					float[] playerPos = {(float)(player.getPos()[0] + toMove * Math.cos(angle)/4),
-					(float)(player.getPos()[1] - toMove * Math.sin(angle)/4)};
-					player.setPos(playerPos);
-					
-				}
-			}
-			
-		}
-		
-		for (Item item:itemList) {
-			if (this != item && !inPlayerHand && !item.inPlayerHand && !item.isOnTable()) {
-				float toMove = size - distanceTo(item.getPos());
-				if (toMove > 0) {
-					double angle = angleTo(item.getPos());
-					pos.addToThis((float)((-(toMove) * Math.cos(angle))/2), (float)(((toMove) * Math.sin(angle))/2));
-					item.getPos().addToThis((float)(((toMove) * Math.cos(angle))/2), (float)((-(toMove) * Math.sin(angle))/2));
-				}
-			}
-		}
-		for (Tile tile:tileList) {
-			float toMove = size/2 - distanceTo(tile.nearestFromPos(pos));
-			if (toMove > 0) {
-				double angle = angleTo(tile.nearestFromPos(pos));
-				pos.addToThis((float)((-(toMove) * Math.cos(angle))/2), (float)(((toMove) * Math.sin(angle))/2));
-			}
-			if (tile.isInTile(pos)) {
-
-				float[] tileCenter = new float[2];
-				tileCenter[0] = tile.getPos()[0] + tile.getSize() / 2;
-				tileCenter[1] = tile.getPos()[1] + tile.getSize() / 2;
-
-				double angle = angleTo(tileCenter);
-				pos.addToThis((float)((-(15) * Math.cos(angle))/2), (float)(((15) * Math.sin(angle))/2));
-			}
-		}
-	}*/
 }

@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.gameplay;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.ovrckdlike.ppp.map.MapType;
 import fr.ovrckdlike.ppp.objects.Recipe;
 import fr.ovrckdlike.ppp.physics.Time;
 
@@ -10,7 +11,7 @@ public class RecipeScheduler {
 	private static RecipeScheduler rs;
 	private List<Recipe> recipeList;
 	private float timeSinceLastAdd;
-	private byte recipeSet;
+	private MapType recipeSet;
 	
 	private RecipeScheduler() {
 		recipeList = new ArrayList<Recipe>();
@@ -27,8 +28,8 @@ public class RecipeScheduler {
 		return rs;
 	}
 	
-	public void setRecSet(int newSet) {
-		recipeSet = (byte) newSet;
+	public void setRecSet(MapType newSet) {
+		recipeSet = newSet;
 	}
 	
 	public void run() {

@@ -15,23 +15,29 @@ public class Texture {
 
 	private static Texture boundTexture;
 	
-	public static Texture CatSkin; 		//déclarer les textures ici
+	// skins
+	public static Texture catSkin;
+	public static Texture rabbitSkin;
+	public static Texture wolfSkin;
+	public static Texture dragonSkin;
+	public static Texture apeSkin;
+	
+	// tiles
 	public static Texture table;
-	public static Texture flattenPizzaDough;
-	public static Texture cuttingTable;
-	public static Texture salade;
 	public static Texture gasCooker;
+	public static Texture cuttingTable;
+	public static Texture wall;
+	public static Texture plateReturn;
 	public static Texture sink;
 	public static Texture dryer;
 	public static Texture bin;
 	public static Texture ingredientRefiller;
 	public static Texture serviceTable;
-	public static Texture plateReturn;
-	public static Texture pot;
-	public static Texture potEmpty;
-	public static Texture potTomato;
-	public static Texture potOnion;
-	public static Texture potMushroom;
+	public static Texture furnaceFront;
+	public static Texture furnaceBack;
+	
+	// ingredients
+	public static Texture salade;
 	public static Texture mushroom;
 	public static Texture tomato;
 	public static Texture cheese;
@@ -44,11 +50,8 @@ public class Texture {
 	public static Texture rice;
 	public static Texture chicken;
 	public static Texture potato;
-	public static Texture font;
-	public static Texture wall;
-	public static Texture plate;
-	public static Texture recipeBackground;
-	public static Texture circle;
+	
+	// prepared ingredients
 	public static Texture slicedTomato;
 	public static Texture slicedSalade;
 	public static Texture slicedOnion;
@@ -59,14 +62,27 @@ public class Texture {
 	public static Texture slicedBread;
 	public static Texture slicedChicken;
 	public static Texture slicedPotato;
-	public static Texture furnaceFront;
-	public static Texture furnaceBack;
-	public static Texture dirtyPlate;
+	public static Texture flattenPizzaDough;
+	
+	// items
+	public static Texture potEmpty;
+	public static Texture potTomato;
+	public static Texture potOnion;
+	public static Texture potMushroom;
+	public static Texture pot;
+	public static Texture plate;
 	public static Texture pan;
+	public static Texture dirtyPlate;
+	
+	// gui
+	public static Texture recipeBackground;
+	public static Texture circle;
 	public static Texture arrowLeft;
 	public static Texture arrowRight;
-	
+	public static Texture font;
 
+	
+	
 	public final String path;
 	public final int width, height;
 	public final int id;
@@ -78,6 +94,7 @@ public class Texture {
 		this.height = height;
 	}
 	
+	// linear = texture smoothing (bluring)
 	public static Texture loadTexture(String path, boolean linear) throws IOException {
 		int id, width, height;
 
@@ -130,20 +147,6 @@ public class Texture {
 		return new Texture(path, id, width, height);
 	}
 	
-//	public Texture(int width, int height, ByteBuffer buffer) {
-//		this.id = glGenTextures();
-//		this.width = width;
-//		this.height = height;
-//		this.path = null;
-//		glBindTexture(GL_TEXTURE_2D, id);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-//		unbind();
-//	}
-	
 	public void bind() {
 		if(boundTexture != this) {
 			glBindTexture(GL_TEXTURE_2D, id);
@@ -159,9 +162,54 @@ public class Texture {
 	public void dispose() {
 		glDeleteTextures(id);
 	}
-
+	
+	public static void loadGeneralTextures() {
+		try {
+			// skins
+			Texture.catSkin = Texture.loadTexture("/textures/skins/player_cat_skin.png", true);
+			Texture.apeSkin = Texture.loadTexture("/textures/skins/player_ape_skin.png", true);
+			Texture.dragonSkin = Texture.loadTexture("/textures/skins/player_dragon_skin.png", true);
+			Texture.rabbitSkin = Texture.loadTexture("/textures/skins/player_rabbit_skin.png", true);
+			Texture.wolfSkin = Texture.loadTexture("/textures/skins/player_wolf_skin.png", true);
+			
+			// gui
+			Texture.recipeBackground =Texture.loadTexture("/textures/gui/recipe_background.png", true);
+			Texture.circle = Texture.loadTexture("/textures/gui/circle.png", false); //false ?
+			Texture.arrowLeft = Texture.loadTexture("/textures/gui/arrow_left.png", true);
+			Texture.arrowRight = Texture.loadTexture("/textures/gui/arrow_right.png", true);
+			Texture.font = Texture.loadTexture("/font/font.png", false);
+			
+			// items
+			Texture.pot = Texture.loadTexture("/textures/general/pot.png", true);
+			Texture.potEmpty = Texture.loadTexture("/textures/general/pot_empty.png", true);
+			Texture.plate = Texture.loadTexture("/textures/general/plate.png", true);
+			Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
+			Texture.pan = Texture.loadTexture("/textures/general/pan.png", true);
+			
+			// tiles
+			Texture.table = Texture.loadTexture("/textures/tiles/table.png", true);
+			Texture.cuttingTable = Texture.loadTexture("/textures/tiles/cutting_table.png", true);
+			Texture.gasCooker = Texture.loadTexture("/textures/tiles/gas_cooker.png", true);
+			Texture.sink = Texture.loadTexture("/textures/tiles/sink.png", true);
+			Texture.dryer = Texture.loadTexture("/textures/tiles/dryer.png", true);
+			Texture.bin = Texture.loadTexture("/textures/tiles/bin.png", true);
+			Texture.ingredientRefiller = Texture.loadTexture("/textures/tiles/ingredient_refiller.png", true);
+			Texture.serviceTable = Texture.loadTexture("/textures/tiles/service_table.png", true);
+			Texture.plateReturn = Texture.loadTexture("/textures/tiles/plate_return.png", true);
+			Texture.wall = Texture.loadTexture("/textures/tiles/wall.png", true);
+			Texture.furnaceBack = Texture.loadTexture("/textures/tiles/furnace_background.png", true);
+			Texture.furnaceFront = Texture.loadTexture("/textures/tiles/furnace_foreground.png", true);
+			
+		} catch (IOException e) {
+			System.out.println("unable to load textures");
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
+	
 	public static void loadForMapType(MapType type) {
 		try {
+			//ingredients
 			Texture.salade = Texture.loadTexture("/textures/general/salade.png", true);
 			Texture.onion = Texture.loadTexture("/textures/general/onion.png", true);
 			Texture.tomato = Texture.loadTexture("/textures/general/tomato.png", true);
@@ -218,7 +266,7 @@ public class Texture {
 			}
 		}
 		catch (IOException e) {
-			System.out.println("unable to laod textures");
+			System.out.println("unable to load textures");
 			e.printStackTrace();
 			System.exit(0);
 		}

@@ -14,10 +14,10 @@ import fr.ovrckdlike.ppp.objects.IngredientContainer;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
-import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.ContainerTile;
 import fr.ovrckdlike.ppp.tiles.Dryer;
+import fr.ovrckdlike.ppp.tiles.Furnace;
 import fr.ovrckdlike.ppp.tiles.GasCooker;
 import fr.ovrckdlike.ppp.tiles.PlateReturn;
 import fr.ovrckdlike.ppp.tiles.Sink;
@@ -73,7 +73,6 @@ public class GameScene extends Scene {
 	
 	public static void addPlateToReturn() {
 		game.plateToReturn++;
-		System.out.println(game.plateToReturn);
 	}
 	
 	private GameScene() {
@@ -89,7 +88,7 @@ public class GameScene extends Scene {
 		playerList = map.getPlayerList();
 		
 		recSch = RecipeScheduler.get();
-		recSch.setRecSet(0);
+		recSch.setRecSet(map.getType());
 		
 		plateToReturn = 0;
 	}
@@ -104,7 +103,8 @@ public class GameScene extends Scene {
 			tile.render();
 		}
 		for (Item item : itemList) {
-			item.render();
+			if (!item.isOnTable())
+				item.render();
 		}
 		recSch.render();
 	}
@@ -123,6 +123,9 @@ public class GameScene extends Scene {
 		for(Tile tile:tileList) {
 			if (tile instanceof GasCooker) {
 				((GasCooker) tile).cook();
+			}
+			if (tile instanceof Furnace) {
+				((Furnace) tile).cook();
 			}
 		}
 		
@@ -149,7 +152,6 @@ public class GameScene extends Scene {
 							}
 							//merge aborted, player exchange the item in hand with the content of tile
 							else {
-								System.out.println("fezfze");
 								p.drop();
 								item = (cTile).takeOrDrop(item);
 								p.take(item);
@@ -201,6 +203,7 @@ public class GameScene extends Scene {
 					}
 				}
 				
+				//player get plate in dryer
 				if (plateToReturn > 0) {
 					if (tile instanceof PlateReturn) {
 						((PlateReturn) tile).addPlate();
@@ -209,7 +212,7 @@ public class GameScene extends Scene {
 				}	
 			}
 			
-			
+			// player interact 
 			for (Tile tile: tileList) {
 				if (p.getPickDrop() && tile.isInTile(p.whereToDrop())) flagDropP1 = false;
 				if (p.getInteract()) {

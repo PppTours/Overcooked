@@ -46,7 +46,7 @@ public class PlateReturn extends Tile implements ContainerTile{
 		Renderer.drawTexture(space, Texture.plateReturn);
 		if (plateNb > 0) {
 			Dot pos = space.getPos();
-			Rectangle plateSpace = new Rectangle(pos.add(-40f, -40f), size, size, 0f);
+			Rectangle plateSpace = new Rectangle(new Dot(pos), size, size, 0f);
 			Renderer.drawTexture(plateSpace, Texture.dirtyPlate);
 		}
 	}

@@ -49,19 +49,22 @@ public class Furnace extends Tile implements ContainerTile{
 		}
 		else return newContent;
 	}
-
-	public void use(Player player) {
-		long dt = Time.get().getDt();
-		float s_dt = (float) (dt/1E9f);
-		timeInFurnace += s_dt;
-		
-		if (inFurnace != null) {
-			if (timeInFurnace > cookingTime) inFurnace.cook();
-			if (timeInFurnace > 2*cookingTime); //brulé
-			
+	
+	public void cook() {
+		if (inFurnace == null) return;
+		if (!inFurnace.isEmpty()) {
+			long dt = Time.get().getDt();
+			float s_dt = (float) (dt/1E9f);
+			timeInFurnace += s_dt;
+			if (inFurnace != null) {
+				if (timeInFurnace > cookingTime) inFurnace.cook();
+				if (timeInFurnace > 2*cookingTime) inFurnace.burn(); //brulé
+				
+			}
 		}
-		
 	}
+	
+	public void use(Player player) {}
 		
 	public void render() {
 		Renderer.drawTexture(space, Texture.furnaceBack);

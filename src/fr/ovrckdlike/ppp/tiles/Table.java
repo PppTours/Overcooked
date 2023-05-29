@@ -47,6 +47,7 @@ public class Table extends Tile implements ContainerTile {
 	
 	public void render() {
 		Renderer.drawTexture(space, Texture.table);
+		if (content != null) content.render();
 	}
 	
 }

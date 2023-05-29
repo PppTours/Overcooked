@@ -8,6 +8,7 @@ import fr.ovrckdlike.ppp.gui.IngredientVisualizer;
 import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.physics.Rectangle;
 
 public class Pot extends CookerContainer implements IngredientContainer{
 	private int[] content = new int[3];
@@ -68,17 +69,18 @@ public class Pot extends CookerContainer implements IngredientContainer{
 	
 	public void render() {
 		int zoom = this.mode+1;
+		Rectangle printSurface = space.resized(zoom*space.getRay()).surroundBySquare(angle);
 		
-		Renderer.drawTexture(space.surroundBySquare(angle), Texture.pot);
-		Renderer.drawTexture(space.surroundBySquare(angle), Texture.potEmpty);
+		Renderer.drawTexture(printSurface, Texture.pot);
+		Renderer.drawTexture(printSurface, Texture.potEmpty);
 		if (checkForContent(-1) != 3) {
 			float totalContent = 3 - this.checkForContent(-1);
 			float alphaTomato = this.checkForContent(0) / totalContent;
-			Renderer.drawTextureTransparent(space.surroundBySquare(angle), alphaTomato, Texture.potTomato);
+			Renderer.drawTextureTransparent(printSurface, alphaTomato, Texture.potTomato);
 			float alphaOnion = this.checkForContent(2) / totalContent;
-			Renderer.drawTextureTransparent(space.surroundBySquare(angle), alphaOnion, Texture.potOnion);
+			Renderer.drawTextureTransparent(printSurface, alphaOnion, Texture.potOnion);
 			float alphaMushroom = this.checkForContent(3) / totalContent;
-			Renderer.drawTextureTransparent(space.surroundBySquare(angle), alphaMushroom, Texture.potMushroom);
+			Renderer.drawTextureTransparent(printSurface, alphaMushroom, Texture.potMushroom);
 		}
 		
 		Dot pos = space.getPos();
@@ -117,7 +119,7 @@ public class Pot extends CookerContainer implements IngredientContainer{
 			iv.render();
 		}
 		
-		Dot timeBarPos = new Dot(pos.getX()-25, pos.getY()+30);
+		Dot timeBarPos = new Dot(pos.getX(), pos.getY()+30);
 		timebar.render(currentCookingTime, timeBarPos);
 	}
 }

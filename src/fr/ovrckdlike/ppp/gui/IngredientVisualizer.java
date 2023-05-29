@@ -15,6 +15,7 @@ public class IngredientVisualizer {
 	public IngredientVisualizer(int ingType, Dot pos) {
 		this.ingType = ingType;
 		this.space = new Circle(pos, 15);
+		visible = false;
 	}
 	
 	public void setVisible(boolean param) {

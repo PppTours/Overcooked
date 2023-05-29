@@ -34,6 +34,7 @@ public class Dryer extends Tile{
 			if (player.getInHand() == null) {
 				Dot tempPos = new Dot(-50f, -50f);
 				Plate plate = new Plate(tempPos, false, 0);
+				plate.setInPlayerHand(true);
 				Map.get().getItemList().add(plate);
 				player.setInHand(plate);
 				nbPlate--;

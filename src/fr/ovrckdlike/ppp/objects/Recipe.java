@@ -10,6 +10,7 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.gui.IngredientVisualizer;
 import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.map.MapType;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
@@ -17,7 +18,7 @@ import fr.ovrckdlike.ppp.scene.GameScene;
 
 
 public class Recipe {
-	byte recipeSet;
+	MapType recipeSet;
 	byte recipeId;
 	float timer;		//timer is in seconds
 	int[] ingredientList = new int[5];
@@ -27,17 +28,19 @@ public class Recipe {
 	TimeBar timeBar;
 	
 	
-	public Recipe(byte recipeSet, byte commandNumero){
+	public Recipe(MapType recipeSet, byte commandNumero){
 		this.recipeSet = recipeSet;
 		this.commandNumero = commandNumero;
-		space = new Rectangle(220*commandNumero, 0, 240, 140);
+		space = new Rectangle(220*commandNumero+120, 70, 240, 140);
 		ivList = new ArrayList();
 		
 		timer = 60f;
 		Rectangle timeBarPos = new Rectangle(space.getPos().add(new Dot(0, -65)), 200, 15, 0);
 		timeBar = new TimeBar(timeBarPos, timer);
 		
-		File recipeFile = new File("res/recipes/set"+recipeSet+".csv");
+		
+		
+		File recipeFile = new File("res/recipes/set"+recipeSet.toString()+".csv");
 		try {
 			Scanner scan = new Scanner(recipeFile);
 			byte nbRecipe = 0;
@@ -74,12 +77,10 @@ public class Recipe {
 		byte ingIdx = 0;
 		for (ingIdx = 0; ingIdx < ingredientList.length; ingIdx++) {
 			int ingSize = 38;
-			float xIng = space.getX() - ingSize*ingredientList.length/2f + ingSize*ingIdx + 5;
-			float yIng = space.getY()+30;
+			float xIng = space.getX() - ingSize*(ingredientList.length-1)/2f + ingSize*ingIdx;
+			float yIng = space.getY()+50;
 			
 			ivList.add(new IngredientVisualizer(ingredientList[ingIdx], new Dot(xIng, yIng)));
-		
-		
 		}
 	}
 	
@@ -102,9 +103,9 @@ public class Recipe {
 	
 	public boolean checkValid(boolean[] content) {
 		boolean[] actualContent = new boolean[15];
-		if (recipeSet == 0) actualContent[14] = true;
+		if (recipeSet == MapType.PIZZA) actualContent[14] = true;
 		else actualContent[14] = false;
-		if (recipeSet == 1) actualContent[13] = true;
+		if (recipeSet == MapType.SOUP) actualContent[13] = true;
 		else actualContent[13] = false;
 		int k;
 		for (k = 0; k < 13; k++) {
@@ -144,6 +145,7 @@ public class Recipe {
 		
 		
 		for (IngredientVisualizer iv:ivList) {
+			iv.setVisible(true);
 			iv.render();
 		}
 		
