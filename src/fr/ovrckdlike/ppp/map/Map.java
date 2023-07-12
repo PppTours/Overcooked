@@ -9,9 +9,11 @@ import java.util.Scanner;
 
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.Item;
+import fr.ovrckdlike.ppp.objects.Pan;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.objects.Pot;
 import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.scene.HyperParameters;
 import fr.ovrckdlike.ppp.tiles.Bin;
 import fr.ovrckdlike.ppp.tiles.CuttingTable;
 import fr.ovrckdlike.ppp.tiles.Dryer;
@@ -72,7 +74,7 @@ public class Map {
 
 	public static boolean buildMap(int numero) {
 		Map.get();
-		File file = new File("res/maps/map"+numero+".csv");
+		File file = new File("res/maps/map"+numero+"/map.csv");
 		try {
 			Scanner scan = new Scanner(file);
 			int tilePosX = 0;
@@ -113,7 +115,7 @@ public class Map {
 								}
 								else {
 									Dot panPos = new Dot(0f, 0f);
-									Pot onGas = new Pot(panPos);	//TODO : modifier Pot en Pan 
+									Pan onGas = new Pan(panPos);
 									map.itemList.add(onGas);
 									tile = new GasCooker(tilePos, onGas);
 								}
@@ -190,8 +192,8 @@ public class Map {
 					Dot posP2 = new Dot(playerPosRaw[2], playerPosRaw[3]);
 					
 					
-					Player player1 = new Player(posP1, (byte) 1, Texture.catSkin);
-					Player player2 = new Player(posP2, (byte) 2, Texture.dragonSkin);
+					Player player1 = new Player(posP1, (byte) 1, HyperParameters.get().getSkinP1());
+					Player player2 = new Player(posP2, (byte) 2, HyperParameters.get().getSkinP2());
 					
 					map.playerList.add(player1);
 					map.playerList.add(player2);

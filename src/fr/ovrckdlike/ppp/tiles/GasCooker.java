@@ -10,9 +10,9 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 
-public class GasCooker extends Tile implements ContainerTile{
-	private float cookingTime;
+public class GasCooker extends Tile implements ContainerTile, Burnable{
 	private CookerContainer content;
+	private boolean burning;
 	
 	public Item getContent() {
 		return content;
@@ -21,10 +21,10 @@ public class GasCooker extends Tile implements ContainerTile{
 	public GasCooker(Dot pos, CookerContainer onGas) {
 		this.type = 3;
 		this.space = new Rectangle(pos, size, size, 0f);
-		this.cookingTime = 0f;
 		this.content = onGas;
 		this.content.setPos(pos);
 		this.content.setMode(1);
+		burning = false;
 	}
 	
 	public void cook() {
@@ -32,6 +32,7 @@ public class GasCooker extends Tile implements ContainerTile{
 		if (content.isFilled()) {
 			long dt = Time.get().getDt();
 			content.cook(dt);
+			if (content.isBurnt()) setInFire();
 		}
 	}
 	
@@ -40,6 +41,8 @@ public class GasCooker extends Tile implements ContainerTile{
 	public void render() {
 		Renderer.drawTexture(space, Texture.gasCooker);
 		if (content != null) content.render();
+		
+		if (burning) Renderer.drawTexture(space, Texture.fire);
 	}
 
 	@Override
@@ -47,7 +50,6 @@ public class GasCooker extends Tile implements ContainerTile{
 		if (newContent instanceof CookerContainer || newContent == null) {
 			CookerContainer oldContent = content;
 			content = (CookerContainer) newContent;
-			cookingTime = 0f;
 			if (content != null) {
 				content.setMode(1);
 				content.setPos(space.getPos());
@@ -58,6 +60,23 @@ public class GasCooker extends Tile implements ContainerTile{
 			return oldContent;
 		}
 		return newContent;
+		
+	}
+
+	@Override
+	public boolean isBurning() {
+		return burning;
+	}
+
+	@Override
+	public void setInFire() {
+		burning = true;
+		content.burn();
+	}
+
+	@Override
+	public void stopFire() {
+		burning = false;
 		
 	}
 }

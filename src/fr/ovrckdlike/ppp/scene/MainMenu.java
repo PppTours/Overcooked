@@ -10,13 +10,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_S;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
-import java.util.List;
-
 import fr.ovrckdlike.ppp.graphics.Color;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
+import fr.ovrckdlike.ppp.gui.MapCard;
 import fr.ovrckdlike.ppp.gui.Text;
 import fr.ovrckdlike.ppp.physics.Dot;
-import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 public class MainMenu extends Scene {
@@ -48,7 +46,7 @@ public class MainMenu extends Scene {
 		boolean quit = KeyListener.isKeyPressed(GLFW_KEY_ESCAPE);
 
 		if (left1 || right1 || up1 || down1 || left2 || right2 || up2 || down2) {
-			SceneManager.get().setSceneToGame();
+			SceneManager.get().setSceneToMapSelect();
 		}
 
 		if (quit) {

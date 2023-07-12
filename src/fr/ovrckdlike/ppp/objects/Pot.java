@@ -52,7 +52,7 @@ public class Pot extends CookerContainer implements IngredientContainer{
 		if (ing.getType() == 0 || ing.getType() == 2 || ing.getType() == 3) {
 			content[nbIng] = ing.getType();
 			nbIng++;
-			currentCookingTime *= (float) (nbIng-1)/(float) nbIng; //TODO (verifier)
+			currentCookingTime *= (float) (nbIng-1)/(float) nbIng;
 			return true;
 		}
 		else return false;

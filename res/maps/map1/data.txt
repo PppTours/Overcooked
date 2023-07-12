@@ -1,0 +1,4 @@
+name:Collision Test
+difficulty:1
+maxScore:614
+type:BURGER

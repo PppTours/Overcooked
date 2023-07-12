@@ -51,7 +51,7 @@ public class GameScene extends Scene {
 		tileList = map.getTileList();
 		playerList = map.getPlayerList();
 		
-		this.mapNum = 0;			// passer la map en param
+		this.mapNum = HyperParameters.get().getMap();
 		this.map = Map.get();
 		if (!Map.buildMap(mapNum))
 			System.out.println("Error while building the map");
@@ -59,7 +59,7 @@ public class GameScene extends Scene {
 		Texture.loadForMapType(map.getType());
 		
 		
-		recSch = RecipeScheduler.get(); //TODO verifier le reset
+		recSch = RecipeScheduler.get();
 		
 	}
 	
@@ -76,7 +76,7 @@ public class GameScene extends Scene {
 	}
 	
 	private GameScene() {
-		this.mapNum = 0; 		// change map here
+		this.mapNum = HyperParameters.get().getMap(); 		// change map here
 		this.map = Map.get();
 		if (!Map.buildMap(mapNum))
 			System.out.println("Error while building the map");

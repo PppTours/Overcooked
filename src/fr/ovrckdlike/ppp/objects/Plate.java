@@ -11,6 +11,7 @@ import fr.ovrckdlike.ppp.physics.Dot;
 public class Plate extends Item implements IngredientContainer{
 	private boolean[] content = new boolean[15];
 	private boolean dirty;
+	private boolean cooked;
 	private boolean burnt;
 	private byte ingCount;
 	private List<IngredientVisualizer> ivList = new ArrayList();
@@ -23,6 +24,7 @@ public class Plate extends Item implements IngredientContainer{
 	public Plate(Dot pos, boolean dirty, int mode) {
 		super(pos);
 		this.dirty = dirty;
+		cooked = false;
 		burnt = false;
 		this.mode = mode;
 		
@@ -36,6 +38,10 @@ public class Plate extends Item implements IngredientContainer{
 	
 	public boolean[] getContent() {
 		return content;
+	}
+	
+	public boolean getCooked() {
+		return cooked;
 	}
 	
 	public boolean getDirty() {

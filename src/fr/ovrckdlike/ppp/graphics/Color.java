@@ -14,6 +14,7 @@ public class Color {
 	public static Color darkGreenSelec = new Color(0, 128, 0, 100);
 	public static Color transparentWhite = new Color(255, 255, 255, 50);
 	public static Color transparentGrey = new Color(50, 50, 50, 170);
+	public static Color gold = new Color(255, 191, 0);
 	
 
 	public float r, g, b, a;

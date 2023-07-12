@@ -8,8 +8,8 @@ import fr.ovrckdlike.ppp.physics.Time;
 
 public class Button {
 	private Text text;
-	private Color color;
-	private Rectangle pos;
+	protected Color color;
+	protected Rectangle pos;
 	private boolean selected = false;
 	
 	public Button(Rectangle pos, String text, Color color) {

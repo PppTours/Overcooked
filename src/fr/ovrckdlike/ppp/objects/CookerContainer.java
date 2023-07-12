@@ -4,7 +4,7 @@ import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.physics.Dot;
 
 public abstract class CookerContainer extends Item {
-	protected final int cookingTime = 10;
+	protected final int cookingTime = 15;
 	protected float currentCookingTime;
 	protected boolean cooked;
 	protected boolean burnt;
@@ -16,9 +16,16 @@ public abstract class CookerContainer extends Item {
 	
 	public void prepare() {}
 	public abstract void render();
-	
 	public abstract void flush();
 	public abstract boolean isFilled();
+	
+	public void burn() {
+		burnt = true;
+	}
+	
+	public boolean isBurnt() {
+		return burnt;
+	}
 	
 	public void cook(long dt) {
 		float s_dt = dt/1E9f;

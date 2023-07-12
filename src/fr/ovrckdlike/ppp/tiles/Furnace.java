@@ -11,8 +11,9 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 
-public class Furnace extends Tile implements ContainerTile{
-
+public class Furnace extends Tile implements ContainerTile, Burnable{
+	
+	private boolean burning;
 	private Plate inFurnace;
 	private int cookingTime = 10;
 	private float timeInFurnace;
@@ -37,8 +38,9 @@ public class Furnace extends Tile implements ContainerTile{
 		if (newContent instanceof Plate || newContent == null) {
 			Plate oldContent = inFurnace;
 			inFurnace = (Plate) newContent;
-			timeInFurnace = 0f;
+			if (burning) inFurnace.burn();
 			if (inFurnace != null) {
+				timeInFurnace = (inFurnace.getCooked())? cookingTime: 0f;
 				inFurnace.setMode(1);
 				inFurnace.setPos(space.getPos());
 			}
@@ -58,7 +60,9 @@ public class Furnace extends Tile implements ContainerTile{
 			timeInFurnace += s_dt;
 			if (inFurnace != null) {
 				if (timeInFurnace > cookingTime) inFurnace.cook();
-				if (timeInFurnace > 2*cookingTime) inFurnace.burn(); //brulé
+				if (timeInFurnace > 2*cookingTime) {
+					setInFire();
+				}
 				
 			}
 		}
@@ -76,8 +80,23 @@ public class Furnace extends Tile implements ContainerTile{
 		Renderer.drawTexture(space, Texture.furnaceFront);
 		timeBar.render(timeInFurnace, timeBarPos);
 		
+		if (burning) Renderer.drawTexture(space, Texture.fire);
+	}
+
+	@Override
+	public boolean isBurning() {
+		return burning;
+	}
+
+	@Override
+	public void setInFire() {
+		burning = true;
+		inFurnace.burn();
+	}
+
+	@Override
+	public void stopFire() {
+		burning = false;
 	}
 	
 }
-
-

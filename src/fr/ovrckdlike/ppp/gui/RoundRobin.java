@@ -22,6 +22,12 @@ public class RoundRobin {
 		lock = false;
 	}
 	
+	public void addSelectCard(SelectCard sc) {
+		sc.setPos(space.getPos());
+		if (selected == -1) selected++;
+		elements.add(sc);
+	}
+	
 	public SelectCard getSelectedCard() {
 		if (selected == -1) return null;
 		else return elements.get(selected);
@@ -51,19 +57,15 @@ public class RoundRobin {
 		moveReady = true;
 	}
 	
-	public void addCard(SelectCard sc) {
-		if (selected == -1) selected++;
-		elements.add(sc);
-	}
-	
 	public void render() {
-		Rectangle renderSpace1 = new Rectangle(space.getX()-space.getWidth()/4*3, space.getY(), space.getWidth()/2, 0);
-		Rectangle renderSpace2 = new Rectangle(space.getX()+space.getWidth()/4*3, space.getY(), space.getWidth()/2, 0);
-		Renderer.drawTexture(renderSpace1, Texture.arrowLeft);
-		Renderer.drawTexture(renderSpace2, Texture.arrowRight);
 		if (selected != -1) {
 			elements.get(selected).render();
 		}
+		Rectangle renderSpace1 = new Rectangle(space.getX()-space.getWidth()/8*5, space.getY(), space.getWidth()/4, space.getHeight()/2);
+		Rectangle renderSpace2 = new Rectangle(space.getX()+space.getWidth()/8*5, space.getY(), space.getWidth()/4, space.getHeight()/2);
+		Renderer.drawTexture(renderSpace1, Texture.arrowLeft);
+		Renderer.drawTexture(renderSpace2, Texture.arrowRight);
+		
 	}
 	
 	

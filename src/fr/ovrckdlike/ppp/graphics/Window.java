@@ -28,10 +28,7 @@ public class Window {
 	private long glfwWindow; 		// "pointeur" vers la fenetre
 	
 	private static Window window = null;
-	
-	public static GameScene gameScene;
-	public static MainMenu mainMenu;
-	
+
 	
 	private Window() {
 		this.width = 1920;
@@ -134,9 +131,6 @@ public class Window {
 			e.printStackTrace();
 		}
 		
-		mainMenu = MainMenu.get();
-		gameScene = GameScene.get();
-
 	}
 	
 	public void loop() {

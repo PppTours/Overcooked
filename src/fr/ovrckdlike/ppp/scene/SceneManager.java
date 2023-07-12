@@ -5,6 +5,8 @@ public class SceneManager {
 	private MainMenu main;
 	private GameScene game;
 	private PauseScene pause;
+	private SkinSelect skin;
+	private MapSelect map;
 	private Scene current;
 	private boolean paused;
 	
@@ -13,6 +15,9 @@ public class SceneManager {
 		main = MainMenu.get();
 		game = GameScene.get();
 		pause = PauseScene.get();
+		skin = SkinSelect.get();
+		map = MapSelect.get();
+		
 		
 		
 		current = main;
@@ -25,9 +30,22 @@ public class SceneManager {
 		return instance;
 	}
 	
+	public void setSceneToSkinSelect() {
+		current = skin;
+		((SkinSelect) current).resetNav();
+		current.setCooldown(.2f);
+	}
+	
+	public void setSceneToMapSelect() {
+		current = map;
+		((MapSelect) current).resetNav();
+		current.setCooldown(.2f);
+	}
+	
 	public void setSceneToMain() {
 		paused = false;
 		current = instance.main;
+		current.setCooldown(.2f);
 	}
 	
 	public void resetGame() {
@@ -38,6 +56,7 @@ public class SceneManager {
 		game.reset();
 		paused = false;
 		current = instance.game;
+		current.setCooldown(.2f);
 	}
 	
 	public void execute() {

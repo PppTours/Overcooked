@@ -99,6 +99,7 @@ public class PauseScene extends Scene{
 				break;
 			case 2 :
 				sm.setSceneToMain();
+				sm.resetGame();
 				break;
 			default :
 				break;

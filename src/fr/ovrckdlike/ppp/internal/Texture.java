@@ -1,87 +1,58 @@
 package fr.ovrckdlike.ppp.internal;
 
-import javax.imageio.ImageIO;
-
-import fr.ovrckdlike.ppp.map.MapType;
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+import static org.lwjgl.opengl.GL11.GL_RGBA;
+import static org.lwjgl.opengl.GL11.GL_RGBA8;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_S;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_WRAP_T;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDeleteTextures;
+import static org.lwjgl.opengl.GL11.glGenTextures;
+import static org.lwjgl.opengl.GL11.glTexImage2D;
+import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
+import javax.imageio.ImageIO;
+
+import fr.ovrckdlike.ppp.map.MapType;
 
 public class Texture {
 
 	private static Texture boundTexture;
 	
 	// skins
-	public static Texture catSkin;
-	public static Texture rabbitSkin;
-	public static Texture wolfSkin;
-	public static Texture dragonSkin;
-	public static Texture apeSkin;
+	public static Texture catSkin, rabbitSkin, wolfSkin, dragonSkin, apeSkin;
 	
 	// tiles
-	public static Texture table;
-	public static Texture gasCooker;
-	public static Texture cuttingTable;
-	public static Texture wall;
-	public static Texture plateReturn;
-	public static Texture sink;
-	public static Texture dryer;
-	public static Texture bin;
-	public static Texture ingredientRefiller;
-	public static Texture serviceTable;
-	public static Texture furnaceFront;
-	public static Texture furnaceBack;
+	public static Texture table, gasCooker, cuttingTable, wall, plateReturn, sink, dryer, bin, ingredientRefiller,
+							serviceTable, furnaceFront, furnaceBack;
 	
 	// ingredients
-	public static Texture salade;
-	public static Texture mushroom;
-	public static Texture tomato;
-	public static Texture cheese;
-	public static Texture onion;
-	public static Texture meat;
-	public static Texture pasta;
-	public static Texture sausage;
-	public static Texture pizzaDough;
-	public static Texture burgerBread;
-	public static Texture rice;
-	public static Texture chicken;
-	public static Texture potato;
+	public static Texture salade, mushroom, tomato, cheese, onion, meat, pasta, sausage, pizzaDough, burgerBread, rice, chicken, potato;
 	
 	// prepared ingredients
-	public static Texture slicedTomato;
-	public static Texture slicedSalade;
-	public static Texture slicedOnion;
-	public static Texture slicedMushroom;
-	public static Texture slicedSausage;
-	public static Texture slicedMeat;
-	public static Texture slicedCheese;
-	public static Texture slicedBread;
-	public static Texture slicedChicken;
-	public static Texture slicedPotato;
-	public static Texture flattenPizzaDough;
+	public static Texture slicedTomato, slicedSalade, slicedOnion, slicedMushroom, slicedSausage, slicedMeat, slicedCheese, 
+							slicedBread, slicedChicken, slicedPotato, flattenPizzaDough;
 	
 	// items
-	public static Texture potEmpty;
-	public static Texture potTomato;
-	public static Texture potOnion;
-	public static Texture potMushroom;
-	public static Texture pot;
-	public static Texture plate;
-	public static Texture pan;
-	public static Texture dirtyPlate;
+	public static Texture potEmpty, potTomato, potOnion, potMushroom, pot, plate, pan, dirtyPlate;
 	
 	// gui
-	public static Texture recipeBackground;
-	public static Texture circle;
-	public static Texture arrowLeft;
-	public static Texture arrowRight;
-	public static Texture font;
-
+	public static Texture pepper, recipeBackground, circle, arrowLeft, arrowRight, font;
 	
+	// other
+	public static Texture fire;
 	
 	public final String path;
 	public final int width, height;
@@ -163,6 +134,16 @@ public class Texture {
 		glDeleteTextures(id);
 	}
 	
+	public static List<Texture> getSkins() {
+		List<Texture> res = new ArrayList();
+		res.add(catSkin);
+		res.add(dragonSkin);
+		res.add(rabbitSkin);
+		res.add(wolfSkin);
+		res.add(apeSkin);
+		return res;
+	}
+	
 	public static void loadGeneralTextures() {
 		try {
 			// skins
@@ -173,6 +154,7 @@ public class Texture {
 			Texture.wolfSkin = Texture.loadTexture("/textures/skins/player_wolf_skin.png", true);
 			
 			// gui
+			Texture.pepper = Texture.loadTexture("/textures/gui/pepper.png", true);
 			Texture.recipeBackground =Texture.loadTexture("/textures/gui/recipe_background.png", true);
 			Texture.circle = Texture.loadTexture("/textures/gui/circle.png", false); //false ?
 			Texture.arrowLeft = Texture.loadTexture("/textures/gui/arrow_left.png", true);
@@ -199,6 +181,9 @@ public class Texture {
 			Texture.wall = Texture.loadTexture("/textures/tiles/wall.png", true);
 			Texture.furnaceBack = Texture.loadTexture("/textures/tiles/furnace_background.png", true);
 			Texture.furnaceFront = Texture.loadTexture("/textures/tiles/furnace_foreground.png", true);
+			
+			//fire
+			Texture.fire = Texture.loadTexture("/textures/general/fire.png", true);
 			
 		} catch (IOException e) {
 			System.out.println("unable to load textures");
