@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.tiles;
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
+import fr.ovrckdlike.ppp.objects.Extinguisher;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
@@ -12,13 +13,15 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 public class Table extends Tile implements ContainerTile {
 	private Item content;
 	
-	public Table(Dot pos, boolean withPlate) {
+	public Table(Dot pos, String onTop) {
 		this.space = new Rectangle(pos, size, size, 0f);
-		if (withPlate) {
-
+		if (onTop.equals("PLA")) {
 			content = new Plate(new Dot(pos), false);
 			Map.get().getItemList().add(content);
-			
+		}
+		else if (onTop.equals("EXT")) {
+			content = new Extinguisher(new Dot(pos));
+			Map.get().getItemList().add(content);
 		}
 		else content = null;
 		this.type = 1;

@@ -103,8 +103,9 @@ public class Map {
 							
 							switch(type) {
 							case 1:
-								if (option == 'a') tile = new Table(tilePos, false);
-								else tile = new Table(tilePos, true);
+								if (option == 'a') tile = new Table(tilePos, "");
+								else if (option == 'c') tile = new Table(tilePos, "EXT");
+								else tile = new Table(tilePos, "PLA");
 								break;
 							case 3 :
 								if (option == 'a') {

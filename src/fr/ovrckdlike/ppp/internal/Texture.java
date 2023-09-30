@@ -46,7 +46,7 @@ public class Texture {
 							slicedBread, slicedChicken, slicedPotato, flattenPizzaDough;
 	
 	// items
-	public static Texture potEmpty, potTomato, potOnion, potMushroom, pot, plate, pan, dirtyPlate;
+	public static Texture potEmpty, potTomato, potOnion, potMushroom, pot, plate, pan, dirtyPlate, extinguisher;
 	
 	// gui
 	public static Texture pepper, recipeBackground, circle, arrowLeft, arrowRight, font;
@@ -167,6 +167,7 @@ public class Texture {
 			Texture.plate = Texture.loadTexture("/textures/general/plate.png", true);
 			Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
 			Texture.pan = Texture.loadTexture("/textures/general/pan.png", true);
+			Texture.extinguisher = Texture.loadTexture("/textures/general/extinguisher.png", true);
 			
 			// tiles
 			Texture.table = Texture.loadTexture("/textures/tiles/table.png", true);
