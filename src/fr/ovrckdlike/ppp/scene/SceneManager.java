@@ -12,14 +12,12 @@ public class SceneManager {
 	
 	private SceneManager() {
 		paused = false;
+		map = MapSelect.get();
 		main = MainMenu.get();
 		game = GameScene.get();
 		pause = PauseScene.get();
 		skin = SkinSelect.get();
-		map = MapSelect.get();
-		
-		
-		
+
 		current = main;
 	}
 	

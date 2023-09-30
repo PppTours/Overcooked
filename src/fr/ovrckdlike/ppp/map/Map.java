@@ -73,6 +73,7 @@ public class Map {
 	}
 
 	public static boolean buildMap(int numero) {
+		System.out.println("check");
 		Map.get();
 		File file = new File("res/maps/map"+numero+"/map.csv");
 		try {
@@ -83,7 +84,7 @@ public class Map {
 			ArrayList<Sink> sinkList = new ArrayList();
 			while (scan.hasNext()) {
 				String line = scan.next();
-				if(line.charAt(0) != '§') {
+				if(line.charAt(0) != '$') {
 					String[] chunks = line.split(";", -1);
 					for (String chunk:chunks) {
 						int type = chunk.charAt(0) - '0';
@@ -201,6 +202,7 @@ public class Map {
 					
 					try {
 						map.type = MapType.valueOf(chunks[5]);
+						System.out.println(chunks[5]);
 					}
 					catch (IllegalArgumentException e) {
 						System.out.println("error detected in map file" +numero);
