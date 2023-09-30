@@ -209,7 +209,7 @@ public class Texture {
 			Texture.rice = Texture.loadTexture("/textures/general/rice.png", true);
 			Texture.chicken = Texture.loadTexture("/textures/general/chicken.png", true);
 			Texture.potato = Texture.loadTexture("/textures/general/potato.png", true);
-			
+
 			switch (type) {
 			case DEFAULT :
 				break;

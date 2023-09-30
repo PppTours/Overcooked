@@ -7,3 +7,6 @@ bin/
 *.DS_Store
 .project
 .classpath
+.idea/
+Overcooked.iml
+out/

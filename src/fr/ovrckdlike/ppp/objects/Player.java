@@ -15,6 +15,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
+import fr.ovrckdlike.ppp.graphics.SoundHandler;
 import java.util.List;
 
 import fr.ovrckdlike.ppp.graphics.KeyListener;
@@ -88,6 +89,7 @@ public class Player extends Entity{
 		
 		if (up || down || left || right) {
 			changeAngle(up, down, left, right);
+			SoundHandler.play(SoundHandler.walking);
 			movePlayer(Time.get().getDt());
 			if (dash) dash(Time.get().getDt());
 			else releaseDash(Time.get().getDt());

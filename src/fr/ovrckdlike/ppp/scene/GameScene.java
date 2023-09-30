@@ -3,6 +3,7 @@ package fr.ovrckdlike.ppp.scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
+import fr.ovrckdlike.ppp.graphics.SoundHandler;
 import java.util.List;
 
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
@@ -148,6 +149,7 @@ public class GameScene extends Scene {
 							//merge is successful (ingredients corresponds
 							if (((IngredientContainer)(cTile).getContent()).fill((Ingredient) item)) {
 								itemList.remove(item);
+								SoundHandler.play(SoundHandler.putting);
 								p.drop();
 							}
 							//merge aborted, player exchange the item in hand with the content of tile
