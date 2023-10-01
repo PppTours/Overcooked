@@ -21,6 +21,9 @@ import java.nio.ShortBuffer;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.stb.STBVorbis;
 
+/**
+ * Une classe qui permet de jouer des sons avec OpenAL.
+ */
 public class Sound {
   private int bufferId;
   private int sourceId;
@@ -30,6 +33,13 @@ public class Sound {
 
   private boolean isPlaying = false;
 
+  /**
+   * Constructeur de la classe Sound.
+   *
+   * @param name Le nom du son
+   * @param filepath Le chemin vers le fichier audio
+   * @param loops Si le son doit être joué en boucle
+   */
   public Sound(String name, String filepath, boolean loops) {
     this.name = name;
     this.filepath = filepath;
@@ -50,23 +60,18 @@ public class Sound {
 
     // Récupération des informations du buffer
     int channels = channelsBuffer.get();
-    int sampleRate = sampleRateBuffer.get();
 
-    stackPop();
     stackPop();
 
     // Trouver le bon format pour OpenAL
-    int format = -1;
-    switch (channels) {
-      case 1:
-        format = AL10.AL_FORMAT_MONO16;
-        break;
-      case 2:
-        format = AL10.AL_FORMAT_STEREO16;
-        break;
-      default:
-        throw new RuntimeException("Unsupported number of channels: " + channels);
-    }
+    int format = switch (channels) {
+      case 1 -> AL10.AL_FORMAT_MONO16;
+      case 2 -> AL10.AL_FORMAT_STEREO16;
+      default -> throw new RuntimeException("Unsupported number of channels: " + channels);
+    };
+
+    int sampleRate = sampleRateBuffer.get();
+    stackPop();
 
     bufferId = alGenBuffers();
     alBufferData(bufferId, format, rawAudioBuffer, sampleRate);
@@ -88,6 +93,9 @@ public class Sound {
     alDeleteBuffers(bufferId);
   }
 
+  /**
+   * Joue le son.
+   */
   public void play() {
     int state = alGetSourcei(sourceId, AL10.AL_SOURCE_STATE);
     if (state == AL_STOPPED) {
@@ -101,6 +109,9 @@ public class Sound {
     }
   }
 
+  /**
+   * Arrête le son.
+   */
   public void stop() {
     if (isPlaying) {
       alSourceStop(sourceId);
@@ -108,10 +119,20 @@ public class Sound {
     }
   }
 
+  /**
+   * Renvoie le chemin vers le fichier audio.
+   *
+   * @return Le chemin vers le fichier audio
+   */
   public String getFilepath() {
     return filepath;
   }
 
+  /**
+   * Renvoie si le son est en train d'être joué.
+   *
+   * @return Si le son est en train d'être joué
+   */
   public boolean isPlaying() {
     int state = alGetSourcei(sourceId, AL10.AL_SOURCE_STATE);
     if (state == AL_STOPPED) {
@@ -120,6 +141,11 @@ public class Sound {
     return isPlaying;
   }
 
+  /**
+   * Renvoie le nom du son.
+   *
+   * @return Le nom du son
+   */
   public String getName() {
     return name;
   }
