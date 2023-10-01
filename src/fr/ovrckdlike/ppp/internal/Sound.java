@@ -18,6 +18,7 @@ import static org.lwjgl.system.libc.LibCStdlib.free;
 
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import java.util.Objects;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.stb.STBVorbis;
 
@@ -27,11 +28,12 @@ import org.lwjgl.stb.STBVorbis;
 public class Sound {
   private int bufferId;
   private int sourceId;
-  private String filepath;
+  private String filepath = "res/sounds/null.ogg";
 
   private String name;
 
   private boolean isPlaying = false;
+  private boolean loops = false;
 
   /**
    * Constructeur de la classe Sound.
@@ -42,8 +44,16 @@ public class Sound {
    */
   public Sound(String name, String filepath, boolean loops) {
     this.name = name;
-    this.filepath = filepath;
+    if (!Objects.equals(filepath, "")) {
+      this.filepath = filepath;
+    }
+    this.loops = loops;
 
+    loadSound();
+
+  }
+
+  private void loadSound() {
     // Allocation d'espace pour stocker le retour de STB
     stackPush();
     IntBuffer channelsBuffer = stackMallocInt(1);
@@ -151,4 +161,13 @@ public class Sound {
   }
 
 
+  /**
+   * Change le chemin vers le fichier audio et charge le son.
+   *
+   * @param s Le nouveau chemin vers le fichier audio
+   */
+  public void setPath(String s) {
+    filepath = s;
+    loadSound();
+  }
 }
