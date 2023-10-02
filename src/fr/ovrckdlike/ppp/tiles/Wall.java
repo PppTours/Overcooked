@@ -6,16 +6,16 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
-public class Wall extends Tile{
-	public Wall(Dot wallPos) {
-		space = new Rectangle(wallPos, size, size, 0f);
-		type = 10;
-	}
-	
-	public void use(Player player) {}
-	
-	public void render() {
-		Renderer.drawTexture(space, Texture.wall);
-	}
+public class Wall extends Tile {
+  public Wall(Dot wallPos) {
+    space = new Rectangle(wallPos, size, size, 0f);
+    type = 10;
+  }
+
+  public void use(Player player) {}
+
+  public void render() {
+    Renderer.drawTexture(space, Texture.wall);
+  }
 
 }

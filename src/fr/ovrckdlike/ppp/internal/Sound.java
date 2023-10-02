@@ -30,10 +30,10 @@ public class Sound {
   private int sourceId;
   private String filepath = "res/sounds/null.ogg";
 
-  private String name;
+  private final String name;
 
   private boolean isPlaying = false;
-  private boolean loops = false;
+  private final boolean loops;
 
   /**
    * Constructeur de la classe Sound.
@@ -55,47 +55,54 @@ public class Sound {
 
   private void loadSound() {
     // Allocation d'espace pour stocker le retour de STB
-    stackPush();
-    IntBuffer channelsBuffer = stackMallocInt(1);
-    stackPush();
-    IntBuffer sampleRateBuffer = stackMallocInt(1);
+    try {
+      stackPush();
+      IntBuffer channelsBuffer = stackMallocInt(1);
+      stackPush();
+      IntBuffer sampleRateBuffer = stackMallocInt(1);
 
-    ShortBuffer rawAudioBuffer =
-        STBVorbis.stb_vorbis_decode_filename(filepath, channelsBuffer, sampleRateBuffer);
-    if (rawAudioBuffer == null) {
+      ShortBuffer rawAudioBuffer = STBVorbis.stb_vorbis_decode_filename(
+          filepath, channelsBuffer, sampleRateBuffer);
+      if (rawAudioBuffer == null) {
+        stackPop();
+        stackPop();
+        throw new RuntimeException("Failed to load audio file " + filepath + "!");
+      }
+
+      // Récupération des informations du buffer
+      int channels = channelsBuffer.get();
+
       stackPop();
+
+      // Trouver le bon format pour OpenAL
+      int format = switch (channels) {
+        case 1 -> AL10.AL_FORMAT_MONO16;
+        case 2 -> AL10.AL_FORMAT_STEREO16;
+        default -> throw new RuntimeException("Unsupported number of channels: " + channels);
+      };
+
+      int sampleRate = sampleRateBuffer.get();
       stackPop();
-      throw new RuntimeException("Failed to load audio file " + filepath + "!");
+
+      bufferId = alGenBuffers();
+      alBufferData(bufferId, format, rawAudioBuffer, sampleRate);
+
+      // Generation de la source
+      sourceId = AL10.alGenSources();
+
+      alSourcei(sourceId, AL10.AL_BUFFER, bufferId);
+      alSourcei(sourceId, AL10.AL_LOOPING, loops ? 1 : 0);
+      alSourcei(sourceId, AL_POSITION, 0);
+      alSourcef(sourceId, AL10.AL_GAIN, 0.3f);
+
+      // Libération de la mémoire
+      free(rawAudioBuffer);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    // Récupération des informations du buffer
-    int channels = channelsBuffer.get();
 
-    stackPop();
 
-    // Trouver le bon format pour OpenAL
-    int format = switch (channels) {
-      case 1 -> AL10.AL_FORMAT_MONO16;
-      case 2 -> AL10.AL_FORMAT_STEREO16;
-      default -> throw new RuntimeException("Unsupported number of channels: " + channels);
-    };
-
-    int sampleRate = sampleRateBuffer.get();
-    stackPop();
-
-    bufferId = alGenBuffers();
-    alBufferData(bufferId, format, rawAudioBuffer, sampleRate);
-
-    // Generation de la source
-    sourceId = AL10.alGenSources();
-
-    alSourcei(sourceId, AL10.AL_BUFFER, bufferId);
-    alSourcei(sourceId, AL10.AL_LOOPING, loops ? 1 : 0);
-    alSourcei(sourceId, AL_POSITION, 0);
-    alSourcef(sourceId, AL10.AL_GAIN, 0.3f);
-
-    // Libération de la mémoire
-    free(rawAudioBuffer);
   }
 
   public void delete() {

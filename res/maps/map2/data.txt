@@ -1,0 +1,4 @@
+name:Pizza Map
+difficulty:2
+maxScore:100
+type:PIZZA
