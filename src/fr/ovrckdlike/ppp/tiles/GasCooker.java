@@ -9,15 +9,35 @@ import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
-
+/**
+ * A class that represents a GasCooker.
+ */
 public class GasCooker extends Tile implements ContainerTile, Burnable {
+  /**
+   * The content of the gas cooker.
+   */
   private CookerContainer content;
+
+  /**
+   * Indicates if the gas cooker is burning.
+   */
   private boolean burning;
 
+  /**
+   * Get the content of the gas cooker.
+   *
+   * @return The content of the gas cooker.
+   */
   public Item getContent() {
     return content;
   }
 
+  /**
+   * A Constructor of GasCooker.
+   *
+   * @param pos The position of the gas cooker.
+   * @param onGas The content of the gas cooker.
+   */
   public GasCooker(Dot pos, CookerContainer onGas) {
     this.type = 3;
     this.space = new Rectangle(pos, size, size, 0f);
@@ -27,6 +47,9 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
     burning = false;
   }
 
+  /**
+   * Cook the content of the gas cooker.
+   */
   public void cook() {
     if (content == null) {
       return;
@@ -40,8 +63,16 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
     }
   }
 
+  /**
+   * Use the gas cooker.
+   *
+   * @param player The player that use the gas cooker.
+   */
   public void use(Player player) {}
 
+  /**
+   * Render the gas cooker.
+   */
   public void render() {
     Renderer.drawTexture(space, Texture.gasCooker);
     if (content != null) {
@@ -53,6 +84,12 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
     }
   }
 
+  /**
+   * Take or drop an item in the gas cooker.
+   *
+   * @param newContent The item to take or drop.
+   * @return The item that was in the gas cooker.
+   */
   @Override
   public Item takeOrDrop(Item newContent) {
     if (newContent instanceof CookerContainer || newContent == null) {
@@ -71,20 +108,30 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
 
   }
 
+  /**
+   * Indicates if the gas cooker is burning.
+   *
+   * @return True if the gas cooker is burning, false otherwise.
+   */
   @Override
   public boolean isBurning() {
     return burning;
   }
 
+  /**
+   * Set the gas cooker in fire.
+   */
   @Override
   public void setInFire() {
     burning = true;
     content.burn();
   }
 
+  /**
+   * Stop the fire in the gas cooker.
+   */
   @Override
   public void stopFire() {
     burning = false;
-
   }
 }

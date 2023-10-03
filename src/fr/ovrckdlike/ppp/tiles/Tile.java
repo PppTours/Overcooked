@@ -4,6 +4,9 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * An abstract class to represent a tile.
+ */
 public abstract class Tile {
   Rectangle space;  // position en px
   protected int type;

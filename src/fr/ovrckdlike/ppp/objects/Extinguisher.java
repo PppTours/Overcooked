@@ -4,6 +4,9 @@ import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Dot;
 
+/**
+ * A class to represent an extinguisher.
+ */
 public class Extinguisher extends Item {
 
   public Extinguisher(Dot pos) {

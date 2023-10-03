@@ -5,6 +5,9 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * A class to show the different map in the choice menu.
+ */
 public class SkinCard extends SelectCard {
   private Texture skin;
 

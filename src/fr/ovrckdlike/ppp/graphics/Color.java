@@ -1,7 +1,13 @@
 package fr.ovrckdlike.ppp.graphics;
 
+/**
+ * A class to represent a color.
+ */
 public class Color {
 
+  /**
+   * The different colors.
+   */
   public static Color white = new Color(255, 255, 255);
   public static Color black = new Color(0, 0, 0);
   public static Color lightGrey = new Color(200, 200, 200);
@@ -22,6 +28,14 @@ public class Color {
   public float valB;
   public float valA;
 
+  /**
+   * Constructor of the class Color.
+   *
+   * @param valR the red value of the color.
+   * @param valG the green value of the color.
+   * @param valB the blue value of the color.
+   * @param valA the alpha value of the color.
+   */
   public Color(int valR, int valG, int valB, int valA) {
     this.valR = valR / 255f;
     this.valG = valG / 255f;
@@ -29,6 +43,13 @@ public class Color {
     this.valA = valA / 255f;
   }
 
+  /**
+   * Constructor of the class Color.
+   *
+   * @param valR the red value of the color.
+   * @param valG the green value of the color.
+   * @param valB the blue value of the color.
+   */
   public Color(int valR, int valG, int valB) {
     this(valR, valG, valB, 255);
   }

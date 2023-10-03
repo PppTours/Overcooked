@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class that allow to make a recipe.
+ * Class that manage the commands and update score.
  */
 public class RecipeScheduler {
 
@@ -32,14 +32,26 @@ public class RecipeScheduler {
    */
   private MapType recipeSet;
 
+  /**
+   * The constructor of the class.
+   * It is private because it is a singleton.
+   */
   private RecipeScheduler() {
     recipeList = new ArrayList<Recipe>();
   }
 
+  /**
+   * Reset the list of recipes.
+   */
   public void reset() {
     recipeList.clear();
   }
 
+  /**
+   * Get the singleton instance.
+   *
+   * @return the singleton instance
+   */
   public static RecipeScheduler get() {
     if (rs == null) {
       rs = new RecipeScheduler();
@@ -47,10 +59,19 @@ public class RecipeScheduler {
     return rs;
   }
 
+  /**
+   * Set the set of recipes.
+   *
+   * @param newSet the new set of recipes
+   */
   public void setRecSet(MapType newSet) {
     recipeSet = newSet;
   }
 
+  /**
+   * This method manage the commands.
+   * It adds a command every 45 seconds.
+   */
   public void run() {
     if (recipeList.size() < 2) {
       recipeList.add(new Recipe(recipeSet, (byte) recipeList.size()));
@@ -71,7 +92,12 @@ public class RecipeScheduler {
     }
   }
 
-  public void checkaContent(boolean[] content) {
+  /**
+   * Check if the recipe is valid for the command.
+   *
+   * @param content the content of the recipe made.
+   */
+  public void checkContent(boolean[] content) {
     boolean flag = true;
     for (Recipe r : recipeList) {
       if (r.checkValid(content) && flag) {
@@ -84,7 +110,12 @@ public class RecipeScheduler {
     }
   }
 
-
+  /**
+   * Update the score if the recipe is completed.
+   *
+   * @param completed the completed recipe
+   * @return the time left
+   */
   public float completeRecipe(Recipe completed) {
     // on ne peut pas acceder aux recettes, il faut une liste d'ingrédients
     int idx = recipeList.indexOf(completed);
@@ -100,6 +131,9 @@ public class RecipeScheduler {
     return timeLeft;
   }
 
+  /**
+   * Render the commands.
+   */
   public void render() {
     for (Recipe r : recipeList) {
       r.render();

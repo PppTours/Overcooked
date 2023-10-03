@@ -11,6 +11,10 @@ public class SoundHandler {
    * The instance of the SoundHandler class.
    */
   private static SoundHandler instance;
+
+  /**
+   * The different sounds.
+   */
   public static Sound walking = new Sound("Walking", "", false);
   public static Sound dashing = new Sound("Dashing", "", false);
   public static Sound cutting = new Sound("Cutting", "", false);

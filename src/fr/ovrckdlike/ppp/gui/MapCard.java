@@ -9,13 +9,43 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 import java.io.IOException;
 
 // roulette ou boutons ?
+
+/**
+ * MapCard is a card that contains a preview of the map, the name of the map, the difficulty of the
+ * map and the best score on the map.
+ */
 public class MapCard extends SelectCard {
+  /**
+   * The preview of the map.
+   */
   private Texture preview;
+
+  /**
+   * The name of the map.
+   */
   private Text name;
+
+  /**
+   * The difficulty of the map.
+   */
   private Text difficulty;
+
+  /**
+   * The best score on the map.
+   */
   private Text bestScore;
+
+  /**
+   * The information of the map.
+   */
   private MapInfo info;
 
+  /**
+   * A constructor for the MapCard.
+   *
+   * @param pos the position of the card
+   * @param map the number of the map
+   */
   public MapCard(Dot pos, int map) {
     super(new Rectangle(pos, 800f, 700f, 0f));
     info = new MapInfo(map);
@@ -34,6 +64,9 @@ public class MapCard extends SelectCard {
     }
   }
 
+  /**
+   * Render the card.
+   */
   @Override
   public void render() {
     Renderer.drawQuad(space, Color.gold);
@@ -51,6 +84,11 @@ public class MapCard extends SelectCard {
     //render the button with name, preview image, difficulty, high score and map type
   }
 
+  /**
+   * Get the choice of the user.
+   *
+   * @return the number of the map
+   */
   @Override
   public Object getChoice() {
     return info.getMapNum();

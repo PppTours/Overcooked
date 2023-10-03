@@ -4,6 +4,9 @@ import fr.ovrckdlike.ppp.physics.Circle;
 import fr.ovrckdlike.ppp.tiles.Tile;
 import java.util.List;
 
+/**
+ * An abstract class to represent an entity.
+ */
 public abstract class Entity {
   protected Circle space;
 

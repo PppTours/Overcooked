@@ -11,19 +11,52 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 
-
+/**
+ * A class that represents a CuttingTable.
+ */
 public class CuttingTable extends Tile implements ContainerTile {
   // reinitialiser currentCuttingTime au changement de contenu
-  private int cuttingTime;
+
+  /**
+   * The time to cut an ingredient.
+   */
+  private final int cuttingTime;
+
+  /**
+   * The content of the cutting table.
+   */
   private Item content;
+
+  /**
+   * The current cutting time.
+   */
   private float currentCuttingTime;
-  private TimeBar timeBar;
+
+  /**
+   * The time bar of the cutting table.
+   */
+  private final TimeBar timeBar;
+
+  /**
+   * The position of the time bar.
+   */
   private Dot timeBarPos;
 
+  /**
+   * Get the content of the cutting table.
+   *
+   * @return The content of the cutting table.
+   */
   public Item getContent() {
     return content;
   }
 
+  /**
+   * Take or drop an item in the cutting table.
+   *
+   * @param newContent The item to take or drop.
+   * @return The item that was in the cutting table.
+   */
   public Item takeOrDrop(Item newContent) {
     currentCuttingTime = 0f;
     Item oldContent = this.content;
@@ -39,6 +72,11 @@ public class CuttingTable extends Tile implements ContainerTile {
   }
 
 
+  /**
+   * Constructor of CuttingTable.
+   *
+   * @param pos The position of the cutting table.
+   */
   public CuttingTable(Dot pos) {
 
     this.space = new Rectangle(pos, size, size, 0f);
@@ -50,6 +88,9 @@ public class CuttingTable extends Tile implements ContainerTile {
     this.timeBar = new TimeBar(timeBarPos, cuttingTime);
   }
 
+  /**
+   * Render the cutting table.
+   */
   public void render() {
     Renderer.drawTexture(space, Texture.cuttingTable);
     if (content != null) {
@@ -58,6 +99,11 @@ public class CuttingTable extends Tile implements ContainerTile {
     timeBar.render(currentCuttingTime);
   }
 
+  /**
+   * Use the cutting table.
+   *
+   * @param player The player that use the cutting table.
+   */
   public void use(Player player) {
     if (content instanceof Ingredient) {
       if (!((Ingredient) content).getPrepared()) {

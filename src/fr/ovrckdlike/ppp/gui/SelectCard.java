@@ -3,6 +3,9 @@ package fr.ovrckdlike.ppp.gui;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * An abstract class to represent the card selection mechanism.
+ */
 public abstract class SelectCard {
   protected Rectangle space;
 

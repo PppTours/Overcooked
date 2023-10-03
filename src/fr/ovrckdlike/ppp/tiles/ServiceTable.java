@@ -27,7 +27,7 @@ public class ServiceTable extends Tile {
     if (content instanceof Plate) {
       boolean[] ingList = ((Plate) content).getContent();
       Map.get().getItemList().remove(content);
-      RecipeScheduler.get().checkaContent(ingList);
+      RecipeScheduler.get().checkContent(ingList);
       player.drop();
       GameScene.addPlateToReturn();
     }

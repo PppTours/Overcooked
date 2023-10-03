@@ -5,28 +5,70 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.physics.Dot;
 
+/**
+ * A class that represents an Ingredient.
+ */
 public class Ingredient extends Item {
-  private int type;
-  private boolean prepared;
-  private boolean cooked;
-  private boolean cookable;
 
+  /**
+   * The type of the ingredient.
+   */
+  private final int type;
+
+  /**
+   * Indicates if the ingredient is prepared.
+   */
+  private boolean prepared;
+
+  /**
+   * Indicates if the ingredient is cooked.
+   */
+  private boolean cooked;
+
+  /**
+   * Indicates if the ingredient is cookable.
+   */
+  private final boolean cookable;
+
+  /**
+   * Get if the ingredient is cooked.
+   *
+   * @return True if the ingredient is cooked, false otherwise.
+   */
   public boolean isCooked() {
     return cooked;
   }
 
+  /**
+   * Get if the ingredient is cookable.
+   *
+   * @return True if the ingredient is cookable, false otherwise.
+   */
   public boolean isCookable() {
     return cookable;
   }
 
+  /**
+   * Cook the ingredient.
+   */
   public void cook() {
     cooked = true;
   }
 
+  /**
+   * Get the type of the ingredient.
+   *
+   * @return The type of the ingredient.
+   */
   public int getType() {
     return this.type;
   }
 
+  /**
+   * Constructor of Ingredient.
+   *
+   * @param type The type of the ingredient.
+   */
   public Ingredient(int type) {
     super(new Dot(0f, 0f));
     this.type = type;
@@ -38,6 +80,12 @@ public class Ingredient extends Item {
     cookable = type == 0 || type == 4 || type == 6 || type == 10 || type == 11 || type == 12;
   }
 
+  /**
+   * Get the texture of the ingredient.
+   *
+   * @param ingType The type of the ingredient.
+   * @return The texture of the ingredient.
+   */
   public static Texture getTexture(int ingType) {
     return switch (ingType) {
       case 0 -> Texture.tomato;
@@ -57,19 +105,33 @@ public class Ingredient extends Item {
     };
   }
 
+  /**
+   * Get if the ingredient is prepared.
+   *
+   * @return True if the ingredient is prepared, false otherwise.
+   */
   public boolean getPrepared() {
     return prepared;
   }
 
+  /**
+   * Remove the ingredient from the map.
+   */
   @Override
   public void flush() {
     Map.get().getItemList().remove(this);
   }
 
+  /**
+   * Prepare the ingredient.
+   */
   public void prepare() {
     this.prepared = true;
   }
 
+  /**
+   * Render the ingredient.
+   */
   public void render() {
     float zoom = space.getRay() * (mode + 1);
     switch (type) {

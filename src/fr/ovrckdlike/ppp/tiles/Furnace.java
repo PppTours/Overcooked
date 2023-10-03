@@ -11,16 +11,46 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
 
+/**
+ * A class that represents a Furnace.
+ */
 public class Furnace extends Tile implements ContainerTile, Burnable {
-
+  /**
+   * Indicates if the furnace is burning.
+   */
   private boolean burning;
+
+  /**
+   * The plate in the furnace.
+   */
   private Plate inFurnace;
-  private int cookingTime = 10;
+
+  /**
+   * The time to cook an ingredient.
+   */
+  private final int cookingTime = 10;
+
+  /**
+   * The time in the furnace.
+   */
   private float timeInFurnace;
-  private TimeBar timeBar;
-  private Dot timeBarPos;
+
+  /**
+   * The time bar of the furnace.
+   */
+  private final TimeBar timeBar;
+
+  /**
+   * The position of the time bar.
+   */
+  private final Dot timeBarPos;
 
 
+  /**
+   * Constructor of Furnace.
+   *
+   * @param pos The position of the furnace.
+   */
   public Furnace(Dot pos) {
     type = 9;
     this.space = new Rectangle(pos, size, size, 0f);
@@ -30,10 +60,22 @@ public class Furnace extends Tile implements ContainerTile, Burnable {
     timeBar = new TimeBar(timeBarPos, cookingTime);
   }
 
+
+  /**
+   * Get the content of the furnace.
+   *
+   * @return The content of the furnace.
+   */
   public Item getContent() {
     return inFurnace;
   }
 
+  /**
+   * Take or drop an item in the furnace.
+   *
+   * @param newContent The item to take or drop.
+   * @return The item that was in the furnace.
+   */
   public Item takeOrDrop(Item newContent) {
     if (newContent instanceof Plate || newContent == null) {
       Plate oldContent = inFurnace;
@@ -55,6 +97,9 @@ public class Furnace extends Tile implements ContainerTile, Burnable {
     }
   }
 
+  /**
+   * Cook the ingredient in the furnace.
+   */
   public void cook() {
     if (inFurnace == null) {
       return;
@@ -75,8 +120,16 @@ public class Furnace extends Tile implements ContainerTile, Burnable {
     }
   }
 
+  /**
+   * Use the furnace.
+   *
+   * @param player The player that use the furnace.
+   */
   public void use(Player player) {}
 
+  /**
+   * Render the furnace.
+   */
   public void render() {
     Renderer.drawTexture(space, Texture.furnaceBack);
 
@@ -92,17 +145,28 @@ public class Furnace extends Tile implements ContainerTile, Burnable {
     }
   }
 
+  /**
+   * Indicates if the furnace is burning.
+   *
+   * @return True if the furnace is burning, false otherwise.
+   */
   @Override
   public boolean isBurning() {
     return burning;
   }
 
+  /**
+   * Set the furnace in fire.
+   */
   @Override
   public void setInFire() {
     burning = true;
     inFurnace.burn();
   }
 
+  /**
+   * Stop the fire in the furnace.
+   */
   @Override
   public void stopFire() {
     burning = false;

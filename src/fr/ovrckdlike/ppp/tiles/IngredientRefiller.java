@@ -9,10 +9,26 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * A class that represents an IngredientRefiller.
+ */
 public class IngredientRefiller extends Tile implements ContainerTile {
-  private int ingredientType;
+  /**
+   * The type of the ingredient refiller.
+   */
+  private final int ingredientType;
+
+  /**
+   * The content of the ingredient refiller.
+   */
   private Item content;
 
+  /**
+   * Constructor of IngredientRefiller.
+   *
+   * @param pos The position of the ingredient refiller.
+   * @param ingredientType The type of the ingredient refiller.
+   */
   public IngredientRefiller(Dot pos, int ingredientType) {
     this.space = new Rectangle(pos, size, size, 0f);
     this.type = 6;
@@ -20,10 +36,20 @@ public class IngredientRefiller extends Tile implements ContainerTile {
     this.ingredientType = ingredientType;
   }
 
+  /**
+   * Get the content of the ingredient refiller.
+   *
+   * @return The content of the ingredient refiller.
+   */
   public Item getContent() {
     return this.content;
   }
 
+  /**
+   * Use the ingredient refiller.
+   *
+   * @param player The player that use the ingredient refiller.
+   */
   public void use(Player player) {
     if (content == null) {
       if (player.getInHand() == null) {
@@ -35,6 +61,9 @@ public class IngredientRefiller extends Tile implements ContainerTile {
     }
   }
 
+  /**
+   * Render the ingredient refiller.
+   */
   public void render() {
     Renderer.drawTexture(space, Texture.ingredientRefiller);
     Rectangle ingSpace = new Rectangle(space.getPos().getX() - 5,
@@ -88,6 +117,12 @@ public class IngredientRefiller extends Tile implements ContainerTile {
     }
   }
 
+  /**
+   * Take or drop an item in the ingredient refiller.
+   *
+   * @param newContent The item to take or drop.
+   * @return The item that was in the ingredient refiller.
+   */
   @Override
   public Item takeOrDrop(Item newContent) {
     Item oldContent = this.content;

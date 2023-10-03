@@ -6,6 +6,9 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * A class to represent a wall.
+ */
 public class Wall extends Tile {
   public Wall(Dot wallPos) {
     space = new Rectangle(wallPos, size, size, 0f);

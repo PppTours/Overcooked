@@ -25,18 +25,28 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 
+/**
+ * A class that represents a texture.
+ */
 public class Texture {
 
+  /**
+   * The texture that is currently bound.
+   */
   private static Texture boundTexture;
 
-  // skins
+  /**
+   * The texture of the cat skin.
+   */
   public static Texture catSkin;
   public static Texture rabbitSkin;
   public static Texture wolfSkin;
   public static Texture dragonSkin;
   public static Texture apeSkin;
 
-  // tiles
+  /**
+   * The texture of the tiles.
+   */
   public static Texture table;
   public static Texture gasCooker;
   public static Texture cuttingTable;
@@ -51,7 +61,9 @@ public class Texture {
   public static Texture furnaceFront;
   public static Texture furnaceBack;
 
-  // ingredients
+  /**
+   * The texture of the ingredients.
+   */
   public static Texture salade;
   public static Texture mushroom;
   public static Texture tomato;
@@ -67,7 +79,9 @@ public class Texture {
   public static Texture potato;
 
 
-  // prepared ingredients
+  /**
+   * The texture of the prepared ingredients.
+   */
   public static Texture slicedTomato;
   public static Texture slicedSalade;
   public static Texture slicedOnion;
@@ -80,7 +94,9 @@ public class Texture {
   public static Texture slicedPotato;
   public static Texture flattenPizzaDough;
 
-  // items
+  /**
+   * The texture of the items.
+   */
   public static Texture potEmpty;
   public static Texture potTomato;
   public static Texture potOnion;
@@ -91,7 +107,9 @@ public class Texture {
   public static Texture dirtyPlate;
   public static Texture extinguisher;
 
-  // gui
+  /**
+   * The texture of the gui.
+   */
   public static Texture pepper;
   public static Texture recipeBackground;
   public static Texture circle;
@@ -99,7 +117,9 @@ public class Texture {
   public static Texture arrowRight;
   public static Texture font;
 
-  // other
+  /**
+   * The other textures.
+   */
   public static Texture fire;
 
   public final String path;
@@ -107,6 +127,15 @@ public class Texture {
   public final int height;
   public final int id;
 
+
+  /**
+   * Constructor of Texture.
+   *
+   * @param path The path of the texture.
+   * @param id The id of the texture.
+   * @param width The width of the texture.
+   * @param height The height of the texture.
+   */
   private Texture(String path, int id, int width, int height) {
     this.path = path;
     this.id = id;
@@ -114,7 +143,14 @@ public class Texture {
     this.height = height;
   }
 
-  // linear = texture smoothing (bluring)
+  /**
+   * Load a texture from a path.
+   *
+   * @param path The path of the texture.
+   * @param linear The smoothing of the texture (blurred or not).
+   * @return The texture.
+   * @throws IOException If the texture does not exist.
+   */
   public static Texture loadTexture(String path, boolean linear) throws IOException {
     int id;
     int width;
@@ -169,6 +205,9 @@ public class Texture {
     return new Texture(path, id, width, height);
   }
 
+  /**
+   * Bind the texture.
+   */
   public void bind() {
     if (boundTexture != this) {
       glBindTexture(GL_TEXTURE_2D, id);
@@ -176,15 +215,26 @@ public class Texture {
     }
   }
 
+  /**
+   * Unbind the texture.
+   */
   public static void unbind() {
     glBindTexture(GL_TEXTURE_2D, 0);
     boundTexture = null;
   }
 
+  /**
+   * Dispose the texture.
+   */
   public void dispose() {
     glDeleteTextures(id);
   }
 
+  /**
+   * Get the list of the skins.
+   *
+   * @return The list of the skins.
+   */
   public static List<Texture> getSkins() {
     List<Texture> res = new ArrayList();
     res.add(catSkin);
@@ -195,6 +245,9 @@ public class Texture {
     return res;
   }
 
+  /**
+   * Load the general textures.
+   */
   public static void loadGeneralTextures() {
     try {
       // skins
@@ -245,6 +298,11 @@ public class Texture {
     }
   }
 
+  /**
+   * Load the textures for a map type.
+   *
+   * @param type The type of the map.
+   */
   public static void loadForMapType(MapType type) {
     try {
       //ingredients

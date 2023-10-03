@@ -9,10 +9,27 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * A class that represents a Dryer.
+ */
 public class Dryer extends Tile {
-  private int nbPlate;
-  private int direction;
 
+  /**
+   * The number of plate in the dryer.
+   */
+  private int nbPlate;
+
+  /**
+   * The direction of the dryer.
+   */
+  private final int direction;
+
+  /**
+   * Constructor of Dryer.
+   *
+   * @param pos The position of the dryer.
+   * @param direction The direction of the dryer.
+   */
   public Dryer(Dot pos, int direction) {
     this.space = new Rectangle(pos, size, size, (float) (- Math.PI * direction / 2));
     this.type = 5;
@@ -20,15 +37,26 @@ public class Dryer extends Tile {
     this.direction = direction;
   }
 
-
+  /**
+   * Add a plate in the dryer.
+   */
   public void addPlate() {
     nbPlate++;
   }
 
-
+  /**
+   * Use the dryer.
+   *
+   * @param player The player that use the dryer.
+   */
   public void use(Player player) {}
 
 
+  /**
+   * Take a plate from the dryer.
+   *
+   * @param player The player that take the plate.
+   */
   public void takePlate(Player player) {
     if (nbPlate > 0) {
       if (player.getInHand() == null) {
@@ -42,6 +70,9 @@ public class Dryer extends Tile {
     }
   }
 
+  /**
+   * Render the dryer.
+   */
   public void render() {
     Renderer.drawTexture(space, Texture.dryer);
 
