@@ -7,11 +7,28 @@ import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
 
-
+/**
+ * This class manage the Text rendering.
+ */
 public class Text {
-  private String text;
-  private Rectangle space;
-  private Color color;
+  /**
+   * The text to render.
+   */
+  private final String text;
+
+  /**
+   * The scape where the text is rendered.
+   */
+  private final Rectangle space;
+
+  /**
+   * The color of the text.
+   */
+  private final Color color;
+
+  /**
+   * The angle of the text.
+   */
   private float angle;
 
   /**
@@ -19,6 +36,15 @@ public class Text {
    */
   private float size;
 
+  /**
+   * The constructor of the text.
+   *
+   * @param text the text to render.
+   * @param renderPos the position of the text.
+   * @param textColor the color of the text.
+   * @param textSize the size of the text.
+   * @param angle the angle of the text.
+   */
   public Text(String text, Dot renderPos, Color textColor, float textSize, float angle) {
     this.text = text;
     space = new Rectangle(renderPos, text.length() * textSize, textSize, angle);
@@ -27,6 +53,13 @@ public class Text {
     this.angle = angle;
   }
 
+  /**
+   * A constructor of the text.
+   *
+   * @param text the text to render.
+   * @param space the space where the text is rendered.
+   * @param textColor the color of the text.
+   */
   public Text(String text, Rectangle space, Color textColor) {
     this.text = text;
     this.space = new Rectangle(space);
@@ -34,11 +67,19 @@ public class Text {
     this.size = space.getHeight();
   }
 
+  /**
+   * Change the size of the text.
+   *
+   * @param newSize the new size of the text.
+   */
   public void changeSize(float newSize) {
     size = newSize;
     space.resize(text.length() * size, size);
   }
 
+  /**
+   * Render the text.
+   */
   public void render() {
     Dot pos = space.getPos();
     float width = space.getWidth();

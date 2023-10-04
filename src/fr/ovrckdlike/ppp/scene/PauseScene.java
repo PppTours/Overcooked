@@ -14,39 +14,70 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class manage the pause scene.
+ */
 public class PauseScene extends Scene {
+
+  /**
+   * The instance of the pause scene.
+   */
   private static PauseScene instance;
-  private List<Button> buttonList;
-  private Button resume;
-  private Button quit;
-  private Button restart;
+
+  /**
+   * The list of buttons.
+   */
+  private final List<Button> buttonList;
+
+  /**
+   * The selected button.
+   */
   private int selected;
 
-  private Rectangle background;
+  /**
+   * The background of the pause scene.
+   */
+  private final Rectangle background;
+
+  /**
+   * The reset booleans.
+   */
   private boolean upReset;
+
+  /**
+   * The reset booleans.
+   */
   private boolean downReset;
 
+  /**
+   * The constructor of the pause scene.
+   */
   private PauseScene() {
     upReset = downReset = true;
 
     selected = 0;
-    buttonList = new ArrayList();
+    buttonList = new ArrayList<>();
 
     background = new Rectangle(1920 / 2, 1080 / 2, 440, 530);
 
     Rectangle resumePos = new Rectangle(1920 / 2, 1080 / 2 - 170, 400, 150);
-    resume = new Button(resumePos, "Resume", Color.darkGreen);
+    Button resume = new Button(resumePos, "Resume", Color.darkGreen);
     buttonList.add(resume);
 
     Rectangle restartPos = new Rectangle(1920 / 2, 1080 / 2, 400, 150);
-    restart = new Button(restartPos, "Restart", Color.grey);
+    Button restart = new Button(restartPos, "Restart", Color.grey);
     buttonList.add(restart);
 
     Rectangle quitPos = new Rectangle(1920 / 2, 1080 / 2 + 170, 400, 150);
-    quit = new Button(quitPos, "Quit", Color.red);
+    Button quit = new Button(quitPos, "Quit", Color.red);
     buttonList.add(quit);
   }
 
+  /**
+   * Get the instance of the pause scene (singleton).
+   *
+   * @return the instance of the pause scene.s
+   */
   public static PauseScene get() {
     if (instance == null) {
       instance = new PauseScene();
@@ -54,6 +85,9 @@ public class PauseScene extends Scene {
     return instance;
   }
 
+  /**
+   * Render the pause scene.
+   */
   public void render() {
     Renderer.drawQuad(background, Color.transparentGrey);
     for (Button b : buttonList) {
@@ -61,6 +95,9 @@ public class PauseScene extends Scene {
     }
   }
 
+  /**
+   * Run the pause scene.
+   */
   public void run() {
     boolean up = (KeyListener.isKeyPressed(GLFW_KEY_UP) || KeyListener.isKeyPressed(GLFW_KEY_W));
     boolean down = (KeyListener.isKeyPressed(GLFW_KEY_DOWN)

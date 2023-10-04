@@ -27,20 +27,57 @@ import fr.ovrckdlike.ppp.tiles.Table;
 import fr.ovrckdlike.ppp.tiles.Tile;
 import java.util.List;
 
+/**
+ * GameScene is the scene where the game is played.
+ * Manage the game loop and the interactions between the player and the game.
+ */
 public class GameScene extends Scene {
+  /**
+   * The instance of the GameScene.
+   */
   private static GameScene game;
 
+  /**
+   * The list of items in the game.
+   */
   private List<Item> itemList;
+
+  /**
+   * The list of tiles in the game.
+   */
   private List<Tile> tileList;
+
+  /**
+   * The list of players in the game.
+   */
   private List<Player> playerList;
+
+  /**
+   * The recipe scheduler. (Manage the commands)
+   */
   private RecipeScheduler recSch;
 
+  /**
+   * The number of plate to return.
+   */
   private byte plateToReturn;
 
+  /**
+   * The number of the map.
+   */
   private int mapNum;
+
+  /**
+   * The map.
+   */
   private Map map;
 
 
+  /**
+   * Get the instance of the GameScene (singleton).
+   *
+   * @return the instance of the GameScene.
+   */
   public static GameScene get() {
     if (game == null) {
       game = new GameScene();
@@ -48,6 +85,9 @@ public class GameScene extends Scene {
     return game;
   }
 
+  /**
+   * Reset the game.
+   */
   public void reset() {
     map.clearMap();
     recSch.reset();
@@ -68,18 +108,35 @@ public class GameScene extends Scene {
 
   }
 
+  /**
+   * Delete an item from the game.
+   *
+   * @param i the item to delete
+   */
   public static void deleteItem(Item i) {
     game.itemList.remove(i);
   }
 
+  /**
+   * Get the list of players in the game.
+   *
+   * @return the list of players in the game.
+   */
   public static List<Player> getPlayers() {
     return game.playerList;
   }
 
+  /**
+   * Add a plate to return.
+   */
   public static void addPlateToReturn() {
     game.plateToReturn++;
   }
 
+  /**
+   * The constructor of the GameScene.
+   * Initialize the map, the recipe scheduler and the lists.
+   */
   private GameScene() {
     // change map here
     this.mapNum = HyperParameters.get().getMap();
@@ -100,6 +157,9 @@ public class GameScene extends Scene {
     plateToReturn = 0;
   }
 
+  /**
+   * Render the game.
+   */
   public void render() {
     for (Player p : playerList) {
       p.render();
@@ -115,6 +175,9 @@ public class GameScene extends Scene {
     recSch.render();
   }
 
+  /**
+   * Update the game.
+   */
   public void run() {
     boolean flagDropP1 = true;
     boolean flagDropP2 = true;

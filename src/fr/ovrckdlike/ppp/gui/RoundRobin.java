@@ -48,6 +48,11 @@ public class RoundRobin {
     lock = false;
   }
 
+  /**
+   * Add a SelectCard to the RoundRobin.
+   *
+   * @param sc The SelectCard to add.
+   */
   public void addSelectCard(SelectCard sc) {
     sc.setPos(space.getPos());
     if (selected == -1) {
@@ -56,6 +61,11 @@ public class RoundRobin {
     elements.add(sc);
   }
 
+  /**
+   * Remove a SelectCard from the RoundRobin.
+   *
+   * @return The removed SelectCard.
+   */
   public SelectCard getSelectedCard() {
     if (selected == -1) {
       return null;
@@ -64,6 +74,9 @@ public class RoundRobin {
     }
   }
 
+  /**
+   * Move the selection to the right.
+   */
   public void moveSelectionRight() {
     if (!moveReady || lock) {
       return;
@@ -78,6 +91,9 @@ public class RoundRobin {
     moveReady = false;
   }
 
+  /**
+   * Move the selection to the left.
+   */
   public void moveSelectionLeft() {
     if (!moveReady || lock) {
       return;
@@ -92,14 +108,25 @@ public class RoundRobin {
     moveReady = false;
   }
 
+  /**
+   * Lock the selection.
+   *
+   * @param locked The boolean that indicates if the selection is locked.
+   */
   public void setLocked(boolean locked) {
     lock = locked;
   }
 
+  /**
+   * Reset the move.
+   */
   public void resetMove() {
     moveReady = true;
   }
 
+  /**
+   * Render the RoundRobin.
+   */
   public void render() {
     if (selected != -1) {
       elements.get(selected).render();
