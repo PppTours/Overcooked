@@ -25,7 +25,7 @@ public class Score {
   private float multiplier;
 
   /**
-   * The number of command supplied
+   * The number of command supplied.
    */
   private int nbSupply;
 

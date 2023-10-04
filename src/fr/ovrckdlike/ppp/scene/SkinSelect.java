@@ -16,18 +16,47 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * A class that represents the skin selection scene.
+ */
 public class SkinSelect extends Scene {
+  /**
+   * The instance of the skin selection scene.
+   */
   private static SkinSelect instance;
-  private Text title;
-  private RoundRobin selectSkinP1;
-  private RoundRobin selectSkinP2;
+
+  /**
+   * The title of the scene.
+   */
+  private final Text title;
+
+  /**
+   * The skin selector for player 1.
+   */
+  private final RoundRobin selectSkinP1;
+
+  /**
+   * The skin selector for player 2.
+   */
+  private final RoundRobin selectSkinP2;
+
+  /**
+   * A boolean that represents if the player can navigate.
+   */
   private boolean navigate;
 
+  /**
+   * Resets the navigation.
+   */
   public void resetNav() {
     navigate = false;
   }
 
-
+  /**
+   * Gets the instance of the skin selection scene.
+   *
+   * @return the instance of the skin selection scene.
+   */
   public static SkinSelect get() {
     if (instance == null) {
       instance = new SkinSelect();
@@ -35,6 +64,9 @@ public class SkinSelect extends Scene {
     return instance;
   }
 
+  /**
+   * Constructs a skin selection scene.
+   */
   private SkinSelect() {
     navigate = false;
     title = new Text("Select a character",
@@ -50,6 +82,9 @@ public class SkinSelect extends Scene {
     }
   }
 
+  /**
+   * Renders the skin selection scene.
+   */
   @Override
   public void render() {
     title.render();
@@ -57,34 +92,15 @@ public class SkinSelect extends Scene {
     selectSkinP2.render();
   }
 
+  /**
+   * Manages the navigation in the skin selection scene.
+   */
   @Override
   public void run() {
-    boolean rightp1 = KeyListener.isKeyPressed(GLFW_KEY_D);
-    boolean leftp1 = KeyListener.isKeyPressed(GLFW_KEY_A);
-
-    if (rightp1) {
-      selectSkinP1.moveSelectionRight();
-    }
-    if (leftp1) {
-      selectSkinP1.moveSelectionLeft();
-    }
-    if (!rightp1 && !leftp1) {
-      selectSkinP1.resetMove();
-    }
+    skinSelection(GLFW_KEY_D, GLFW_KEY_A, selectSkinP1);
 
 
-    boolean rightp2 = KeyListener.isKeyPressed(GLFW_KEY_RIGHT);
-    boolean leftp2 = KeyListener.isKeyPressed(GLFW_KEY_LEFT);
-
-    if (rightp2) {
-      selectSkinP2.moveSelectionRight();
-    }
-    if (leftp2) {
-      selectSkinP2.moveSelectionLeft();
-    }
-    if (!rightp2 && !leftp2) {
-      selectSkinP2.resetMove();
-    }
+    skinSelection(GLFW_KEY_RIGHT, GLFW_KEY_LEFT, selectSkinP2);
 
     clockCooldown();
 
@@ -106,6 +122,28 @@ public class SkinSelect extends Scene {
       SceneManager.get().setSceneToMapSelect();
     }
 
+  }
+
+  /**
+   * Manages the skin selection.
+   *
+   * @param glfwKeyRight The key to move the selection to the right.
+   * @param glfwKeyLeft The key to move the selection to the left.
+   * @param selectSkinP The skin selector.
+   */
+  private void skinSelection(int glfwKeyRight, int glfwKeyLeft, RoundRobin selectSkinP) {
+    boolean rightp = KeyListener.isKeyPressed(glfwKeyRight);
+    boolean leftp = KeyListener.isKeyPressed(glfwKeyLeft);
+
+    if (rightp) {
+      selectSkinP.moveSelectionRight();
+    }
+    if (leftp) {
+      selectSkinP.moveSelectionLeft();
+    }
+    if (!rightp && !leftp) {
+      selectSkinP.resetMove();
+    }
   }
 
 }

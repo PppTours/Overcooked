@@ -7,19 +7,58 @@ import fr.ovrckdlike.ppp.physics.Dot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class representing a plate. Which is an ingredient container.
+ */
 public class Plate extends Item implements IngredientContainer {
+  /**
+   * Content of the plate.
+   */
   private boolean[] content = new boolean[15];
+
+  /**
+   * If the plate is dirty.
+   */
   private boolean dirty;
+
+  /**
+   * If the content is cooked.
+   */
   private final boolean cooked;
+
+  /**
+   * If the content is burnt.
+   */
   private boolean burnt;
+
+  /**
+   * Number of ingredients in the plate.
+   */
   private byte ingCount;
+
+  /**
+   * List of the ingredient visualizer.
+   */
   private final List<IngredientVisualizer> ivList = new ArrayList<>();
 
 
+  /**
+   * Constructor of the plate.
+   *
+   * @param pos Position of the plate.
+   * @param dirty If the plate is dirty.
+   */
   public Plate(Dot pos, boolean dirty) {
     this(pos, dirty, 1);
   }
 
+  /**
+   * Constructor of the plate.
+   *
+   * @param pos Position of the plate.
+   * @param dirty If the plate is dirty.
+   * @param mode The mode of the plate.
+   */
   public Plate(Dot pos, boolean dirty, int mode) {
     super(pos);
     this.dirty = dirty;
@@ -35,37 +74,75 @@ public class Plate extends Item implements IngredientContainer {
     ingCount = 0;
   }
 
+  /**
+   * Get the content of the plate.
+   *
+   * @return The content of the plate.
+   */
   public boolean[] getContent() {
     return content;
   }
 
+  /**
+   * Get if the content of the plate is cooked.
+   *
+   * @return If the content of the plate is cooked.
+   */
   public boolean getCooked() {
     return cooked;
   }
 
+  /**
+   * Get if the plate is dirty.
+   *
+   * @return If the plate is dirty.
+   */
   public boolean getDirty() {
     return this.dirty;
   }
 
+  /**
+   * Wash the plate.
+   */
   public void wash() {
     this.dirty = false;
   }
 
+  /**
+   * Get if the plate is empty.
+   *
+   * @return True if the plate is empty, false otherwise.
+   */
   public boolean isEmpty() {
     return (ingCount == 0);
   }
 
+  /**
+   * Burn the plate.
+   */
   public void burn() {
     flush();
     burnt = true;
   }
 
+  /**
+   * Prepare the plate.
+   */
   public void prepare() {}
 
+  /**
+   * Cook the plate.
+   */
   public void cook() {
     content[14] = true;
   }
 
+  /**
+   * Fill the plate with an ingredient.
+   *
+   * @param ingredient Ingredient to add in the plate.
+   * @return True if the ingredient could be in the plate, false otherwise.
+   */
   @Override
   public boolean fill(Ingredient ingredient) {
     if (!ingredient.getPrepared()) {
@@ -87,6 +164,9 @@ public class Plate extends Item implements IngredientContainer {
     }
   }
 
+  /**
+   * Flush the content of the plate.
+   */
   public void flush() {
     ingCount = 0;
     burnt = false;
@@ -130,6 +210,9 @@ public class Plate extends Item implements IngredientContainer {
     }
   }
 
+  /**
+   * Render the plate.
+   */
   public void render() {
     int zoom = mode + 1;
     if (mode == 2) {

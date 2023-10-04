@@ -11,16 +11,27 @@ import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.scene.GameScene;
 
-
+/**
+ * A class to manage service tables (the table where you put finished recipe for the client).
+ */
 public class ServiceTable extends Tile {
-  private int direction;
 
+  /**
+   * The constructor of the class.
+   *
+   * @param pos The position of the tile.
+   * @param dir The direction of the tile.
+   */
   public ServiceTable(Dot pos, int dir) {
     this.type = 7;
     this.space = new Rectangle(pos, size, size, (float) (dir * (Math.PI / 2)));
-    this.direction = dir;
   }
 
+  /**
+   * The method that manage the use of the tile by the player.
+   *
+   * @param player The player that use the tile.
+   */
   public void use(Player player) {
 
     Item content = player.getInHand();
@@ -34,7 +45,9 @@ public class ServiceTable extends Tile {
   }
 
 
-
+  /**
+   * The method that render the tile.
+   */
   public void render() {
     Renderer.drawTexture(space, Texture.serviceTable);
   }

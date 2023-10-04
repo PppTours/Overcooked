@@ -16,16 +16,42 @@ import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import java.io.File;
 
+/**
+ * A class that represents the map selection scene.
+ */
 public class MapSelect extends Scene {
+  /**
+   * The instance of the map selection scene.
+   */
   private static MapSelect instance;
-  private RoundRobin mapSelector;
-  private Text title;
+
+  /**
+   * The map selector.
+   */
+  private final RoundRobin mapSelector;
+
+  /**
+   * The title of the scene.
+   */
+  private final Text title;
+
+  /**
+   * A boolean that represents if the player can navigate.
+   */
   private boolean navigate;
 
+  /**
+   * Resets the navigation.
+   */
   public void resetNav() {
     navigate = false;
   }
 
+  /**
+   * Gets the instance of the map selection scene.
+   *
+   * @return the instance of the map selection scene.
+   */
   public static MapSelect get() {
     if (instance == null) {
       instance = new MapSelect();
@@ -33,6 +59,9 @@ public class MapSelect extends Scene {
     return instance;
   }
 
+  /**
+   * Constructs a map selection scene.
+   */
   private MapSelect() {
     navigate = false;
     title = new Text("Select your map", new Rectangle(960, 75, 700, 60), Color.black);
@@ -44,6 +73,9 @@ public class MapSelect extends Scene {
     }
   }
 
+  /**
+   * Renders the map selection scene.
+   */
   @Override
   public void render() {
     title.render();
@@ -51,6 +83,9 @@ public class MapSelect extends Scene {
 
   }
 
+  /**
+   * Updates the map selection scene.
+   */
   @Override
   public void run() {
     boolean backToTitle = KeyListener.isKeyPressed(GLFW_KEY_BACKSPACE);

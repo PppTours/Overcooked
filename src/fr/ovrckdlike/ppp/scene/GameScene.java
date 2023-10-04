@@ -57,7 +57,7 @@ public class GameScene extends Scene {
 
     this.mapNum = HyperParameters.get().getMap();
     this.map = Map.get();
-    if (!Map.buildMap(mapNum)) {
+    if (Map.buildMap(mapNum)) {
       System.out.println("Error while building the map");
     }
 
@@ -84,7 +84,7 @@ public class GameScene extends Scene {
     // change map here
     this.mapNum = HyperParameters.get().getMap();
     this.map = Map.get();
-    if (!Map.buildMap(mapNum)) {
+    if (Map.buildMap(mapNum)) {
       System.out.println("Error while building the map");
     }
 

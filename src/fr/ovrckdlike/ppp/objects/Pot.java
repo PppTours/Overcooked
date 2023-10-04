@@ -9,12 +9,32 @@ import fr.ovrckdlike.ppp.physics.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class representing a pot. Which is a cooker container and an ingredient container.
+ */
 public class Pot extends CookerContainer implements IngredientContainer {
+  /**
+   * The content of the pot.
+   *
+   * @see Ingredient
+   */
   private final int[] content = new int[3];
+
+  /**
+   * The number of ingredients in the pot.
+   */
   private int nbIng;
+
+  /**
+   * The visualizer of the ingredient in the pot.
+   */
   private final List<IngredientVisualizer> ivList = new ArrayList<>();
 
-
+  /**
+   * The constructor of the pot.
+   *
+   * @param pos The position of the pot.
+   */
   public Pot(Dot pos) {
     super(pos);
     angle = 0f;
@@ -28,6 +48,11 @@ public class Pot extends CookerContainer implements IngredientContainer {
     nbIng = 0;
   }
 
+  /**
+   * Clear the content of the pot.
+   *
+   * @see Pot#content
+   */
   public void flush() {
     for (int i = 0; i < 3; i++) {
       this.content[i] = -1;
@@ -38,11 +63,22 @@ public class Pot extends CookerContainer implements IngredientContainer {
 
   }
 
+  /**
+   * Check if the pot is filled.
+   *
+   * @return True if the pot is filled, false otherwise.
+   */
   @Override
   public boolean isFilled() {
     return nbIng > 0;
   }
 
+  /**
+   * Fill the pot with an ingredient.
+   *
+   * @param ing The ingredient to fill the pot with.
+   * @return True if the ingredient was added, false otherwise.
+   */
   @Override
   public boolean fill(Ingredient ing) {
     if (nbIng > 2) {
@@ -62,6 +98,7 @@ public class Pot extends CookerContainer implements IngredientContainer {
   }
 
   /**
+   * Check for the content of the pot.
    * Mettre -1 pour vide.
    *
    * @param content Contenu à vérifier.
@@ -78,6 +115,9 @@ public class Pot extends CookerContainer implements IngredientContainer {
   }
 
 
+  /**
+   * Render the pot.
+   */
   public void render() {
     int zoom = this.mode + 1;
     Rectangle printSurface = space.resized(zoom * space.getRay()).surroundBySquare(angle);

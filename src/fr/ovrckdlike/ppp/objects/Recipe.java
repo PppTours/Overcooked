@@ -15,17 +15,58 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * A class to manage commands.
+ */
 public class Recipe {
+  /**
+   * The set of recipes.
+   */
   MapType recipeSet;
+
+  /**
+   * The id of the recipe.
+   */
   byte recipeId;
-  float timer;        //timer is in seconds
+
+  /**
+   * The timer (in seconds) of the recipe.
+   */
+  float timer;
+
+  /**
+   * The list of ingredients.
+   */
   int[] ingredientList = new int[5];
+
+  /**
+   * The list of ingredient visualizers.
+   *
+   * @see IngredientVisualizer
+   */
   List<IngredientVisualizer> ivList;
+
+  /**
+   * The command number.
+   */
   byte commandNumero;
+
+  /**
+   * The rectangle to show the command to the players.
+   */
   Rectangle space;
+
+  /**
+   * The time bar.
+   */
   TimeBar timeBar;
 
-
+  /**
+   * The constructor of the class.
+   *
+   * @param recipeSet The set of recipes.
+   * @param commandNumero The command number.
+   */
   public Recipe(MapType recipeSet, byte commandNumero) {
     this.recipeSet = recipeSet;
     this.commandNumero = commandNumero;
@@ -79,23 +120,47 @@ public class Recipe {
     }
   }
 
+  /**
+   * Reset the timer.
+   */
   public void reset() {
     timer = 60f;
   }
 
+  /**
+   * Get the command number.
+   *
+   * @return The command number.
+   */
   public byte getComNo() {
     return commandNumero;
   }
 
+  /**
+   * Set the command number.
+   *
+   * @param numero The command number.
+   */
   public void setComNo(byte numero) {
     commandNumero = numero;
     space.getPos().setX(220 * commandNumero);
   }
 
+  /**
+   * Get the timer.
+   *
+   * @return The timer.
+   */
   public float getTimer() {
     return timer;
   }
 
+  /**
+   * Check if the command is valid.
+   *
+   * @param content The content of the command.
+   * @return True if the command is valid, false otherwise.
+   */
   public boolean checkValid(boolean[] content) {
     boolean[] actualContent = new boolean[15];
     actualContent[14] = recipeSet == MapType.PIZZA;
@@ -117,6 +182,9 @@ public class Recipe {
     return flag;
   }
 
+  /**
+   * Update the timer.
+   */
   public void updateTimer() {
     timer -= Time.get().getDtS();
     if (timer < 0) {
@@ -124,11 +192,18 @@ public class Recipe {
     }
   }
 
+  /**
+   * Get the list of ingredients.
+   *
+   * @return The list of ingredients.
+   */
   public int[] getIngredients() {
     return ingredientList;
   }
 
-
+  /**
+   * Render the command at the top of the screen.
+   */
   public void render() {
     float alpha = .8f;
     Dot pos = space.getPos();

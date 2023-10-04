@@ -17,10 +17,26 @@ import fr.ovrckdlike.ppp.gui.Text;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Time;
 
+/**
+ * A class that implements the Scene interface and represents the main menu of the game.
+ * It's a singleton class.
+ */
 public class MainMenu extends Scene {
+  /**
+   * The instance of the MainMenu class.
+   */
   private static MainMenu instance;
-  private Text text;
 
+  /**
+   * The text that says "Move any joystick to start".
+   */
+  private final Text text;
+
+  /**
+   * Returns the instance of the MainMenu class.
+   *
+   * @return the instance of the MainMenu class.
+   */
   public static MainMenu get() {
     if (instance == null) {
       instance = new MainMenu();
@@ -28,11 +44,17 @@ public class MainMenu extends Scene {
     return instance;
   }
 
+  /**
+   * Renders the main menu.
+   */
   public void render() {
     text.changeSize(52 + (float) (2 * Math.sin(Time.get().getCurrentTime() / (1E9f))));
     text.render();
   }
 
+  /**
+   * Launch the game when moving a joystick or a key.
+   */
   public void run() {
     boolean left1 = KeyListener.isKeyPressed(GLFW_KEY_LEFT);
     boolean right1 = KeyListener.isKeyPressed(GLFW_KEY_RIGHT);
@@ -54,6 +76,10 @@ public class MainMenu extends Scene {
     }
   }
 
+  /**
+   * Constructor of the main menu.
+   * It creates the text that says "Move any joystick to start".
+   */
   private MainMenu() {
     Dot textPos = new Dot(1920 / 2, 800);
     text = new Text("Move any joystick to start", textPos, Color.black, 50, 0);

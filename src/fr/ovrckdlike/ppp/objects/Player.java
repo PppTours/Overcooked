@@ -24,29 +24,85 @@ import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.Tile;
 import java.util.List;
 
+/**
+ * A class representing a player in the game.
+ */
 public class Player extends Entity {
-  private Texture skin;
-  private byte id;
+  /**
+   * The skin of the player.
+   */
+  private final Texture skin;
+
+  /**
+   * The Id of the player.
+   */
+  private final byte id;
+
+  /**
+   * The direction of the player.
+   */
   private int direction;
-  private int moveSpeed;
+
+  /**
+   * The speed of the player.
+   */
+  private final int moveSpeed;
+
+  /**
+   * If the player is blocked.
+   */
   private boolean blocked;
+
+  /**
+   * The item in the hand of the player.
+   *
+   * @see Item
+   */
   private Item inHand;
+
+  /**
+   * The last move of the player.
+   */
   private float lastMove;
+
+  /**
+   * The time of the dash.
+   */
   private float dashTime;
+
+  /**
+   * If the dash is ready.
+   */
   private boolean dashIsReady;
 
-  // controls
-  private boolean up;
-  private boolean down;
-  private boolean left;
-  private boolean right;
-  private boolean dash;
+  /**
+   * If the player want to pick or drop an item.
+   */
   private boolean pickDrop;
+
+  /**
+   * If the player want to interact with something.
+   */
   private boolean interact;
+
+  /**
+   * The last time the player picked or dropped an item.
+   */
   private long lastPickDrop = 0;
+
+  /**
+   * The last time the player interacted with something.
+   */
   private long lastInteract = 0;
 
 
+  /**
+   * The constructor of the player.
+   *
+   * @param pos  The position of the player.
+   * @param id   The id of the player.
+   * @param skin The skin of the player.
+   */
   public Player(Dot pos, byte id, Texture skin) {
     this.skin = skin;
     this.id = id;
@@ -59,7 +115,17 @@ public class Player extends Entity {
     inHand = null;
   }
 
+  /**
+   * Manage the key action for the player.
+   * Allow to move, turn, pick or drop an item, interact with something.
+   */
   public void updateKeyPressed() {
+    // controls
+    boolean up;
+    boolean left;
+    boolean down;
+    boolean right;
+    boolean dash;
     switch (id) {
       case 1:
         up = KeyListener.isKeyPressed(GLFW_KEY_W);
@@ -94,54 +160,116 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Reset the last time the player picked or dropped an item.
+   */
   public void resetLastPickDrop() {
     lastPickDrop = Time.get().getCurrentTime();
   }
 
+  /**
+   * Reset the last time the player interacted with something.
+   */
   public void resetLastInteract() {
     lastInteract = Time.get().getCurrentTime();
   }
 
+  /**
+   * A Getter for the last time the player interacted with something.
+   *
+   * @return The last time the player interacted with something.
+   */
   public long getLastInteract() {
     return lastInteract;
   }
 
+  /**
+   * A Getter for the last time the player picked or dropped an item.
+   *
+   * @return The last time the player picked or dropped an item.
+   */
   public long getLastPickDrop() {
     return lastPickDrop;
   }
 
+  /**
+   * A Getter for the pickDrop attribute.
+   *
+   * @return The pickDrop attribute.
+   */
   public boolean getPickDrop() {
     return pickDrop;
   }
 
+  /**
+   * A Getter for the interact attribute.
+   *
+   * @return The interact attribute.
+   */
   public boolean getInteract() {
     return interact;
   }
 
+  /**
+   * A getter for the size of the player (hitbox).
+   *
+   * @return The size of the player.
+   */
   public float getSize() {
     return space.getRay() * 2f;
   }
 
+  /**
+   * A setter for the position of the player.
+   *
+   * @param newPos The new position of the player.
+   */
   public void setPos(Dot newPos) {
     space.setPos(newPos);
   }
 
+  /**
+   * A setter for the position of the player.
+   *
+   * @param x The x coordinate of the new position of the player.
+   * @param y The y coordinate of the new position of the player.
+   */
   public void setPos(float x, float y) {
     space.setPos(new Dot(x, y));
   }
 
+  /**
+   * A getter for the last move of the player.
+   *
+   * @return The last move of the player.
+   */
   public float getLastMove() {
     return lastMove;
   }
 
+  /**
+   * A getter for the item in the hand of the player.
+   *
+   * @return The item in the hand of the player.
+   */
   public Item getInHand() {
     return this.inHand;
   }
 
+  /**
+   * A setter for the item in the hand of the player.
+   *
+   * @param item The new item in the hand of the player.
+   */
   public void setInHand(Item item) {
     this.inHand = item;
   }
 
+  /**
+   * A getter for the id of the player.
+   *
+   * @param dt Time for the next dash.
+   */
   public void releaseDash(long dt) {
     if (dashTime <= 0) {
       dashIsReady = true;
@@ -149,6 +277,11 @@ public class Player extends Entity {
     dashTimer(dt);
   }
 
+  /**
+   * Allow the player to dash.
+   *
+   * @param dt Time for the next dash.
+   */
   public void dash(long dt) {
     if (dashIsReady) {
       dashIsReady = false;
@@ -157,14 +290,25 @@ public class Player extends Entity {
     dashTimer(dt);
   }
 
+  /**
+   * To lock the player.
+   */
   public void lockMove() {
     blocked = true;
   }
 
+  /**
+   * To unlock the player.
+   */
   public void unlockMove() {
     blocked = false;
   }
 
+  /**
+   * The timer for the dash.
+   *
+   * @param dt Time for the next dash.
+   */
   private void dashTimer(long dt) {
     if (dashTime > 0) {
       float sdt = dt / 1E9f;
@@ -172,41 +316,62 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Find the nearest item from the player.
+   *
+   * @param itemList The list of the items.
+   * @return The id of the nearest item.
+   */
   public int nearestItem(List<Item> itemList) {
-    if (itemList.size() == 0) {
+    if (itemList.isEmpty()) {
       return -1;
     } else {
       int nearest = -1;
       float mindist = Float.MAX_VALUE;
       int i = 0;
       for (Item item : itemList) {
-        if (item.getInPlayerHand()) {
-          i++;
-          continue;
-        } else {
+        if (!item.getInPlayerHand()) {
           Dot itemPos = item.getPos();
           float dist = distanceTo(itemPos);
           if (dist < mindist) {
             nearest = i;
             mindist = dist;
           }
-          i++;
         }
+        i++;
 
       }
       return nearest;
     }
   }
 
+  /**
+   * Calculate the distance between the player and a position.
+   *
+   * @param pos The position to calculate the distance.
+   * @return The distance between the player and the position.
+   */
   public float distanceTo(Dot pos) {
     return space.getPos().distanceTo(pos);
   }
 
+  /**
+   * Calculate the angle between the player and a position.
+   *
+   * @param pos The position to calculate the angle.
+   * @return The angle between the player and the position.
+   */
   public double angleTo(Dot pos) {
     return space.getPos().angleTo(pos);
 
   }
 
+  /**
+   * Calculate the direction between the player and a position.
+   *
+   * @param pos The position to calculate the direction.
+   * @return The direction between the player and the position.
+   */
   public int directionTo(Dot pos) {
     double angle = this.angleTo(pos);
 
@@ -237,6 +402,12 @@ public class Player extends Entity {
     return -1;
   }
 
+  /**
+   * Take the nearest item from the player.
+   *
+   * @param itemList The list of the items near to player.
+   * @return If the player took an item.
+   */
   public boolean takeNearestItem(List<Item> itemList) {
     int itemId = this.nearestItem(itemList);
     if (itemId == -1) {
@@ -256,14 +427,23 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Find where the player can drop an item.
+   *
+   * @return The position where the player can drop an item.
+   */
   public Dot whereToDrop() {
     double angle = getDirectionAngle();
     int distance = 75;
-    Dot dropPos = new Dot(space.getPos().getX() + (float) (distance * Math.cos(angle)),
+    return new Dot(space.getPos().getX() + (float) (distance * Math.cos(angle)),
         space.getPos().getY() - (float) (distance * Math.sin(angle)));
-    return dropPos;
   }
 
+  /**
+   * Take an item.
+   *
+   * @param item The item to take.
+   */
   public void take(Item item) {
     if (inHand == null && item != null) {
       inHand = item;
@@ -271,6 +451,9 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Drop the item in the hand of the player.
+   */
   public void drop() {
     if (inHand != null) {
       inHand.setInPlayerHand(false);
@@ -278,6 +461,9 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Render the player.
+   */
   public void render() {
     Renderer.drawTexture(
         space.resized(60).surroundBySquare(
@@ -306,14 +492,29 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Get the position of the player.
+   *
+   * @return The position of the player.
+   */
   public Dot getPos() {
     return space.getPos();
   }
 
+  /**
+   * Get the direction of the player.
+   *
+   * @return The direction of the player.
+   */
   public int getDirection() {
     return this.direction;
   }
 
+  /**
+   * Get the angle of the player.
+   *
+   * @return The angle of the player.
+   */
   public double getDirectionAngle() {
     return switch (direction) {
       case 0 -> Math.PI / 2;
@@ -328,6 +529,11 @@ public class Player extends Entity {
     };
   }
 
+  /**
+   * Move the player.
+   *
+   * @param dt Time for the next move.
+   */
   public void movePlayer(long dt) {
     if (!blocked) {
       float sdt = (float) (dt / 1E9);
@@ -347,6 +553,11 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Manage the collision between the player and the other players.
+   *
+   * @param playerList The list of the players.
+   */
   public void collidePlayer(List<Player> playerList) {
     if (dashTime <= 0f) {
       for (Player p : playerList) {
@@ -361,6 +572,12 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Manage the collision between the player and the entities.
+   *
+   * @param objList The list of the entities.
+   * @param <T>    The type of the entities.
+   */
   public <T extends Entity> void collideEntity(List<T> objList) {
     if (dashTime <= 0f) {
       for (Entity obj : objList) {
@@ -372,6 +589,11 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Manage the collision between the player and the tiles.
+   *
+   * @param tileList The list of the tiles.
+   */
   public void collideTile(List<Tile> tileList) {
     for (Tile tile : tileList) {
       float move = -getPos().distanceTo(tile.getSpace().nearestFromPos(getPos())) + space.getRay();
@@ -381,6 +603,14 @@ public class Player extends Entity {
     }
   }
 
+  /**
+   * Change the direction of the player.
+   *
+   * @param up   If the player want to go up.
+   * @param down If the player want to go down.
+   * @param left If the player want to go left.
+   * @param right If the player want to go right.
+   */
   public void changeAngle(boolean up, boolean down, boolean left, boolean right) {
     if (!blocked) {
       if (up && right) {

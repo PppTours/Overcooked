@@ -10,9 +10,23 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 
+/**
+ * A class representing a table in the game.
+ */
 public class Table extends Tile implements ContainerTile {
+  /**
+   * The content of the table.
+   *
+   * @see Item
+   */
   private Item content;
 
+  /**
+   * The constructor of the table.
+   *
+   * @param pos  The position of the table.
+   * @param onTop The content of the table.
+   */
   public Table(Dot pos, String onTop) {
     this.space = new Rectangle(pos, size, size, 0f);
     if (onTop.equals("PLA")) {
@@ -27,11 +41,22 @@ public class Table extends Tile implements ContainerTile {
     this.type = 1;
   }
 
+  /**
+   * A Getter for the content of the table.
+   *
+   * @return The content of the table.
+   */
   @Override
   public Item getContent() {
     return content;
   }
 
+  /**
+   * Manage the action to take or drop something on the table.
+   *
+   * @param newContent The new content of the table.
+   * @return The old content of the table.
+   */
   @Override
   public Item takeOrDrop(Item newContent) {
     Item oldContent = this.content;
@@ -46,8 +71,16 @@ public class Table extends Tile implements ContainerTile {
     return oldContent;
   }
 
+  /**
+   * Manage the action to use the content of the table.
+   *
+   * @param player The player who use the content of the table.
+   */
   public void use(Player player) {}
 
+  /**
+   * Render the table.
+   */
   public void render() {
     Renderer.drawTexture(space, Texture.table);
     if (content != null) {

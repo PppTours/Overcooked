@@ -25,14 +25,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * A class that represents a level in the game.
+ */
 public class Map {
+  /**
+   * The instance of the map.
+   */
   public static Map map;
 
-  private List<Tile> tileList;
-  private List<Item> itemList;
-  private List<Player> playerList;
+  /**
+   * The list of tiles in the map.
+   */
+  private final List<Tile> tileList;
+
+  /**
+   * The list of items in the map.
+   */
+  private final List<Item> itemList;
+
+  /**
+   * The list of players in the map.
+   */
+  private final List<Player> playerList;
+
+  /**
+   * The type of the map.
+   */
   private MapType type;
 
+  /**
+   * Get the instance of the map.
+   *
+   * @return The instance of the map.
+   */
   public static Map get() {
     if (map == null) {
       map = new Map();
@@ -40,35 +66,67 @@ public class Map {
     return map;
   }
 
+  /**
+   * Constructor of Map.
+   */
   private Map() {
-    tileList = new ArrayList<Tile>();
-    itemList = new ArrayList<Item>();
-    playerList = new ArrayList<Player>();
+    tileList = new ArrayList<>();
+    itemList = new ArrayList<>();
+    playerList = new ArrayList<>();
   }
 
+  /**
+   * Get the type of the map.
+   *
+   * @return The type of the map.
+   */
   public MapType getType() {
     return type;
   }
 
+  /**
+   * Get the list of tiles in the map.
+   *
+   * @return The list of tiles in the map.
+   */
   public List<Tile> getTileList() {
     return tileList;
   }
 
+  /**
+   * Get the list of items in the map.
+   *
+   * @return The list of items in the map.
+   */
   public List<Item> getItemList() {
     return itemList;
   }
 
+  /**
+   * Get the list of players in the map.
+   *
+   * @return The list of players in the map.
+   */
   public List<Player> getPlayerList() {
     return playerList;
   }
 
 
+  /**
+   * Clear the map.
+   */
   public void clearMap() {
     tileList.clear();
     itemList.clear();
     playerList.clear();
   }
 
+  /**
+   * Build the map from a file.
+   *
+   * @param numero The number of the map.
+   * @return True if the map is built, false otherwise.
+   */
   public static boolean buildMap(int numero) {
     System.out.println("check");
     Map.get();
@@ -142,7 +200,7 @@ public class Map {
                   break;
                 default:
                   map.tileList.clear();
-                  return false;
+                  return true;
               }
               if (tile != null) {
                 map.tileList.add(tile);
@@ -177,7 +235,7 @@ public class Map {
                 default:
                   System.out.println(type);
                   map.tileList.clear();
-                  return false;
+                  return true;
               }
               if (tile != null) {
                 map.tileList.add(tile);
@@ -226,10 +284,10 @@ public class Map {
       }
 
       scan.close();
-      return true;
+      return false;
     } catch (FileNotFoundException e) {
       System.out.println("failed to find " + file);
-      return false;
+      return true;
     }
   }
 }

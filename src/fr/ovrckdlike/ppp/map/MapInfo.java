@@ -6,7 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * A class that represents the information of a map.
+ */
 public class MapInfo {
+  /**
+   * Name of the map.
+   */
   private String name;
 
   /**
@@ -14,11 +20,27 @@ public class MapInfo {
    * Between 1 (easy) and 3 (hard)
    */
   private int difficulty;
+
+  /**
+   * Maximum score of the map.
+   */
   private int maxScore;
-  private int mapNum;
+  /**
+   * Number of the map.
+   */
+  private final int mapNum;
+  /**
+   * Type of the map.
+   *
+   * @see MapType
+   */
   private MapType type;
 
-
+  /**
+   * Constructor of the MapInfo class. Needs the number of the map.
+   *
+   * @param map the number of the map.
+   */
   public MapInfo(int map) {
     mapNum = map;
     File infoFile = new File("res/maps/map" + map + "/data.txt");
@@ -52,22 +74,47 @@ public class MapInfo {
     }
   }
 
+  /**
+   * Getter of the name of the map.
+   *
+   * @return the name of the map.
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Getter of the difficulty of the map.
+   *
+   * @return the difficulty of the map.
+   */
   public int getDifficulty() {
     return difficulty;
   }
 
+  /**
+   * Getter of the maximum score of the map.
+   *
+   * @return the maximum score of the map.
+   */
   public int getMaxScore() {
     return maxScore;
   }
 
+  /**
+   * Getter of the number of the map.
+   *
+   * @return the number of the map.
+   */
   public int getMapNum() {
     return mapNum;
   }
 
+  /**
+   * Getter of the type of the map.
+   *
+   * @return the type of the map.
+   */
   public MapType getType() {
     return type;
   }
