@@ -135,8 +135,8 @@ public class Map {
       Scanner scan = new Scanner(file);
       int tilePosX = 0;
       int tilePosY = 0;
-      HashMap<Character, Dryer> dryerMap = new HashMap();
-      ArrayList<Sink> sinkList = new ArrayList();
+      HashMap<Character, Dryer> dryerMap = new HashMap<>();
+      ArrayList<Sink> sinkList = new ArrayList<>();
       while (scan.hasNext()) {
         String line = scan.next();
         String[] chunks = line.split(";", -1);
@@ -202,9 +202,7 @@ public class Map {
                   map.tileList.clear();
                   return true;
               }
-              if (tile != null) {
-                map.tileList.add(tile);
-              }
+              map.tileList.add(tile);
             } else {
               if (chunk.length() > 1) {
                 type *= 10;

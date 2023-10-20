@@ -17,6 +17,8 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.graphics.Renderer;
+import fr.ovrckdlike.ppp.graphics.SoundHandler;
+import fr.ovrckdlike.ppp.internal.Sound;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Circle;
 import fr.ovrckdlike.ppp.physics.Dot;
@@ -396,7 +398,7 @@ public class Player extends Entity {
     if (angle > 11 * Math.PI / 8 && angle <= 13 * Math.PI / 8) {
       return 6;
     }
-    if (angle > 13 * Math.PI / 8 && angle <= 15 * Math.PI / 8) {
+    if (angle > 13 * Math.PI / 8) {
       return 7;
     }
     return -1;
@@ -519,7 +521,6 @@ public class Player extends Entity {
     return switch (direction) {
       case 0 -> Math.PI / 2;
       case 1 -> Math.PI / 4;
-      case 2 -> 0;
       case 3 -> 7 * Math.PI / 4;
       case 4 -> 3 * Math.PI / 2;
       case 5 -> 5 * Math.PI / 4;
@@ -539,7 +540,10 @@ public class Player extends Entity {
       float sdt = (float) (dt / 1E9);
       float dist = moveSpeed * sdt;
       if (dashTime > 0) {
+        SoundHandler.play(SoundHandler.dashing);
         dist *= 7;
+      } else {
+        SoundHandler.play(SoundHandler.walking);
       }
       float distX;
       float distY;
@@ -550,6 +554,8 @@ public class Player extends Entity {
 
       space.getPos().addToThis(distX, distY);
       lastMove = (float) (Math.sqrt(distX * distX + distY * distY));
+    } else {
+      SoundHandler.stop(SoundHandler.walking);
     }
   }
 

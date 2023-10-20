@@ -77,10 +77,10 @@ public class SoundHandler {
    */
   public void loadSounds() {
     walking.setPath("res/sounds/walking.ogg");
-    /*
     dashing.setPath("res/sounds/dashing.ogg");
 
     cutting.setPath("res/sounds/cutting.ogg");
+    /*
     cooking.setPath("res/sounds/cooking.ogg");
     baking.setPath("res/sounds/baking.ogg");
     washing.setPath("res/sounds/washing.ogg");

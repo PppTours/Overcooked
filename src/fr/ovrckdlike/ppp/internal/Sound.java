@@ -175,6 +175,6 @@ public class Sound {
    */
   public void setPath(String s) {
     filepath = s;
-    loadSound();
+    this.loadSound();
   }
 }
