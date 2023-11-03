@@ -1,0 +1,4 @@
+name:Salad Map
+difficulty:1
+maxScore:50
+type:SALAD

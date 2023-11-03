@@ -344,9 +344,9 @@ public class Texture {
         case PIZZA:
           Texture.slicedTomato = Texture.loadTexture("/textures/pizza/sliced_tomato.png", true);
           Texture.flattenPizzaDough =
-              Texture.loadTexture("Texture/pizza/flatten_pizza_dough.png", true);
+              Texture.loadTexture("/textures/pizza/flatten_pizza_dough.png", true);
           Texture.slicedSausage = Texture.loadTexture("/textures/pizza/sliced_sausage.png", true);
-          Texture.slicedCheese = Texture.loadTexture("/textures/pizza/grated_cheese.png", true);
+          Texture.slicedCheese = Texture.loadTexture("/textures/burger/grated_cheese.png", true);
           break;
         case SALAD:
           Texture.slicedTomato = Texture.loadTexture("/textures/salad/sliced_tomato.png", true);

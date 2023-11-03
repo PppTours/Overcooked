@@ -1,0 +1,4 @@
+name:Noodles map
+difficulty:1
+maxScore:80
+type:NOODLES
