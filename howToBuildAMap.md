@@ -46,18 +46,18 @@ type, tile will be described after.
   - 5c : dryer directed to
   - 5d : dryer directed to
 - 6 : Ingredient Container :
-    - 6a : Tomato container
-    - 6b : Salad container
-    - 6c : Onion container
-    - 6d : Mushroom container
-    - 6e : Meat container
-    - 6f : Cheese container
-    - 6g : Pasta container
-    - 6h : Chorizo container
-    - 6i : Pizza Dough container
-    - 6j : Bread container
-    - 6k : Rice container
-    - 6l : Potato container
+    - 6a : Tomato container : 0
+    - 6b : Salad container : 1
+    - 6c : Onion container : 2
+    - 6d : Mushroom container : 3
+    - 6e : Meat container : 4
+    - 6f : Cheese container : 5
+    - 6g : Pasta container : 6
+    - 6h : Chorizo container : 7
+    - 6i : Pizza Dough container : 8
+    - 6j : Bread container : 9
+    - 6k : Rice container : 10
+    - 6l : Potato container : 11
 - 7 : Counter
   - 7a : Counter directed to
   - 7b : Counter directed to
