@@ -1,4 +1,4 @@
-package fr.ovrckdlike.ppp.graphics;
+package fr.ovrckdlike.ppp.scene;
 
 
 import fr.ovrckdlike.ppp.internal.Sound;
@@ -22,6 +22,7 @@ public class SoundHandler {
   public static Sound baking = new Sound("Baking", "", false);
   public static Sound putting = new Sound("Putting", "", false);
   public static Sound taking = new Sound("Taking", "", false);
+  public static Sound dropping = new Sound("Dropping", "", false);
   public static Sound washing = new Sound("Washing", "", false);
   public static Sound music = new Sound("Music", "", false);
   public static Sound win = new Sound("Win", "", false);
@@ -84,9 +85,11 @@ public class SoundHandler {
     cooking.setPath("res/sounds/cooking.ogg");
     baking.setPath("res/sounds/baking.ogg");
     washing.setPath("res/sounds/washing.ogg");
-
+    */
     putting.setPath("res/sounds/putting.ogg");
     taking.setPath("res/sounds/taking.ogg");
+    taking.setPath("res/sound/dropping.ogg");
+    /*
 
     music.setPath("res/sounds/music.ogg");
 

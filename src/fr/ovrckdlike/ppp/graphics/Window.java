@@ -48,6 +48,8 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.scene.SceneManager;
 import java.io.IOException;
+
+import fr.ovrckdlike.ppp.scene.SoundHandler;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.openal.AL;

@@ -5,7 +5,6 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
-import fr.ovrckdlike.ppp.graphics.SoundHandler;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Ingredient;
@@ -295,12 +294,7 @@ public class GameScene extends Scene {
               SoundHandler.play(SoundHandler.cooking);
             } else if (tile instanceof CuttingTable) {
               SoundHandler.play(SoundHandler.cutting);
-            } else if (tile instanceof Dryer
-                || tile instanceof Bin
-                || tile instanceof Table) {
-              SoundHandler.play(SoundHandler.putting);
-            } else if (tile instanceof PlateReturn
-                || tile instanceof IngredientRefiller) {
+            } else if (tile instanceof IngredientRefiller) {
               SoundHandler.play(SoundHandler.taking);
             } else {
               SoundHandler.play(SoundHandler.click);
