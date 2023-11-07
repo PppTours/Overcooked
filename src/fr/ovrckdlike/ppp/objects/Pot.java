@@ -7,6 +7,7 @@ import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -48,6 +49,10 @@ public class Pot extends CookerContainer implements IngredientContainer {
     nbIng = 0;
   }
 
+  
+  public boolean isCooked() {
+	return cooked;
+  }
   /**
    * Clear the content of the pot.
    *
@@ -172,5 +177,15 @@ public class Pot extends CookerContainer implements IngredientContainer {
 
     Dot timeBarPos = new Dot(pos.getX(), pos.getY() + 30);
     timebar.render(currentCookingTime, timeBarPos);
+  }
+
+
+  public int[] getContent() {
+	return content;
+  }
+
+
+  public int getNbIng() {
+	return nbIng;
   }
 }

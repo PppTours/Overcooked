@@ -1,11 +1,13 @@
 package fr.ovrckdlike.ppp.objects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.gui.IngredientVisualizer;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.objects.Pot;
 import fr.ovrckdlike.ppp.physics.Dot;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The class representing a plate. Which is an ingredient container.
@@ -15,6 +17,7 @@ public class Plate extends Item implements IngredientContainer {
    * Content of the plate.
    */
   private boolean[] content = new boolean[15];
+  private int[] soupContent = new int[3];
 
   /**
    * If the plate is dirty.
@@ -164,6 +167,18 @@ public class Plate extends Item implements IngredientContainer {
     }
   }
 
+  public boolean fillSoup(Pot p) {
+	if (p.isCooked() && p.getNbIng() == 3) {
+	  for (int i = 0; i < p.getContent().length; i++) {
+		  soupContent[i] = p.getContent()[i];
+	  }
+	  
+	  content[13] = true;
+	  return true;
+	}
+	else return false;
+  }
+  
   /**
    * Flush the content of the plate.
    */
@@ -213,7 +228,7 @@ public class Plate extends Item implements IngredientContainer {
   /**
    * Render the plate.
    */
-  public void render() {
+  public void render() { //TODO affichage soup
     int zoom = mode + 1;
     if (mode == 2) {
       return;
