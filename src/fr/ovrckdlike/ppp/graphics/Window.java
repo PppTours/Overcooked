@@ -26,6 +26,8 @@ import static org.lwjgl.glfw.GLFW.glfwSwapInterval;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.glfw.GLFW.glfwWindowHint;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
+import static org.lwjgl.openal.AL10.alDeleteSources;
+import static org.lwjgl.openal.AL10.alSourceStop;
 import static org.lwjgl.openal.ALC10.ALC_DEFAULT_DEVICE_SPECIFIER;
 import static org.lwjgl.openal.ALC10.alcCloseDevice;
 import static org.lwjgl.openal.ALC10.alcCreateContext;
@@ -166,6 +168,8 @@ public class Window {
     // Destruction du contexte audio
     alcDestroyContext(audioContext);
     alcCloseDevice(audioDevice);
+
+
 
     // libération de la mémoire
     glfwFreeCallbacks(glfwWindow);

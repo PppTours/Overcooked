@@ -128,7 +128,6 @@ public class Map {
    * @return True if the map is built, false otherwise.
    */
   public static boolean buildMap(int numero) {
-    System.out.println("check");
     Map.get();
     File file = new File("res/maps/map" + numero + "/map.csv");
     try {
@@ -231,7 +230,6 @@ public class Map {
                   tile = new Wall(tilePos);
                   break;
                 default:
-                  System.out.println(type);
                   map.tileList.clear();
                   return true;
               }
