@@ -88,7 +88,7 @@ public class SoundHandler {
     */
     putting.setPath("res/sounds/putting.ogg");
     taking.setPath("res/sounds/taking.ogg");
-    taking.setPath("res/sound/dropping.ogg");
+    taking.setPath("res/sounds/dropping.ogg");
     /*
 
     music.setPath("res/sounds/music.ogg");
