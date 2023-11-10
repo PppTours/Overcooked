@@ -9,6 +9,7 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
+import fr.ovrckdlike.ppp.scene.SoundHandler;
 
 
 /**

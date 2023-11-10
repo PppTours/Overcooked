@@ -18,17 +18,16 @@ public class SoundHandler {
   public static Sound walking = new Sound("Walking", "", false);
   public static Sound dashing = new Sound("Dashing", "", false);
   public static Sound cutting = new Sound("Cutting", "", false);
-  public static Sound cooking = new Sound("Cooking", "", false);
-  public static Sound baking = new Sound("Baking", "", false);
   public static Sound putting = new Sound("Putting", "", false);
   public static Sound taking = new Sound("Taking", "", false);
   public static Sound dropping = new Sound("Dropping", "", false);
-  public static Sound washing = new Sound("Washing", "", false);
-  public static Sound music = new Sound("Music", "", false);
-  public static Sound win = new Sound("Win", "", false);
-  public static Sound lose = new Sound("Lose", "", false);
-  public static Sound menu = new Sound("Menu", "", false);
-  public static Sound click = new Sound("Click", "", false);
+  public static Sound extinguish = new Sound("Extinguish", "", true);
+  public static Sound ignite = new Sound("Ignite", "", false);
+  public static Sound fire = new Sound("Fire", "", true);
+  public static Sound gasLighting = new Sound("GasLighting", "", false);
+  public static Sound gasCooking = new Sound("GasCooking", "", true);
+  public static Sound endCooking = new Sound("EndCooking", "", false);
+  public static Sound ovenTimer = new Sound("OvenTimer", "", false);
 
 
   /**
@@ -74,6 +73,14 @@ public class SoundHandler {
   }
 
   /**
+   * Arrête tous les sons.
+   */
+  public static void stopAll() {
+    extinguish.stop();
+    fire.stop();
+  }
+
+  /**
    * Charge les différents sons.
    */
   public void loadSounds() {
@@ -81,23 +88,17 @@ public class SoundHandler {
     dashing.setPath("res/sounds/dashing.ogg");
 
     cutting.setPath("res/sounds/cutting.ogg");
-    /*
-    cooking.setPath("res/sounds/cooking.ogg");
-    baking.setPath("res/sounds/baking.ogg");
-    washing.setPath("res/sounds/washing.ogg");
-    */
     putting.setPath("res/sounds/putting.ogg");
     taking.setPath("res/sounds/taking.ogg");
     taking.setPath("res/sounds/dropping.ogg");
-    /*
 
-    music.setPath("res/sounds/music.ogg");
+    extinguish.setPath("res/sounds/extinguish.ogg");
+    ignite.setPath("res/sounds/ignite.ogg");
+    fire.setPath("res/sounds/fire.ogg");
 
-    win.setPath("res/sounds/win.ogg");
-    lose.setPath("res/sounds/lose.ogg");
-
-    menu.setPath("res/sounds/menu.ogg");
-    click.setPath("res/sounds/click.ogg");
-     */
+    gasLighting.setPath("res/sounds/gasLighting.ogg");
+    gasCooking.setPath("res/sounds/gasCooking.ogg");
+    endCooking.setPath("res/sounds/endCooking.ogg");
+    ovenTimer.setPath("res/sounds/ovenTimer.ogg");
   }
 }

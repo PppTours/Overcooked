@@ -71,6 +71,8 @@ public class Pan extends CookerContainer implements IngredientContainer {
     GameScene.deleteItem(content);
     content = null;
     currentCookingTime = 0f;
+    stopFire();
+    hasBurn = false;
   }
 
   /**
@@ -79,6 +81,10 @@ public class Pan extends CookerContainer implements IngredientContainer {
   @Override
   public void render() {
     float zoom = space.getRay() * (mode + 1);
-    Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pan);
+    if (!hasBurn) {
+      Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pan);
+    } else {
+      Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.panBurnt);
+    }
   }
 }

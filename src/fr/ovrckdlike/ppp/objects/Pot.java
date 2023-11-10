@@ -65,7 +65,8 @@ public class Pot extends CookerContainer implements IngredientContainer {
     }
     nbIng = 0;
     currentCookingTime = 0f;
-
+    stopFire();
+    hasBurn = false;
   }
 
   /**
@@ -129,7 +130,7 @@ public class Pot extends CookerContainer implements IngredientContainer {
 
     Renderer.drawTexture(printSurface, Texture.pot);
     Renderer.drawTexture(printSurface, Texture.potEmpty);
-    if (checkForContent(-1) != 3) {
+    if (checkForContent(-1) != 3 && !isBurnt()) {
       float totalContent = 3 - this.checkForContent(-1);
       float alphaTomato = this.checkForContent(0) / totalContent;
       Renderer.drawTextureTransparent(printSurface, alphaTomato, Texture.potTomato);
@@ -140,7 +141,8 @@ public class Pot extends CookerContainer implements IngredientContainer {
     }
 
     Dot pos = space.getPos();
-    switch (nbIng) {
+    if (!hasBurn) {
+      switch (nbIng) {
       case 1:
         ivList.get(0).setPos(pos.getX(), pos.getY() - 35);
         ivList.get(0).setIngredient(content[0]);
@@ -170,9 +172,17 @@ public class Pot extends CookerContainer implements IngredientContainer {
         break;
       default:
         break;
+      }
     }
     for (IngredientVisualizer iv : ivList) {
       iv.render();
+    }
+
+    if (hasBurn) {
+      Renderer.drawTexture(printSurface, Texture.burntPot);
+      for (IngredientVisualizer iv : ivList) {
+        iv.setVisible(false);
+      }
     }
 
     Dot timeBarPos = new Dot(pos.getX(), pos.getY() + 30);

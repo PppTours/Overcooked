@@ -1,6 +1,7 @@
 package fr.ovrckdlike.ppp.tiles;
 
 import fr.ovrckdlike.ppp.graphics.Renderer;
+import fr.ovrckdlike.ppp.internal.Sound;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.objects.CookerContainer;
 import fr.ovrckdlike.ppp.objects.Item;
@@ -8,6 +9,7 @@ import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
 import fr.ovrckdlike.ppp.physics.Time;
+import fr.ovrckdlike.ppp.scene.SoundHandler;
 
 /**
  * A class that represents a GasCooker.
@@ -22,6 +24,11 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
    * Indicates if the gas cooker is burning.
    */
   private boolean burning;
+
+  /**
+   * Indicates if the gasCooker is already in fire
+   */
+  private boolean inFire;
 
   /**
    * Get the content of the gas cooker.
@@ -45,6 +52,7 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
     this.content.setPos(pos);
     this.content.setMode(1);
     burning = false;
+    inFire = false;
   }
 
   /**
@@ -52,13 +60,16 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
    */
   public void cook() {
     if (content == null) {
+      SoundHandler.stop(SoundHandler.gasCooking);
       return;
     }
     if (content.isFilled()) {
+      SoundHandler.play(SoundHandler.gasCooking);
       long dt = Time.get().getDt();
       content.cook(dt);
-      if (content.isBurnt()) {
+      if (content.isBurnt() && !inFire) {
         setInFire();
+        inFire = true;
       }
     }
   }
@@ -92,7 +103,7 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
    */
   @Override
   public Item takeOrDrop(Item newContent) {
-    if (newContent instanceof CookerContainer || newContent == null) {
+    if ((newContent instanceof CookerContainer || newContent == null) && !burning) {
       CookerContainer oldContent = content;
       content = (CookerContainer) newContent;
       if (content != null) {
@@ -125,6 +136,8 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
   public void setInFire() {
     burning = true;
     content.burn();
+    SoundHandler.play(SoundHandler.ignite);
+    SoundHandler.play(SoundHandler.fire);
   }
 
   /**
@@ -133,5 +146,11 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
   @Override
   public void stopFire() {
     burning = false;
+    SoundHandler.stop(SoundHandler.fire);
+    if (content != null) {
+      content.stopFire();
+
+    }
+    inFire = false;
   }
 }

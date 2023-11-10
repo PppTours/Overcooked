@@ -2,6 +2,7 @@ package fr.ovrckdlike.ppp.objects;
 
 import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.physics.Dot;
+import fr.ovrckdlike.ppp.scene.SoundHandler;
 
 /**
  * An abstract class to represent a cooker container.
@@ -13,6 +14,9 @@ public abstract class CookerContainer extends Item {
   protected boolean burnt;
   protected TimeBar timebar;
 
+  protected boolean onFire;
+  protected boolean hasBurn;
+
   /**
    * Constructor of the class CookerContainer.
    *
@@ -20,6 +24,7 @@ public abstract class CookerContainer extends Item {
    */
   public CookerContainer(Dot pos) {
     super(pos);
+    onFire = false;
   }
 
   public void prepare() {}
@@ -57,6 +62,11 @@ public abstract class CookerContainer extends Item {
     return burnt;
   }
 
+  public void stopFire() {
+    burnt = false;
+    SoundHandler.stop(SoundHandler.gasCooking);
+  }
+
   /**
    * A method to use the cooker container.
    *
@@ -66,10 +76,15 @@ public abstract class CookerContainer extends Item {
     float sdt = dt / 1E9f;
     currentCookingTime += sdt;
     if (currentCookingTime > cookingTime) {
+      if (!cooked) {
+        SoundHandler.play(SoundHandler.endCooking);
+      }
       cooked = true;
     }
-    if (currentCookingTime > 2 * cookingTime) {
+    if (currentCookingTime > 2 * cookingTime && !onFire) {
       burnt = true;
+      onFire = true;
+      hasBurn = true;
     }
   }
 }

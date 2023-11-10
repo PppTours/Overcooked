@@ -7,6 +7,7 @@ import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
+import fr.ovrckdlike.ppp.objects.Extinguisher;
 import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.IngredientContainer;
 import fr.ovrckdlike.ppp.objects.Item;
@@ -14,6 +15,7 @@ import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Time;
 import fr.ovrckdlike.ppp.tiles.Bin;
+import fr.ovrckdlike.ppp.tiles.Burnable;
 import fr.ovrckdlike.ppp.tiles.ContainerTile;
 import fr.ovrckdlike.ppp.tiles.CuttingTable;
 import fr.ovrckdlike.ppp.tiles.Dryer;
@@ -70,6 +72,8 @@ public class GameScene extends Scene {
    * The map.
    */
   private Map map;
+
+  private float currentExtinguishTime;
 
 
   /**
@@ -183,7 +187,7 @@ public class GameScene extends Scene {
 
     if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
       SceneManager.get().pauseGame();
-      SoundHandler.play(SoundHandler.menu);
+      SoundHandler.stopAll();
     }
 
     recSch.run();
@@ -245,7 +249,13 @@ public class GameScene extends Scene {
 
           }
         }
-
+        if (p.getInHand() instanceof Extinguisher) {
+            if (p.getInteract()) {
+              ((Extinguisher) p.getInHand()).use(tile);
+            } else {
+              SoundHandler.stop(SoundHandler.extinguish);
+            }
+        }
         // player take a plate in the dryer
         if (tile instanceof Dryer && p.getInHand() == null) {
           if (tile.isInTile(p.whereToDrop())
@@ -286,18 +296,10 @@ public class GameScene extends Scene {
         }
         if (p.getInteract()) {
           if (tile.isInTile(p.whereToDrop())) {
-            if (tile instanceof Sink) {
-              SoundHandler.play(SoundHandler.washing);
-            } else if (tile instanceof Furnace) {
-              SoundHandler.play(SoundHandler.baking);
-            } else if (tile instanceof GasCooker) {
-              SoundHandler.play(SoundHandler.cooking);
-            } else if (tile instanceof CuttingTable) {
+            if (tile instanceof CuttingTable) {
               SoundHandler.play(SoundHandler.cutting);
             } else if (tile instanceof IngredientRefiller) {
               SoundHandler.play(SoundHandler.taking);
-            } else {
-              SoundHandler.play(SoundHandler.click);
             }
             tile.use(p);
           }
