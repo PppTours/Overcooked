@@ -3,6 +3,9 @@ package fr.ovrckdlike.ppp.scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
+import java.util.HashMap;
+import java.util.List;
+
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.internal.Texture;
@@ -14,8 +17,6 @@ import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Time;
-import fr.ovrckdlike.ppp.tiles.Bin;
-import fr.ovrckdlike.ppp.tiles.Burnable;
 import fr.ovrckdlike.ppp.tiles.ContainerTile;
 import fr.ovrckdlike.ppp.tiles.CuttingTable;
 import fr.ovrckdlike.ppp.tiles.Dryer;
@@ -24,9 +25,7 @@ import fr.ovrckdlike.ppp.tiles.GasCooker;
 import fr.ovrckdlike.ppp.tiles.IngredientRefiller;
 import fr.ovrckdlike.ppp.tiles.PlateReturn;
 import fr.ovrckdlike.ppp.tiles.Sink;
-import fr.ovrckdlike.ppp.tiles.Table;
 import fr.ovrckdlike.ppp.tiles.Tile;
-import java.util.List;
 
 /**
  * GameScene is the scene where the game is played.
@@ -108,6 +107,7 @@ public class GameScene extends Scene {
 
 
     recSch = RecipeScheduler.get();
+    recSch.setRecSet(map.getType());
 
   }
 
@@ -182,8 +182,10 @@ public class GameScene extends Scene {
    * Update the game.
    */
   public void run() {
-    boolean flagDropP1 = true;
-    boolean flagDropP2 = true;
+    HashMap<Player, Boolean> flagDrop = new HashMap<Player, Boolean>();
+    flagDrop.put(playerList.get(0), true);
+    flagDrop.put(playerList.get(1), true);
+
 
     if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
       SceneManager.get().pauseGame();
@@ -292,7 +294,7 @@ public class GameScene extends Scene {
       // player interact 
       for (Tile tile : tileList) {
         if (p.getPickDrop() && tile.isInTile(p.whereToDrop())) {
-          flagDropP1 = false;
+          flagDrop.put(p, false);
         }
         if (p.getInteract()) {
           if (tile.isInTile(p.whereToDrop())) {
@@ -310,7 +312,7 @@ public class GameScene extends Scene {
         }
       }
 
-      if (p.getPickDrop() && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && flagDropP1) {
+      if (p.getPickDrop() && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && flagDrop.get(p)) {
         p.resetLastPickDrop();
         if (p.getInHand() == null) {
           p.takeNearestItem(itemList);
