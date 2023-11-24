@@ -80,6 +80,7 @@ public class Recipe {
 
 
     File recipeFile = new File("res/recipes/set" + recipeSet.toString() + ".csv");
+    System.out.println(recipeSet.toString());
     try {
       Scanner scan = new Scanner(recipeFile);
       byte nbRecipe = 0;
