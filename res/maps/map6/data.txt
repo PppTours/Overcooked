@@ -1,0 +1,4 @@
+name:Burger Map
+difficulty:1
+maxScore:80
+type:BURGER

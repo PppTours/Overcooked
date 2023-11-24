@@ -94,4 +94,5 @@ public class TimeBar {
   public void render(float currentTime) {
     calculateTimeBarGauge(currentTime);
   }
+
 }

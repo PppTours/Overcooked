@@ -29,7 +29,6 @@ import javax.imageio.ImageIO;
  * A class that represents a texture.
  */
 public class Texture {
-
   /**
    * The texture that is currently bound.
    */
@@ -102,8 +101,10 @@ public class Texture {
   public static Texture potOnion;
   public static Texture potMushroom;
   public static Texture pot;
+  public static Texture burntPot;
   public static Texture plate;
   public static Texture pan;
+  public static Texture panBurnt;
   public static Texture dirtyPlate;
   public static Texture extinguisher;
 
@@ -268,9 +269,11 @@ public class Texture {
       // items
       Texture.pot = Texture.loadTexture("/textures/general/pot.png", true);
       Texture.potEmpty = Texture.loadTexture("/textures/general/pot_empty.png", true);
+      Texture.burntPot = Texture.loadTexture("/textures/general/pot_burnt.png", true);
       Texture.plate = Texture.loadTexture("/textures/general/plate.png", true);
       Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
       Texture.pan = Texture.loadTexture("/textures/general/pan.png", true);
+      Texture.panBurnt = Texture.loadTexture("/textures/general/pan_burnt.png", true);
       Texture.extinguisher = Texture.loadTexture("/textures/general/extinguisher.png", true);
 
       // tiles

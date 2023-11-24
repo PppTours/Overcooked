@@ -3,17 +3,20 @@ package fr.ovrckdlike.ppp.scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
+import java.util.HashMap;
+import java.util.List;
+
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
+import fr.ovrckdlike.ppp.objects.Extinguisher;
 import fr.ovrckdlike.ppp.objects.Ingredient;
 import fr.ovrckdlike.ppp.objects.IngredientContainer;
 import fr.ovrckdlike.ppp.objects.Item;
 import fr.ovrckdlike.ppp.objects.Plate;
 import fr.ovrckdlike.ppp.objects.Player;
 import fr.ovrckdlike.ppp.physics.Time;
-import fr.ovrckdlike.ppp.tiles.Bin;
 import fr.ovrckdlike.ppp.tiles.ContainerTile;
 import fr.ovrckdlike.ppp.tiles.CuttingTable;
 import fr.ovrckdlike.ppp.tiles.Dryer;
@@ -22,9 +25,7 @@ import fr.ovrckdlike.ppp.tiles.GasCooker;
 import fr.ovrckdlike.ppp.tiles.IngredientRefiller;
 import fr.ovrckdlike.ppp.tiles.PlateReturn;
 import fr.ovrckdlike.ppp.tiles.Sink;
-import fr.ovrckdlike.ppp.tiles.Table;
 import fr.ovrckdlike.ppp.tiles.Tile;
-import java.util.List;
 
 /**
  * GameScene is the scene where the game is played.
@@ -71,6 +72,8 @@ public class GameScene extends Scene {
    */
   private Map map;
 
+  private float currentExtinguishTime;
+
 
   /**
    * Get the instance of the GameScene (singleton).
@@ -104,6 +107,7 @@ public class GameScene extends Scene {
 
 
     recSch = RecipeScheduler.get();
+    recSch.setRecSet(map.getType());
 
   }
 
@@ -178,12 +182,14 @@ public class GameScene extends Scene {
    * Update the game.
    */
   public void run() {
-    boolean flagDropP1 = true;
-    boolean flagDropP2 = true;
+    HashMap<Player, Boolean> flagDrop = new HashMap<Player, Boolean>();
+    flagDrop.put(playerList.get(0), true);
+    flagDrop.put(playerList.get(1), true);
+
 
     if (KeyListener.isKeyPressed(GLFW_KEY_ESCAPE)) {
       SceneManager.get().pauseGame();
-      SoundHandler.play(SoundHandler.menu);
+      SoundHandler.stopAll();
     }
 
     recSch.run();
@@ -245,7 +251,13 @@ public class GameScene extends Scene {
 
           }
         }
-
+        if (p.getInHand() instanceof Extinguisher) {
+            if (p.getInteract()) {
+              ((Extinguisher) p.getInHand()).use(tile);
+            } else {
+              SoundHandler.stop(SoundHandler.extinguish);
+            }
+        }
         // player take a plate in the dryer
         if (tile instanceof Dryer && p.getInHand() == null) {
           if (tile.isInTile(p.whereToDrop())
@@ -282,22 +294,14 @@ public class GameScene extends Scene {
       // player interact 
       for (Tile tile : tileList) {
         if (p.getPickDrop() && tile.isInTile(p.whereToDrop())) {
-          flagDropP1 = false;
+          flagDrop.put(p, false);
         }
         if (p.getInteract()) {
           if (tile.isInTile(p.whereToDrop())) {
-            if (tile instanceof Sink) {
-              SoundHandler.play(SoundHandler.washing);
-            } else if (tile instanceof Furnace) {
-              SoundHandler.play(SoundHandler.baking);
-            } else if (tile instanceof GasCooker) {
-              SoundHandler.play(SoundHandler.cooking);
-            } else if (tile instanceof CuttingTable) {
+            if (tile instanceof CuttingTable) {
               SoundHandler.play(SoundHandler.cutting);
             } else if (tile instanceof IngredientRefiller) {
               SoundHandler.play(SoundHandler.taking);
-            } else {
-              SoundHandler.play(SoundHandler.click);
             }
             tile.use(p);
           }
@@ -308,7 +312,7 @@ public class GameScene extends Scene {
         }
       }
 
-      if (p.getPickDrop() && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && flagDropP1) {
+      if (p.getPickDrop() && Time.get().timeSince(p.getLastPickDrop()) > 0.25 && flagDrop.get(p)) {
         p.resetLastPickDrop();
         if (p.getInHand() == null) {
           p.takeNearestItem(itemList);

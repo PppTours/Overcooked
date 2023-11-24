@@ -1,4 +1,4 @@
-name:Burger Map
+name:Soup Map
 difficulty:1
 maxScore:80
-type:BURGER
+type:SOUP
