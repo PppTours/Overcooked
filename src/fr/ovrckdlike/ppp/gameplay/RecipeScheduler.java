@@ -99,28 +99,32 @@ public class RecipeScheduler {
    */
   public void checkContent(boolean[] content) {
     boolean flag = true;
-    for (Recipe r : recipeList) {
-      if (r.checkValid(content) && flag) {
-        flag = false;
-        completeRecipe(r);
+    /*
+    if (!recipeList.isEmpty()) {
+      for (Recipe r : recipeList) {
+        if (r.checkValid(content, recipeList) && flag) {
+          flag = false;
+          completeRecipe(r);
+        }
+      }
+      if (flag) {
+        Score.get().error();
       }
     }
-    if (flag) {
-      Score.get().error();
-    }
+     */
+
   }
 
   /**
    * Update the score if the recipe is completed.
    *
    * @param completed the completed recipe
-   * @return the time left
    */
-  public float completeRecipe(Recipe completed) {
+  public void completeRecipe(Recipe completed) {
     // on ne peut pas acceder aux recettes, il faut une liste d'ingrédients
     int idx = recipeList.indexOf(completed);
     if (idx == -1) {
-      return 0f;
+      return;
     }
     Score.get().supply();
     float timeLeft = recipeList.get(idx).getTimer();
@@ -128,7 +132,6 @@ public class RecipeScheduler {
     for (int k = idx; k < recipeList.size(); k++) {
       recipeList.get(k).setComNo((byte) k);
     }
-    return timeLeft;
   }
 
   /**

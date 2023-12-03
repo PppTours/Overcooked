@@ -114,6 +114,22 @@ public class Ingredient extends Item {
     return prepared;
   }
 
+  public static Texture getPreparedTexture(int ingType) {
+    return switch (ingType) {
+      case 0 -> Texture.slicedTomato;
+      case 1 -> Texture.slicedSalad;
+      case 2 -> Texture.slicedOnion;
+      case 3 -> Texture.slicedMushroom;
+      case 4 -> Texture.slicedMeat;
+      case 5 -> Texture.slicedCheese;
+      case 7 -> Texture.slicedSausage;
+      case 9 -> Texture.slicedBread;
+      case 10 -> Texture.slicedChicken;
+      case 12 -> Texture.slicedPotato;
+      default -> null;
+    };
+  }
+
   /**
    * Remove the ingredient from the map.
    */
@@ -144,7 +160,7 @@ public class Ingredient extends Item {
         break;
       case 1:
         if (prepared) {
-          Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedSalade);
+          Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.slicedSalad);
         } else {
           Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.salade);
         }
@@ -229,6 +245,41 @@ public class Ingredient extends Item {
       default:
         break;
 
+    }
+  }
+
+  public String toString() {
+    if (prepared) {
+      return switch (type) {
+        case 0 -> "Sliced tomato";
+        case 1 -> "Sliced salade";
+        case 2 -> "Sliced onion";
+        case 3 -> "Sliced mushroom";
+        case 4 -> "Sliced meat";
+        case 5 -> "Sliced cheese";
+        case 7 -> "Sliced sausage";
+        case 9 -> "Sliced burger bread";
+        case 10 -> "Sliced chicken";
+        case 12 -> "Sliced potato";
+        default -> null;
+      };
+    } else {
+      return switch (type) {
+        case 0 -> "Tomato";
+        case 1 -> "Salade";
+        case 2 -> "Onion";
+        case 3 -> "Mushroom";
+        case 4 -> "Meat";
+        case 5 -> "Cheese";
+        case 6 -> "Pasta";
+        case 7 -> "Sausage";
+        case 8 -> "Pizza dough";
+        case 9 -> "Burger bread";
+        case 10 -> "Chicken";
+        case 11 -> "Rice";
+        case 12 -> "Potato";
+        default -> null;
+      };
     }
   }
 }

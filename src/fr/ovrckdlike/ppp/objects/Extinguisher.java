@@ -71,5 +71,5 @@ public class Extinguisher extends Item {
     }
   }
 
-              // Ajouter l'affichage du sprite
+  // Ajouter l'affichage du sprite
 }

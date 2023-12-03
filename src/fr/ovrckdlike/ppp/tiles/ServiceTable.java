@@ -37,6 +37,8 @@ public class ServiceTable extends Tile {
     Item content = player.getInHand();
     if (content instanceof Plate) {
       boolean[] ingList = ((Plate) content).getContent();
+      // Ajouter une vérification de la recette
+      // Si le plat est dans la liste des plats à préparer (le premier)
       Map.get().getItemList().remove(content);
       RecipeScheduler.get().checkContent(ingList);
       player.drop();

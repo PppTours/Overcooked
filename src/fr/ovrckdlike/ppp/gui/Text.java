@@ -14,7 +14,7 @@ public class Text {
   /**
    * The text to render.
    */
-  private final String text;
+  private String text;
 
   /**
    * The scape where the text is rendered.
@@ -75,6 +75,10 @@ public class Text {
   public void changeSize(float newSize) {
     size = newSize;
     space.resize(text.length() * size, size);
+  }
+
+  public void setText(String text) {
+    this.text = text;
   }
 
   /**

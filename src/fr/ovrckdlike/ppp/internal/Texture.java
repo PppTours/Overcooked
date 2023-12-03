@@ -29,13 +29,18 @@ import javax.imageio.ImageIO;
  * A class that represents a texture.
  */
 public class Texture {
+  public static Texture tomatoSalad;
+  public static Texture onionSalad;
+  public static Texture salad;
+  public static Texture onionTomatoSalad;
+  public static Texture carbonara;
   /**
    * The texture that is currently bound.
    */
   private static Texture boundTexture;
 
   /**
-   * The texture of the cat skin.
+   * Textures for skins.
    */
   public static Texture catSkin;
   public static Texture rabbitSkin;
@@ -82,7 +87,7 @@ public class Texture {
    * The texture of the prepared ingredients.
    */
   public static Texture slicedTomato;
-  public static Texture slicedSalade;
+  public static Texture slicedSalad;
   public static Texture slicedOnion;
   public static Texture slicedMushroom;
   public static Texture slicedSausage;
@@ -122,6 +127,15 @@ public class Texture {
    * The other textures.
    */
   public static Texture fire;
+  public static Texture CheeseSausagePizza;
+  public static Texture bolognese;
+  public static Texture pastaLayer;
+  public static Texture cheeseLayer;
+  public static Texture tomatoLayer;
+  public static Texture pizza;
+  public static Texture sausagePizza;
+  public static Texture cookedSteak;
+  public static Texture dirtyPlateSink;
 
   public final String path;
   public final int width;
@@ -237,7 +251,7 @@ public class Texture {
    * @return The list of the skins.
    */
   public static List<Texture> getSkins() {
-    List<Texture> res = new ArrayList();
+    List<Texture> res = new ArrayList<>();
     res.add(catSkin);
     res.add(dragonSkin);
     res.add(rabbitSkin);
@@ -272,6 +286,7 @@ public class Texture {
       Texture.burntPot = Texture.loadTexture("/textures/general/pot_burnt.png", true);
       Texture.plate = Texture.loadTexture("/textures/general/plate.png", true);
       Texture.dirtyPlate = Texture.loadTexture("/textures/general/plate_dirty.png", true);
+      Texture.dirtyPlateSink = Texture.loadTexture("/textures/general/plate_dirty_sink.png", true);
       Texture.pan = Texture.loadTexture("/textures/general/pan.png", true);
       Texture.panBurnt = Texture.loadTexture("/textures/general/pan_burnt.png", true);
       Texture.extinguisher = Texture.loadTexture("/textures/general/extinguisher.png", true);
@@ -326,15 +341,22 @@ public class Texture {
       switch (type) {
         case BURGER:
           Texture.slicedTomato = Texture.loadTexture("/textures/burger/sliced_tomato.png", true);
-          Texture.slicedSalade = Texture.loadTexture("/textures/burger/sliced_salade.png", true);
+          Texture.slicedSalad = Texture.loadTexture("/textures/burger/sliced_salade.png", true);
           Texture.slicedCheese = Texture.loadTexture("/textures/burger/grated_cheese.png", true);
           Texture.slicedBread = Texture.loadTexture("/textures/burger/cut_bread.png", true);
           Texture.slicedMeat = Texture.loadTexture("/textures/burger/sliced_meat.png", true);
+          Texture.cookedSteak = Texture.loadTexture("/textures/burger/steak_burger.png", true);
           break;
         case NOODLES:
           Texture.slicedTomato = Texture.loadTexture("/textures/noodles/tomato_layer.png", true);
           Texture.slicedCheese = Texture.loadTexture("/textures/noodles/cheese_layer.png", true);
           Texture.slicedMeat = Texture.loadTexture("/textures/noodles/bolognese_layer.png", true);
+          Texture.pastaLayer = Texture.loadTexture("/textures/noodles/pasta_layer.png", true);
+          Texture.cheeseLayer = Texture.loadTexture("/textures/noodles/cheese_layer.png", true);
+          Texture.tomatoLayer = Texture.loadTexture("/textures/noodles/tomato_layer.png", true);
+          Texture.bolognese = Texture.loadTexture("textures/noodles/bolognese_layer.png", true);
+          // TODO
+          Texture.carbonara = Texture.loadTexture("/textures/noodles/cheese_layer.png", true);
           break;
         case SOUP:
           Texture.potMushroom = Texture.loadTexture("/textures/soups/pot_mushroom.png", true);
@@ -348,13 +370,25 @@ public class Texture {
           Texture.slicedTomato = Texture.loadTexture("/textures/pizza/sliced_tomato.png", true);
           Texture.flattenPizzaDough =
               Texture.loadTexture("/textures/pizza/flatten_pizza_dough.png", true);
+          Texture.pizza = Texture.loadTexture("/textures/pizza/pizza_visual.png", true);
           Texture.slicedSausage = Texture.loadTexture("/textures/pizza/sliced_sausage.png", true);
           Texture.slicedCheese = Texture.loadTexture("/textures/burger/grated_cheese.png", true);
+          Texture.CheeseSausagePizza =
+              Texture.loadTexture("/textures/pizza/cheese_sausage_pizza_visual.png", true);
+          Texture.sausagePizza =
+              Texture.loadTexture("/textures/pizza/sausage_pizza_visual.png", true);
           break;
         case SALAD:
           Texture.slicedTomato = Texture.loadTexture("/textures/salad/sliced_tomato.png", true);
-          Texture.slicedSalade = Texture.loadTexture("/textures/salad/sliced_salade.png", true);
+          Texture.slicedSalad = Texture.loadTexture("/textures/salad/sliced_salade.png", true);
           Texture.slicedOnion = Texture.loadTexture("/textures/salad/sliced_onion.png", true);
+          Texture.tomatoSalad =
+              Texture.loadTexture("/textures/salad/tomato_salad_visual.png", true);
+          Texture.onionSalad =
+              Texture.loadTexture("/textures/salad/onion_salad_visual.png", true);
+          Texture.onionTomatoSalad = Texture.loadTexture(
+              "/textures/salad/onion_tomato_salad_visual.png", true);
+          Texture.salad = Texture.loadTexture("/textures/salad/salad_visual.png", true);
           break;
         case CHICKEN:
           Texture.slicedChicken = Texture.loadTexture("/textures/chickens/cut_chicken.png", true);

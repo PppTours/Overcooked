@@ -24,6 +24,8 @@ public class SceneManager {
    */
   private final PauseScene pause;
 
+  private final EndScene end;
+
   /**
    * The skin select scene.
    */
@@ -56,6 +58,7 @@ public class SceneManager {
     game = GameScene.get();
     pause = PauseScene.get();
     skin = SkinSelect.get();
+    end = EndScene.get();
 
     current = main;
   }
@@ -140,5 +143,12 @@ public class SceneManager {
   public void unpauseGame() {
     instance.paused = false;
     instance.current = instance.game;
+  }
+
+  /**
+   * Set the current scene to the end scene.
+   */
+  public void setSceneToEnd() {
+    current = (Scene) end;
   }
 }

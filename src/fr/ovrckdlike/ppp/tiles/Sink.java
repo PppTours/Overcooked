@@ -133,6 +133,21 @@ public class Sink extends Tile {
    */
   public void render() {
     Renderer.drawTexture(space, Texture.sink);
+    int angle = switch (direction) {
+      case 1 -> 90;
+      case 2 -> 180;
+      case 3 -> 270;
+      default -> 0;
+    };
+
+    int posDep = -15;
+    for (int i = 0; i < nbPlate; i++) {
+      Rectangle rec = space.resized(-0.8f * space.getWidth()).move(new Dot(posDep, 10));
+      rec.changeAngle(angle);
+      Renderer.drawTexture(rec, Texture.dirtyPlateSink);
+      posDep += 5;
+    }
+
     tb.render(currentWashTime);
   }
 

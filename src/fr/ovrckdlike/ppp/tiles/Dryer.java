@@ -75,6 +75,18 @@ public class Dryer extends Tile {
    */
   public void render() {
     Renderer.drawTexture(space, Texture.dryer);
-
+    int angle = switch (direction) {
+      case 1 -> 90;
+      case 2 -> 180;
+      case 3 -> 270;
+      default -> 0;
+    };
+    int pos = -15;
+    for (int i = 0; i < nbPlate; i++) {
+      Rectangle rec = space.resized(-0.5f * space.getWidth()).move(new Dot(0, pos));
+      rec.changeAngle(angle);
+      Renderer.drawTexture(rec, Texture.plate);
+      pos += 5;
+    }
   }
 }

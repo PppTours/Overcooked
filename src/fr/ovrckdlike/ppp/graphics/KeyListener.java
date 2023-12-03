@@ -46,10 +46,12 @@ public class KeyListener {
    * @param mods the mods
    */
   public static void keyCallback(long window, int key, int scancode, int action, int mods) {
-    if (action == GLFW_PRESS) {
-      get().keyPressed[key] = true;
-    } else if (action == GLFW_RELEASE) {
-      get().keyPressed[key] = false;
+    if (key != -1) {
+      if (action == GLFW_PRESS) {
+        get().keyPressed[key] = true;
+      } else if (action == GLFW_RELEASE) {
+        get().keyPressed[key] = false;
+      }
     }
   }
 
