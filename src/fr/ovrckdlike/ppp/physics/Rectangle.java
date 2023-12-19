@@ -306,6 +306,10 @@ public class Rectangle {
     this.angle = angle;
   }
 
+  public Rectangle move(Dot a) {
+    return new Rectangle(centerX + a.getX(), centerY + a.getY(), width, height);
+  }
+
   /**
    * Render the rectangle.
    */

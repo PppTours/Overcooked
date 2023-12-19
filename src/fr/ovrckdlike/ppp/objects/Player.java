@@ -17,11 +17,11 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_W;
 
 import fr.ovrckdlike.ppp.graphics.KeyListener;
 import fr.ovrckdlike.ppp.graphics.Renderer;
-import fr.ovrckdlike.ppp.scene.SoundHandler;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.physics.Circle;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Time;
+import fr.ovrckdlike.ppp.scene.SoundHandler;
 import fr.ovrckdlike.ppp.tiles.Tile;
 import java.util.List;
 

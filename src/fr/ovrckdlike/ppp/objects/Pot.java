@@ -51,8 +51,9 @@ public class Pot extends CookerContainer implements IngredientContainer {
 
   
   public boolean isCooked() {
-	return cooked;
+    return cooked;
   }
+
   /**
    * Clear the content of the pot.
    *
@@ -143,35 +144,35 @@ public class Pot extends CookerContainer implements IngredientContainer {
     Dot pos = space.getPos();
     if (!hasBurn) {
       switch (nbIng) {
-      case 1:
-        ivList.get(0).setPos(pos.getX(), pos.getY() - 35);
-        ivList.get(0).setIngredient(content[0]);
-        ivList.get(0).setVisible(true);
-        break;
-      case 2:
-        ivList.get(0).setPos(pos.getX() - 35, pos.getY());
-        ivList.get(0).setIngredient(content[0]);
-        ivList.get(0).setVisible(true);
+        case 1:
+          ivList.get(0).setPos(pos.getX(), pos.getY() - 35);
+          ivList.get(0).setIngredient(content[0]);
+          ivList.get(0).setVisible(true);
+          break;
+        case 2:
+          ivList.get(0).setPos(pos.getX() - 35, pos.getY());
+          ivList.get(0).setIngredient(content[0]);
+          ivList.get(0).setVisible(true);
 
-        ivList.get(1).setPos(pos.getX() + 35, pos.getY());
-        ivList.get(1).setIngredient(content[1]);
-        ivList.get(1).setVisible(true);
-        break;
-      case 3:
-        ivList.get(0).setPos(pos.getX(), pos.getY() - 35);
-        ivList.get(0).setIngredient(content[0]);
-        ivList.get(0).setVisible(true);
+          ivList.get(1).setPos(pos.getX() + 35, pos.getY());
+          ivList.get(1).setIngredient(content[1]);
+          ivList.get(1).setVisible(true);
+          break;
+        case 3:
+          ivList.get(0).setPos(pos.getX(), pos.getY() - 35);
+          ivList.get(0).setIngredient(content[0]);
+          ivList.get(0).setVisible(true);
 
-        ivList.get(1).setPos(pos.getX() + 30, pos.getY() + 18);
-        ivList.get(1).setIngredient(content[1]);
-        ivList.get(1).setVisible(true);
+          ivList.get(1).setPos(pos.getX() + 30, pos.getY() + 18);
+          ivList.get(1).setIngredient(content[1]);
+          ivList.get(1).setVisible(true);
 
-        ivList.get(2).setPos(pos.getX() - 30, pos.getY() + 18);
-        ivList.get(2).setIngredient(content[2]);
-        ivList.get(2).setVisible(true);
-        break;
-      default:
-        break;
+          ivList.get(2).setPos(pos.getX() - 30, pos.getY() + 18);
+          ivList.get(2).setIngredient(content[2]);
+          ivList.get(2).setVisible(true);
+          break;
+        default:
+          break;
       }
     }
     for (IngredientVisualizer iv : ivList) {
@@ -191,11 +192,11 @@ public class Pot extends CookerContainer implements IngredientContainer {
 
 
   public int[] getContent() {
-	return content;
+    return content;
   }
 
 
   public int getNbIng() {
-	return nbIng;
+    return nbIng;
   }
 }

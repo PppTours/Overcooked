@@ -1,9 +1,12 @@
 package fr.ovrckdlike.ppp.objects;
 
+import static fr.ovrckdlike.ppp.objects.Plate.checkContent;
+
 import fr.ovrckdlike.ppp.graphics.Renderer;
 import fr.ovrckdlike.ppp.gui.IngredientVisualizer;
 import fr.ovrckdlike.ppp.gui.TimeBar;
 import fr.ovrckdlike.ppp.internal.Texture;
+import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.map.MapType;
 import fr.ovrckdlike.ppp.physics.Dot;
 import fr.ovrckdlike.ppp.physics.Rectangle;
@@ -12,6 +15,7 @@ import fr.ovrckdlike.ppp.scene.GameScene;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -71,7 +75,7 @@ public class Recipe {
     this.recipeSet = recipeSet;
     this.commandNumero = commandNumero;
     space = new Rectangle(220 * commandNumero + 120, 70, 240, 140);
-    ivList = new ArrayList();
+    ivList = new ArrayList<>();
 
     timer = 60f;
     Rectangle timeBarPos = new Rectangle(space.getPos().add(new Dot(0, -65)), 200, 15, 0);
@@ -162,26 +166,21 @@ public class Recipe {
    * @param content The content of the command.
    * @return True if the command is valid, false otherwise.
    */
-  public boolean checkValid(boolean[] content) {
-    boolean[] actualContent = new boolean[15];
-    actualContent[14] = recipeSet == MapType.PIZZA;
-    actualContent[13] = recipeSet == MapType.SOUP;
-    int k;
-    for (k = 0; k < 13; k++) {
-      for (int j : ingredientList) {
-        if (k == j) {
-          actualContent[k] = true;
+  public boolean checkValid(boolean[] content, List<Recipe> recipeList) {
+    System.out.println(Arrays.toString(ingredientList));
+    boolean flag = true;
+    if (recipeList.contains(this)) {
+      for (int ing : ingredientList) {
+        if (!content[ing]) {
+          flag = false;
+          break;
         }
       }
     }
-    boolean flag = true;
-    for (k = 0; k < 15; k++) {
-      if (content[k] != actualContent[k]) {
-        flag = false;
-      }
-    }
+
     return flag;
   }
+
 
   /**
    * Update the timer.
@@ -221,6 +220,14 @@ public class Recipe {
       iv.setVisible(true);
       iv.render();
     }
+  }
+
+  public String toString() {
+    StringBuilder str = new StringBuilder();
+    for (int i : ingredientList) {
+      str.append(i).append(" ");
+    }
+    return str.toString();
   }
 
 }

@@ -26,7 +26,7 @@ public class GasCooker extends Tile implements ContainerTile, Burnable {
   private boolean burning;
 
   /**
-   * Indicates if the gasCooker is already in fire
+ * Indicates if the gasCooker is already in fire.
    */
   private boolean inFire;
 

@@ -3,11 +3,9 @@ package fr.ovrckdlike.ppp.scene;
 
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
 
-import java.util.HashMap;
-import java.util.List;
-
 import fr.ovrckdlike.ppp.gameplay.RecipeScheduler;
 import fr.ovrckdlike.ppp.graphics.KeyListener;
+import fr.ovrckdlike.ppp.gui.Timer;
 import fr.ovrckdlike.ppp.internal.Texture;
 import fr.ovrckdlike.ppp.map.Map;
 import fr.ovrckdlike.ppp.objects.Extinguisher;
@@ -26,6 +24,8 @@ import fr.ovrckdlike.ppp.tiles.IngredientRefiller;
 import fr.ovrckdlike.ppp.tiles.PlateReturn;
 import fr.ovrckdlike.ppp.tiles.Sink;
 import fr.ovrckdlike.ppp.tiles.Tile;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * GameScene is the scene where the game is played.
@@ -71,8 +71,8 @@ public class GameScene extends Scene {
    * The map.
    */
   private Map map;
+  private final Timer timer = Timer.getTimer();
 
-  private float currentExtinguishTime;
 
 
   /**
@@ -252,11 +252,11 @@ public class GameScene extends Scene {
           }
         }
         if (p.getInHand() instanceof Extinguisher) {
-            if (p.getInteract()) {
-              ((Extinguisher) p.getInHand()).use(tile);
-            } else {
-              SoundHandler.stop(SoundHandler.extinguish);
-            }
+          if (p.getInteract()) {
+            ((Extinguisher) p.getInHand()).use(tile);
+          } else {
+            SoundHandler.stop(SoundHandler.extinguish);
+          }
         }
         // player take a plate in the dryer
         if (tile instanceof Dryer && p.getInHand() == null) {

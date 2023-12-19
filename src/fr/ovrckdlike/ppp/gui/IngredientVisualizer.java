@@ -13,7 +13,7 @@ public class IngredientVisualizer {
   /**
    * The space occupied by the ingredient.
    */
-  private Circle space;
+  private final Circle space;
 
   /**
    * The type of the ingredient.
@@ -22,10 +22,12 @@ public class IngredientVisualizer {
    */
   private int ingType;
 
-  /**
-   * Whether the ingredient is visible or not.
-   */
+  private Ingredient ingredient;
   private boolean visible;
+
+  private int scale;
+
+  private boolean surroundedBySquare;
 
   /**
    * Creates a new ingredient visualizer.
@@ -37,6 +39,8 @@ public class IngredientVisualizer {
     this.ingType = ingType;
     this.space = new Circle(pos, 15);
     visible = false;
+    scale = 13;
+    surroundedBySquare = true;
   }
 
   /**
@@ -76,13 +80,51 @@ public class IngredientVisualizer {
     this.ingType = ingType;
   }
 
+  public void setIngredient(Ingredient ingredient) {
+    this.ingredient = ingredient;
+    this.ingType = ingredient.getType();
+  }
+
+  /**
+   * Set the scale of the ingredient.
+   *
+   * @param scale The new scale.
+   */
+  public void setScale(int scale) {
+    this.scale = scale;
+  }
+
+  /**
+   * Set whether the ingredient is surrounded by a square or not.
+   *
+   * @param surroundedBySquare A boolean to set whether the ingredient is surrounded by a square or
+   * not.
+   */
+  public void setSurroundedBySquare(boolean surroundedBySquare) {
+    this.surroundedBySquare = surroundedBySquare;
+  }
+
   /**
    * Render the ingredient.
    */
   public void render() {
     if (visible) {
-      Renderer.drawTexture(space.surroundBySquare(0), Texture.circle);
-      Renderer.drawTexture(space.resized(13).surroundBySquare(0), Ingredient.getTexture(ingType));
+      if (surroundedBySquare) {
+        Renderer.drawTexture(space.surroundBySquare(0), Texture.circle);
+      }
+      if (ingredient != null) {
+        if (ingredient.getPrepared()) {
+          Renderer.drawTexture(space.resized(scale)
+              .surroundBySquare(0), Ingredient.getPreparedTexture(ingType));
+        } else {
+          Renderer.drawTexture(space.resized(scale)
+              .surroundBySquare(0), Ingredient.getTexture(ingType));
+        }
+      } else {
+        Renderer.drawTexture(space.resized(scale)
+            .surroundBySquare(0), Ingredient.getTexture(ingType));
+      }
+
     }
   }
 

@@ -36,6 +36,11 @@ public class Pan extends CookerContainer implements IngredientContainer {
     timebar = new TimeBar(timeBarPos, cookingTime);
   }
 
+  public boolean isCooked() {
+    return cooked;
+  }
+
+
 
   /**
    * Fill the pan with an ingredient.
@@ -82,7 +87,15 @@ public class Pan extends CookerContainer implements IngredientContainer {
   public void render() {
     float zoom = space.getRay() * (mode + 1);
     if (!hasBurn) {
+      Texture texture;
       Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pan);
+      if (content != null && content.getPrepared() && !cooked) {
+        texture = Ingredient.getPreparedTexture(content.getType());
+        Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), texture);
+      } else if (content != null && content.getPrepared() && cooked) {
+        texture = Ingredient.getPreparedTexture(content.getType());
+        Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), texture);
+      }
     } else {
       Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.panBurnt);
     }
