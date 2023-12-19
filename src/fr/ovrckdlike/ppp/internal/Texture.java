@@ -97,6 +97,7 @@ public class Texture {
   public static Texture slicedChicken;
   public static Texture slicedPotato;
   public static Texture flattenPizzaDough;
+  public static Texture cookedPasta;
 
   /**
    * The texture of the items.
@@ -348,6 +349,7 @@ public class Texture {
           Texture.cookedSteak = Texture.loadTexture("/textures/burger/steak_burger.png", true);
           break;
         case NOODLES:
+          
           Texture.slicedTomato = Texture.loadTexture("/textures/noodles/tomato_layer.png", true);
           Texture.slicedCheese = Texture.loadTexture("/textures/noodles/cheese_layer.png", true);
           Texture.slicedMeat = Texture.loadTexture("/textures/noodles/bolognese_layer.png", true);
@@ -356,6 +358,7 @@ public class Texture {
           Texture.tomatoLayer = Texture.loadTexture("/textures/noodles/tomato_layer.png", true);
           Texture.bolognese = Texture.loadTexture("textures/noodles/bolognese_layer.png", true);
           // TODO
+          Texture.cookedPasta = Texture.loadTexture("/textures/noodles/cooked_pasta.png", true);
           Texture.carbonara = Texture.loadTexture("/textures/noodles/cheese_layer.png", true);
           break;
         case SOUP:

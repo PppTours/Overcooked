@@ -194,7 +194,7 @@ public class Ingredient extends Item {
         }
         break;
       case 6:
-        if (prepared) {
+        if (cooked) {
           Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pasta);
         } else {
           Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pasta);
