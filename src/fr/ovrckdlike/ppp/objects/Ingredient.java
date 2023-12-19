@@ -193,7 +193,7 @@ public class Ingredient extends Item {
         break;
       case 8:
         if (prepared) {
-          Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pizzaDough);
+          Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.flattenPizzaDough);
         } else {
           Renderer.drawTexture(space.resized(zoom).surroundBySquare(angle), Texture.pizzaDough);
         }
